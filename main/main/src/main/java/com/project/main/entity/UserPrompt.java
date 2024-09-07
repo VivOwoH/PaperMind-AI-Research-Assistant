@@ -1,5 +1,6 @@
 package com.project.main.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class UserPrompt {
     @Column(name="graph_view_type")
     private String graphViewType;
 
-    @OneToOne(mappedBy="userPrompt")
+    @OneToOne(mappedBy="userPrompt", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private TokenResponse tokenResponse;
 
     private UserPrompt() {}
