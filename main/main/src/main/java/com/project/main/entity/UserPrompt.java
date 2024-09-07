@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserPrompt {
 
     @Id
-    @Column(name="prompt_id")
+    @Column(name="id")
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer promptId;
 
@@ -31,6 +32,9 @@ public class UserPrompt {
     @Column(name="graph_view_type")
     private String graphViewType;
 
+    @OneToOne(mappedBy="userPrompt")
+    private TokenResponse tokenResponse;
+
     private UserPrompt() {}
 
     protected UserPrompt(String searchPrompt, String selectedFilter, String viewPreference, String graphViewType) {
@@ -43,6 +47,10 @@ public class UserPrompt {
 
     public Integer getId() {
         return this.promptId;
+    }
+
+    public void setId(Integer id) {
+        this.promptId = id;
     }
 
     public String getSearchPrompt() {
@@ -83,5 +91,17 @@ public class UserPrompt {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPrompt{" +
+                "promptId=" + promptId +
+                ", searchPrompt='" + searchPrompt + '\'' +
+                ", dateTime=" + dateTime +
+                ", selectedFilter='" + selectedFilter + '\'' +
+                ", viewPreference='" + viewPreference + '\'' +
+                ", graphViewType='" + graphViewType + '\'' +
+                '}';
     }
 }

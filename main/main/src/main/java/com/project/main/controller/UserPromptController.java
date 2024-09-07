@@ -46,6 +46,6 @@ public class UserPromptController {
     public ResponseEntity<String> deleteUserPromptById(@PathVariable Integer id)
     {
         this.userPromptService.deleteUserPromptById(id);
-        return ResponseEntity.ok().body("Deleted employee successfully");
+        return ResponseEntity.ok().body("Deleted user prompt successfully");
     }
 }
