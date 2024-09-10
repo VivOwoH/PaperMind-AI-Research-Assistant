@@ -29,6 +29,9 @@ public class AppResponse {
     @Column(name="generated_date_time")
     private LocalDateTime generatedDateTime;
 
+    @OneToOne(mappedBy="appResponse", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private Graph graph;
+
     private AppResponse() {}
 
     protected AppResponse(UserPrompt userPrompt, String generatedResponse) {
@@ -39,6 +42,10 @@ public class AppResponse {
 
     public Integer getId() {
         return this.responseId;
+    }
+
+    public void setId(Integer id) {
+        this.responseId = id;
     }
 
     public UserPrompt getUserPrompt() {
