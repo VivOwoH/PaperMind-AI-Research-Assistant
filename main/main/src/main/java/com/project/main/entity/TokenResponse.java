@@ -41,6 +41,10 @@ public class TokenResponse {
         return this.responseId;
     }
 
+    public void setId(Integer id) {
+        this.responseId = id;
+    }
+
     public UserPrompt getUserPrompt() {
         return this.userPrompt;
     }

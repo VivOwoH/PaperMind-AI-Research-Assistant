@@ -3,7 +3,6 @@ package com.project.main.controller;
 import com.project.main.entity.TokenResponse;
 import com.project.main.entity.UserPrompt;
 import com.project.main.service.TokenResponseService;
-import com.project.main.repository.UserPromptRepo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

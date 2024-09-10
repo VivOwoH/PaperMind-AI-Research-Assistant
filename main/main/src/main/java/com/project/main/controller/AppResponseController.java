@@ -3,7 +3,6 @@ package com.project.main.controller;
 import com.project.main.entity.AppResponse;
 import com.project.main.entity.UserPrompt;
 import com.project.main.service.AppResponseService;
-import com.project.main.repository.UserPromptRepo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +47,7 @@ public class AppResponseController {
      * Example of curl request for linking UserPrompt to an AppResponse:
      * curl -s -X POST localhost:8080/app-responses/ \
      * -H "Content-Type: application/json" \
-     * -d '{"processedPrompt": "foo", "generatedResponse": "bar", "userPrompt": {"id": 1}}' | jq .
+     * -d '{"generatedResponse": "bar", "userPrompt": {"id": 1}}' | jq .
      */
     @PostMapping("/")
     public ResponseEntity<AppResponse> saveAppResponse(@RequestBody AppResponse appResponse)
