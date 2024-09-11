@@ -5,8 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Opinion {
@@ -18,6 +21,9 @@ public class Opinion {
 
     @Column(name="opinion_val")
     private String opinionVal;
+
+    @OneToMany(mappedBy="opinion", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private Set<OpinionEdge> opinionEdges;
 
     private Opinion() {}
 
@@ -39,6 +45,14 @@ public class Opinion {
 
     public void setOpinionVal(String opinionVal) {
         this.opinionVal = opinionVal;
+    }
+
+    public Set<OpinionEdge> getOpinionEdges() {
+        return this.opinionEdges;
+    }
+
+    public void setOpinionEdges(Set<OpinionEdge> opinionEdges) {
+        this.opinionEdges = opinionEdges;
     }
 
     @Override

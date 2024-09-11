@@ -8,8 +8,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class Graph {
@@ -25,6 +28,9 @@ public class Graph {
 
     @Column(name="graph_type")
     private String graphType;
+
+    @OneToMany(mappedBy="graph", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private Set<OpinionEdge> opinionEdges;
 
     private Graph() {}
 
@@ -55,6 +61,14 @@ public class Graph {
 
     public void setGraphType(String graphType) {
         this.graphType = graphType;
+    }
+
+    public Set<OpinionEdge> getOpinionEdges() {
+        return this.opinionEdges;
+    }
+
+    public void setOpinionEdges(Set<OpinionEdge> opinionEdges) {
+        this.opinionEdges = opinionEdges;
     }
 
     @Override
