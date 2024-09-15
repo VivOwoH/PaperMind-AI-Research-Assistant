@@ -29,9 +29,6 @@ public class Graph {
     @Column(name="graph_type")
     private String graphType;
 
-    @OneToMany(mappedBy="graph", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
-    private Set<OpinionEdge> opinionEdges;
-
     private Graph() {}
 
     protected Graph(AppResponse appResponse, String graphType) {
@@ -61,14 +58,6 @@ public class Graph {
 
     public void setGraphType(String graphType) {
         this.graphType = graphType;
-    }
-
-    public Set<OpinionEdge> getOpinionEdges() {
-        return this.opinionEdges;
-    }
-
-    public void setOpinionEdges(Set<OpinionEdge> opinionEdges) {
-        this.opinionEdges = opinionEdges;
     }
 
     @Override

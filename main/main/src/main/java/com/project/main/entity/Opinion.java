@@ -22,9 +22,6 @@ public class Opinion {
     @Column(name="opinion_val")
     private String opinionVal;
 
-    @OneToMany(mappedBy="opinion", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
-    private Set<OpinionEdge> opinionEdges;
-
     private Opinion() {}
 
     protected Opinion(String opinionVal) {
@@ -45,14 +42,6 @@ public class Opinion {
 
     public void setOpinionVal(String opinionVal) {
         this.opinionVal = opinionVal;
-    }
-
-    public Set<OpinionEdge> getOpinionEdges() {
-        return this.opinionEdges;
-    }
-
-    public void setOpinionEdges(Set<OpinionEdge> opinionEdges) {
-        this.opinionEdges = opinionEdges;
     }
 
     @Override

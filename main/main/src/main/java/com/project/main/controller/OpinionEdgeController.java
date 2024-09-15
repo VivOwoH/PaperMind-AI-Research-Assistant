@@ -47,7 +47,7 @@ public class OpinionEdgeController {
      * Example of curl request for creating an OpinionEdge:
      * curl -s -X POST localhost:8080/opinion-edges/ \
      * -H "Content-Type: application/json" \
-     * -d '{"graph": {"id": 1}, "opinion": {"id": 1}}' | jq .
+     * -d '{"graphId": 1, "opinionId": 1, "edgeId": 1}}' | jq .
      */
     @PostMapping("/")
     public ResponseEntity<OpinionEdge> saveOpinionEdge(@RequestBody OpinionEdge opinionEdge) {

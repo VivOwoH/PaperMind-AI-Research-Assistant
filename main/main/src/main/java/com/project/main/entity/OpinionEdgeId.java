@@ -11,9 +11,23 @@ import java.util.Objects;
 
 @Embeddable
 public class OpinionEdgeId implements Serializable {
+
+    @Column(name = "edge_id")
     private Integer edgeId;
+
+    @Column(name = "graph_id")
     private Integer graphId;
+
+    @Column(name = "opinion_id")
     private Integer opinionId;
+
+    public OpinionEdgeId() {}
+
+    public OpinionEdgeId(Integer edgeId, Integer graphId, Integer opinionId) {
+        this.edgeId = edgeId;
+        this.graphId = graphId;
+        this.opinionId = opinionId;
+    }
 
     public Integer getEdgeId() {
         return this.edgeId;
@@ -47,5 +61,10 @@ public class OpinionEdgeId implements Serializable {
         return Objects.equals(edgeId, that.edgeId) &&
                 Objects.equals(graphId, that.graphId) &&
                 Objects.equals(opinionId, that.opinionId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(edgeId, graphId, opinionId);
     }
 }

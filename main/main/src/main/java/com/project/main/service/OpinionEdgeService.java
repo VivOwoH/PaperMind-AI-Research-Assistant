@@ -32,15 +32,16 @@ public class OpinionEdgeService {
     }
 
     public OpinionEdge saveOpinionEdge(OpinionEdge opinionEdge){
-        // Generate a new edgeId if it's not already set
-        if (opinionEdge.getId().getEdgeId() == null) {
-            Integer maxEdgeId = opinionEdgeRepo.findMaxEdgeId();
-            Integer newEdgeId = (maxEdgeId != null) ? maxEdgeId + 1 : 1; // Increment the edgeId or start with 1
-            opinionEdge.getId().setEdgeId(newEdgeId);
+        if (opinionEdge.getId() == null) {
+            OpinionEdgeId id = new OpinionEdgeId();
+            id.setGraphId(opinionEdge.getGraph().getId());
+            id.setOpinionId(opinionEdge.getOpinion().getId());
+            opinionEdge.setId(id);
         }
 
         OpinionEdge savedOpinionEdge = this.opinionEdgeRepo.save(opinionEdge);
-        // System.out.printf("Opinion Edge with id: %s saved successfully", savedOpinionEdge.getId().toString());
+        System.out.printf("OpinionEdge with id: %d %d %d saved successfully\n", 
+            savedOpinionEdge.getId().getEdgeId(), savedOpinionEdge.getId().getGraphId(), savedOpinionEdge.getId().getOpinionId());
         return savedOpinionEdge;
     }
 
