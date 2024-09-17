@@ -36,6 +36,9 @@ public class UserPrompt {
     @OneToOne(mappedBy="userPrompt", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private TokenResponse tokenResponse;
 
+    @OneToOne(mappedBy="userPrompt", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private AppResponse appResponse;
+
     private UserPrompt() {}
 
     protected UserPrompt(String searchPrompt, String selectedFilter, String viewPreference, String graphViewType) {

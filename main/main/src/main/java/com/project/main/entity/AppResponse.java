@@ -12,7 +12,7 @@ import jakarta.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @Entity
-public class TokenResponse {
+public class AppResponse {
 
     @Id
     @Column(name="id")
@@ -23,18 +23,21 @@ public class TokenResponse {
     @JoinColumn(name="prompt_id", referencedColumnName = "id", nullable=false)
     private UserPrompt userPrompt;
 
-    @Column(name="processed_prompt")
-    private String processedPrompt;
-
     @Column(name="generated_response")
     private String generatedResponse;
 
-    private TokenResponse() {}
+    @Column(name="generated_date_time")
+    private LocalDateTime generatedDateTime;
 
-    protected TokenResponse(UserPrompt userPrompt, String generatedResponse, String processedPrompt) {
+    @OneToOne(mappedBy="appResponse", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private Graph graph;
+
+    private AppResponse() {}
+
+    protected AppResponse(UserPrompt userPrompt, String generatedResponse) {
         this.userPrompt = userPrompt;
         this.generatedResponse = generatedResponse;
-        this.processedPrompt = processedPrompt;
+        this.generatedDateTime = null;
     }
 
     public Integer getId() {
@@ -53,14 +56,6 @@ public class TokenResponse {
         this.userPrompt = userPrompt;
     }
 
-    public String getProcessedPrompt() {
-        return this.processedPrompt;
-    }
-
-    public void setProcessedPrompt(String processedPrompt) {
-        this.processedPrompt = processedPrompt;
-    }
-
     public String getGeneratedResponse() {
         return this.generatedResponse;
     }
@@ -69,13 +64,21 @@ public class TokenResponse {
         this.generatedResponse = generatedResponse;
     }
 
+    public LocalDateTime getGeneratedDateTime() {
+        return this.generatedDateTime;
+    }
+
+    public void setGeneratedDateTime(LocalDateTime generatedDateTime) {
+        this.generatedDateTime = generatedDateTime;
+    }
+
     @Override
     public String toString() {
-        return "TokenResponse{" +
+        return "AppResponse{" +
                 "responseId=" + responseId +
                 ", userPrompt=" + userPrompt.toString() +
-                ", processedPrompt='" + processedPrompt + '\'' +
                 ", generatedResponse='" + generatedResponse + '\'' +
+                ", generatedDateTime='" + generatedDateTime + '\'' +
                 '}';
     }
 }
