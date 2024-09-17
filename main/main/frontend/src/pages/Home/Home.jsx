@@ -8,8 +8,9 @@ function Home() {
     return (
         <div className="home">
             {/*add the search component*/}
-            <SearchComponent />
             <CitationOpinionToggle />
+            <SearchComponent />
+            
             
         </div>
     );

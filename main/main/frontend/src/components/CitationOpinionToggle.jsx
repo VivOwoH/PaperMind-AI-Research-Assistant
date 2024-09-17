@@ -13,6 +13,7 @@ export default function ColorToggleButton() {
   const handleChange = (event, newAlignment) => {
     if (newAlignment !== null) {  // Prevents setting to null if the same button is clicked
       setAlignment(newAlignment);
+      console.log('toggle:', newAlignment);
     }
   };
 
