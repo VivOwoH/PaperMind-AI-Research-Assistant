@@ -47,7 +47,7 @@ public class GraphController {
      * Example of curl request for linking AppResponse to a Graph:
      * curl -s -X POST localhost:8080/graphs/ \
      * -H "Content-Type: application/json" \
-     * -d '{"graphType": "foo", "appResponse": {"id": 1}}' | jq .
+     * -d '{"graphType": "CITATION", "appResponse": {"id": 1}}' | jq .
      */
     @PostMapping("/")
     public ResponseEntity<Graph> saveGraph(@RequestBody Graph graph)

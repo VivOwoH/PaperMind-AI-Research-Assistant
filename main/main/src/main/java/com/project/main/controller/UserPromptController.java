@@ -36,6 +36,10 @@ public class UserPromptController {
         return ResponseEntity.ok().body(this.userPromptService.getUserPromptById(id));
     }
 
+    /** Example Curl Request
+     * curl -s -X POST localhost:8080/user-prompts/ \                
+  -H "Content-Type: application/json" \  -d '{"searchPrompt": "example search prompt", "selectedFilter": "SUPPORTING", "viewPreference": "LIST", "graphViewType": "CITATION"}' | jq .
+     */
     @PostMapping("/")
     public ResponseEntity<UserPrompt> saveUserPrompt(@RequestBody UserPrompt userPrompt)
     {
