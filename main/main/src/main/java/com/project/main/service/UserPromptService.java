@@ -40,12 +40,28 @@ public class UserPromptService {
         return savedUserPrompt;
     }
 
-    // public UserPrompt updateUserPrompt(UserPrompt userPrompt) {
-    //     UserPrompt updatedUserPrompt = this.userPromptRepo.save(userPrompt);
+    // does not allow changing of id or datetime fields
+    public UserPrompt updateUserPrompt(Integer id, UserPrompt newUserPromptDetails) {
+        Optional<UserPrompt> optionalUserPrompt = this.userPromptRepo.findById(id);
 
-    //     log.info("User Prompt with id: {} updated successfully", userPrompt.getId());
-    //     return updatedUserPrompt;
-    // }
+        if (optionalUserPrompt.isPresent() && newUserPromptDetails.getId().equals(optionalUserPrompt.get().getId())) { {
+            UserPrompt existingUserPrompt = optionalUserPrompt.get();
+            
+            existingUserPrompt.setSearchPrompt(newUserPromptDetails.getSearchPrompt()); 
+            existingUserPrompt.setSelectedFilter(newUserPromptDetails.getSelectedFilter()); 
+            existingUserPrompt.setViewPreference(newUserPromptDetails.getViewPreference()); 
+            existingUserPrompt.setGraphViewType(newUserPromptDetails.getGraphViewType()); 
+
+            // Save the updated entity
+            UserPrompt updatedUserPrompt = this.userPromptRepo.save(existingUserPrompt);
+
+            System.out.printf("User Prompt with id: %d updated successfully", updatedUserPrompt.getId());
+            return updatedUserPrompt;
+        } else {
+            System.out.printf("User Prompt with id: %d doesn't exist", id);
+            return null;
+        }
+    }
 
     public void deleteUserPromptById(Integer id) {
         this.userPromptRepo.deleteById(id);

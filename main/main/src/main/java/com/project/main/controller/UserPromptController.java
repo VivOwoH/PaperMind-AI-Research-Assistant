@@ -42,6 +42,17 @@ public class UserPromptController {
         return ResponseEntity.ok().body(this.userPromptService.saveUserPrompt(userPrompt));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<UserPrompt> updateUserPrompt(@PathVariable Integer id, @RequestBody UserPrompt updatedDetails) {
+        UserPrompt updatedUserPrompt = this.userPromptService.updateUserPrompt(id, updatedDetails);
+
+        if (updatedUserPrompt != null) {
+            return ResponseEntity.ok().body(updatedUserPrompt);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUserPromptById(@PathVariable Integer id)
     {
