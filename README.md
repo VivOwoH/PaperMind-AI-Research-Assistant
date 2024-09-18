@@ -3,7 +3,11 @@ Research Assistant
 
 ## How to start the project
 
-### SpringBoot application
+### Database Prerequisites
+- Ensure you have postgresql installed with the correct database and user credential configuration
+- Ensure the postgresql server is running on your device
+
+### SpringBoot Application
 - To build the SpringBoot application navigate to the project directory and run ```./gradlew build```
 - Run the app with```./gradlew bootRun```
 

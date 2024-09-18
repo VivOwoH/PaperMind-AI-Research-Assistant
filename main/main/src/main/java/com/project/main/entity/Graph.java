@@ -1,5 +1,7 @@
 package com.project.main.entity;
 
+import com.project.main.enums.GraphType;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +12,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -27,11 +31,12 @@ public class Graph {
     private AppResponse appResponse;
 
     @Column(name="graph_type")
-    private String graphType;
+    @Enumerated(EnumType.STRING)
+    private GraphType graphType;
 
     private Graph() {}
 
-    protected Graph(AppResponse appResponse, String graphType) {
+    protected Graph(AppResponse appResponse, GraphType graphType) {
         this.appResponse = appResponse;
         this.graphType = graphType;
     }
@@ -52,11 +57,11 @@ public class Graph {
         this.appResponse = appResponse;
     }
 
-    public String getGraphType() {
+    public GraphType getGraphType() {
         return this.graphType;
     }
 
-    public void setGraphType(String graphType) {
+    public void setGraphType(GraphType graphType) {
         this.graphType = graphType;
     }
 
