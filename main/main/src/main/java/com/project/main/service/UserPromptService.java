@@ -44,7 +44,7 @@ public class UserPromptService {
     public UserPrompt updateUserPrompt(Integer id, UserPrompt newUserPromptDetails) {
         Optional<UserPrompt> optionalUserPrompt = this.userPromptRepo.findById(id);
 
-        if (optionalUserPrompt.isPresent() && newUserPromptDetails.getId().equals(optionalUserPrompt.get().getId())) { {
+        if (optionalUserPrompt.isPresent() && newUserPromptDetails.getId().equals(optionalUserPrompt.get().getId())) {
             UserPrompt existingUserPrompt = optionalUserPrompt.get();
             
             existingUserPrompt.setSearchPrompt(newUserPromptDetails.getSearchPrompt()); 
