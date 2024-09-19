@@ -9,9 +9,9 @@ export const SearchProvider = ({children}) => {
     const [searchData, setSearchData] = useState({
         // default data
         searchPrompt: '',
-        selectedFilter:'all',
-        viewPreference: 'graph',
-        graphViewType:'citation' 
+        selectedFilter:'ALL',
+        viewPreference: 'GRAPH',
+        graphViewType:'CITATION' 
     });
 
     //update the combined data
