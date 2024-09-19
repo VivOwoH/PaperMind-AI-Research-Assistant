@@ -12,7 +12,7 @@ export default function SearchComponent(){
     // define useState hooks to manage state 
     const [searchQuery, setSearchQuery] = useState('');
     // all / supporting / opposing filters
-    const [category, setCategory] = useState('all');
+    const [category, setCategory] = useState('ALL');
     
     const handleSearch = async () => {
         // update context state with current input values
@@ -48,9 +48,9 @@ export default function SearchComponent(){
                      {setCategory(e.target.value);
                         updateSearchData('selectedFilter',e.target.value);
                      }}>
-                    <FormControlLabel className="radio-label" value="all" control={<Radio />} label="All" style={{ paddingBottom: '2px' }}/>
-                    <FormControlLabel className="radio-label" value="supporting" control={<Radio />} label="Supporting" style={{ paddingBottom: '2px' }} />
-                    <FormControlLabel className="radio-label"  value="opposing" control={<Radio />} label="Opposing" style={{ paddingBottom: '2px' }} />
+                    <FormControlLabel className="radio-label" value="ALL" control={<Radio />} label="All" style={{ paddingBottom: '2px' }}/>
+                    <FormControlLabel className="radio-label" value="SUPPORTING" control={<Radio />} label="Supporting" style={{ paddingBottom: '2px' }} />
+                    <FormControlLabel className="radio-label"  value="OPPOSING" control={<Radio />} label="Opposing" style={{ paddingBottom: '2px' }} />
                 </RadioGroup>
         </FormControl>
         </div>
