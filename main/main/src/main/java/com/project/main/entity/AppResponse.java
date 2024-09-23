@@ -32,7 +32,7 @@ public class AppResponse {
     @OneToOne(mappedBy="appResponse", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
     private Graph graph;
 
-    private AppResponse() {}
+    public AppResponse() {}
 
     protected AppResponse(UserPrompt userPrompt, String generatedResponse) {
         this.userPrompt = userPrompt;

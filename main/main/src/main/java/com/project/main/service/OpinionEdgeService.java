@@ -33,10 +33,7 @@ public class OpinionEdgeService {
 
     public OpinionEdge saveOpinionEdge(OpinionEdge opinionEdge){
         if (opinionEdge.getId() == null) {
-            OpinionEdgeId id = new OpinionEdgeId();
-            id.setGraphId(opinionEdge.getGraph().getId());
-            id.setOpinionId(opinionEdge.getOpinion().getId());
-            opinionEdge.setId(id);
+            throw new IllegalArgumentException("OpinionEdge ID must be provided");
         }
 
         OpinionEdge savedOpinionEdge = this.opinionEdgeRepo.save(opinionEdge);
