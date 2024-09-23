@@ -44,19 +44,21 @@ public class UserPromptService {
     public UserPrompt updateUserPrompt(Integer id, UserPrompt newUserPromptDetails) {
         Optional<UserPrompt> optionalUserPrompt = this.userPromptRepo.findById(id);
 
-        if (optionalUserPrompt.isPresent() && newUserPromptDetails.getId().equals(optionalUserPrompt.get().getId())) {
+        if (optionalUserPrompt.isPresent()) {
             UserPrompt existingUserPrompt = optionalUserPrompt.get();
-            
-            existingUserPrompt.setSearchPrompt(newUserPromptDetails.getSearchPrompt()); 
-            existingUserPrompt.setSelectedFilter(newUserPromptDetails.getSelectedFilter()); 
-            existingUserPrompt.setViewPreference(newUserPromptDetails.getViewPreference()); 
-            existingUserPrompt.setGraphViewType(newUserPromptDetails.getGraphViewType()); 
 
-            // Save the updated entity
-            UserPrompt updatedUserPrompt = this.userPromptRepo.save(existingUserPrompt);
+            if (newUserPromptDetails.getId().equals(existingUserPrompt.getId())) {
+                existingUserPrompt.setSearchPrompt(newUserPromptDetails.getSearchPrompt()); 
+                existingUserPrompt.setSelectedFilter(newUserPromptDetails.getSelectedFilter()); 
+                existingUserPrompt.setViewPreference(newUserPromptDetails.getViewPreference()); 
+                existingUserPrompt.setGraphViewType(newUserPromptDetails.getGraphViewType()); 
 
-            System.out.printf("User Prompt with id: %d updated successfully", updatedUserPrompt.getId());
-            return updatedUserPrompt;
+                // Save the updated entity
+                UserPrompt updatedUserPrompt = this.userPromptRepo.save(existingUserPrompt);
+
+                System.out.printf("User Prompt with id: %d updated successfully", updatedUserPrompt.getId());
+                return updatedUserPrompt;
+            }
         } else {
             System.out.printf("User Prompt with id: %d doesn't exist", id);
             return null;
