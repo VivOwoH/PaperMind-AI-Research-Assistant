@@ -15,3 +15,8 @@ Research Assistant
 - Ensure you have Node.js installed
 - In another terminal window, navigate to ```frontend``` directory within ```main/main``` and run ```npm start``` to start your React application
 - View the frontend on the browser at ```http://localhost:3000```
+
+## How to run tests
+Run the following command to run the tests and build the reports.
+```./gradlew clean test jacocoTestReport```
+Find the jacoco test report in the directory build/jacocoHtml
