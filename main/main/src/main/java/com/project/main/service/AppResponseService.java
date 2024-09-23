@@ -78,6 +78,28 @@ public class AppResponseService {
         return savedAppResponse;
     }
 
+    public AppResponse updateAppResponse(Integer id, AppResponse newAppResponseDetails) {
+        Optional<AppResponse> optionalAppResponse = this.appResponseRepo.findById(id);
+
+        if (optionalAppResponse.isPresent()) {
+            AppResponse existingAppResponse = optionalAppResponse.get();
+
+            if (newAppResponseDetails.getId().equals(existingAppResponse.getId())) {
+                existingAppResponse.setUserPrompt(newAppResponseDetails.getUserPrompt()); 
+                existingAppResponse.setGeneratedResponse(newAppResponseDetails.getGeneratedResponse()); 
+
+                // Save the updated entity
+                AppResponse updatedAppResponse = this.appResponseRepo.save(existingAppResponse);
+
+                System.out.printf("App Response with id: %d updated successfully", updatedAppResponse.getId());
+                return updatedAppResponse;
+            }
+        } 
+
+        System.out.printf("App Response with id: %d doesn't exist", id);
+        return null;
+    }
+
     // deletes an AppResponse from the repo based on id
     public void deleteAppResponseById(Integer id) {
         this.appResponseRepo.deleteById(id);

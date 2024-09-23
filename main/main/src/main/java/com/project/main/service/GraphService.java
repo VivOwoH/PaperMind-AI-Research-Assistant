@@ -74,6 +74,29 @@ public class GraphService {
         return savedGraph;
     }
 
+    public Graph updateGraph(Integer id, Graph newGraphDetails) {
+        Optional<Graph> optionalGraph = this.graphRepo.findById(id);
+
+        if (optionalGraph.isPresent()) {
+            Graph existingGraph = optionalGraph.get();
+
+            if (newGraphDetails.getId().equals(existingGraph.getId())) {
+                existingGraph.setGraphType(newGraphDetails.getGraphType()); 
+                existingGraph.setAppResponse(newGraphDetails.getAppResponse()); 
+
+                // Save the updated entity
+                Graph updatedGraph = this.graphRepo.save(existingGraph);
+
+                System.out.printf("Graph with id: %d updated successfully", updatedGraph.getId());
+                return updatedGraph;
+            }
+        } 
+
+        System.out.printf("Graph with id: %d doesn't exist", id);
+        return null;
+    }
+
+
     // deletes an Graph from the repo based on id
     public void deleteGraphById(Integer id) {
         this.graphRepo.deleteById(id);

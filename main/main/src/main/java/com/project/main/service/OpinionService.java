@@ -36,6 +36,27 @@ public class OpinionService {
         return savedOpinion;
     }
 
+    public Opinion updateOpinion(Integer id, Opinion newOpinionDetails) {
+        Optional<Opinion> optionalOpinion = this.opinionRepo.findById(id);
+
+        if (optionalOpinion.isPresent()) {
+            Opinion existingOpinion = optionalOpinion.get();
+
+            if (newOpinionDetails.getId().equals(existingOpinion.getId())) {
+                existingOpinion.setOpinionVal(newOpinionDetails.getOpinionVal()); 
+
+                // Save the updated entity
+                Opinion updatedOpinion = this.opinionRepo.save(existingOpinion);
+
+                System.out.printf("Opinion with id: %d updated successfully", updatedOpinion.getId());
+                return updatedOpinion;
+            }
+        } 
+
+        System.out.printf("Opinion with id: %d doesn't exist", id);
+        return null;
+    }
+
     public void deleteOpinionById(Integer id) {
         this.opinionRepo.deleteById(id);
     }
