@@ -59,10 +59,10 @@ public class UserPromptService {
                 System.out.printf("User Prompt with id: %d updated successfully", updatedUserPrompt.getId());
                 return updatedUserPrompt;
             }
-        } else {
-            System.out.printf("User Prompt with id: %d doesn't exist", id);
-            return null;
         }
+        
+        System.out.printf("User Prompt with id: %d doesn't exist", id);
+        return null;
     }
 
     public void deleteUserPromptById(Integer id) {

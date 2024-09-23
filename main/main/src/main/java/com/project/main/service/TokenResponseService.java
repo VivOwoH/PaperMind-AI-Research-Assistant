@@ -74,6 +74,30 @@ public class TokenResponseService {
         return savedTokenResponse;
     }
 
+    // does not allow changing of id field
+    public TokenResponse updateTokenResponse(Integer id, TokenResponse newTokenResponseDetails) {
+        Optional<TokenResponse> optionalTokenResponse = this.tokenResponseRepo.findById(id);
+
+        if (optionalTokenResponse.isPresent()) {
+            TokenResponse existingTokenResponse = optionalTokenResponse.get();
+
+            if (newTokenResponseDetails.getId().equals(existingTokenResponse.getId())) {
+                existingTokenResponse.setUserPrompt(newTokenResponseDetails.getUserPrompt()); 
+                existingTokenResponse.setProcessedPrompt(newTokenResponseDetails.getProcessedPrompt()); 
+                existingTokenResponse.setGeneratedResponse(newTokenResponseDetails.getGeneratedResponse()); 
+
+                // Save the updated entity
+                TokenResponse updatedTokenResponse = this.tokenResponseRepo.save(existingTokenResponse);
+
+                System.out.printf("Token Response with id: %d updated successfully", updatedTokenResponse.getId());
+                return updatedTokenResponse;
+            }
+        } 
+        
+        System.out.printf("Token Response with id: %d doesn't exist", id);
+        return null;
+    }
+
     // deletes a TokenResponse from the repo based on id
     public void deleteTokenResponseById(Integer id) {
         this.tokenResponseRepo.deleteById(id);
