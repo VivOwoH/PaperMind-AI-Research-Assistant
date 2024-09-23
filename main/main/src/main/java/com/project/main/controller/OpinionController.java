@@ -4,6 +4,7 @@ import com.project.main.entity.Opinion;
 import com.project.main.service.OpinionService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,17 @@ public class OpinionController {
     public ResponseEntity<Opinion> saveOpinion(@RequestBody Opinion opinion)
     {
         return ResponseEntity.ok().body(this.opinionService.saveOpinion(opinion));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Opinion> updateOpinion(@PathVariable Integer id, @RequestBody Opinion updatedDetails) {
+        Opinion updatedOpinion = this.opinionService.updateOpinion(id, updatedDetails);
+
+        if (updatedOpinion != null) {
+            return ResponseEntity.ok().body(updatedOpinion);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
