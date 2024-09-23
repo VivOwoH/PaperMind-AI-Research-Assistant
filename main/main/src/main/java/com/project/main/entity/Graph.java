@@ -34,7 +34,7 @@ public class Graph {
     @Enumerated(EnumType.STRING)
     private GraphType graphType;
 
-    private Graph() {}
+    public Graph() {}
 
     protected Graph(AppResponse appResponse, GraphType graphType) {
         this.appResponse = appResponse;
