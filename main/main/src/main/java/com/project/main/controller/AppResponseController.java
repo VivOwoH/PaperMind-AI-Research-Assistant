@@ -5,6 +5,7 @@ import com.project.main.entity.UserPrompt;
 import com.project.main.service.AppResponseService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,17 @@ public class AppResponseController {
     public ResponseEntity<AppResponse> saveAppResponse(@RequestBody AppResponse appResponse)
     {
         return ResponseEntity.ok().body(this.appResponseService.saveAppResponse(appResponse));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AppResponse> updateAppResponse(@PathVariable Integer id, @RequestBody AppResponse updatedDetails) {
+        AppResponse updatedAppResponse = this.appResponseService.updateAppResponse(id, updatedDetails);
+
+        if (updatedAppResponse != null) {
+            return ResponseEntity.ok().body(updatedAppResponse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
