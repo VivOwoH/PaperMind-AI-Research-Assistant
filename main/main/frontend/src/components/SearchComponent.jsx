@@ -3,6 +3,7 @@ import {TextField, Radio, RadioGroup, FormControlLabel, FormControl,InputAdornme
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import '../styles/components/SearchComponent.css';
+import CitationOpinionToggle from '../components/CitationOpinionToggle';
 import axios from 'axios';
 import { useSearch } from '../context/SearchContext';
 
@@ -37,53 +38,63 @@ export default function SearchComponent(){
         }
     };
 
+    const handleKeyDown = (e) => {
+        // Check if the key pressed is "Enter"
+        if (e.key === 'Enter') {
+            handleSearch();
+        }
+    };
+
     return (
-        <div>
-        {searchData.graphViewType === 'CITATION' && (
-            <FormControl component="fieldset" className="options-fieldset">
-                {/* Radio buttons for filtering by all / supporting / opposing ideas */}
-                <RadioGroup
-                    value={category}
+        <div className="search-main-container">
+            <Typography variant="h4" component="h6" className="search-type">
+                Hi there, what would you like to know?
+            </Typography>
+            <CitationOpinionToggle />
+            {searchData.graphViewType === 'CITATION' && (
+                <FormControl component="fieldset" className="options-fieldset">
+                    <RadioGroup
+                        value={category}
+                        onChange={(e) => {
+                            setCategory(e.target.value);
+                            updateSearchData('selectedFilter', e.target.value);
+                        }}
+                    >
+                        <FormControlLabel className="radio-label" value="ALL" control={<Radio />} label="All" />
+                        <FormControlLabel className="radio-label" value="SUPPORTING" control={<Radio />} label="Supporting" />
+                        <FormControlLabel className="radio-label" value="OPPOSING" control={<Radio />} label="Opposing" />
+                    </RadioGroup>
+                </FormControl>
+            )}
+    
+            <div className="search-container">
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Ask whatever you want..."
+                    value={searchQuery}
                     onChange={(e) => {
-                        setCategory(e.target.value);
-                        updateSearchData('selectedFilter', e.target.value);
+                        setSearchQuery(e.target.value);
+                        updateSearchData('searchPrompt', e.target.value);
                     }}
-                >
-                    <FormControlLabel className="radio-label" value="ALL" control={<Radio />} label="All" />
-                    <FormControlLabel className="radio-label" value="SUPPORTING" control={<Radio />} label="Supporting" />
-                    <FormControlLabel className="radio-label" value="OPPOSING" control={<Radio />} label="Opposing" />
-                </RadioGroup>
-            </FormControl>
-        )}
-
-        <Typography variant="h6">Search Topic</Typography>
-        <div className="search-container">
-        <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="search prompt goes here"
-            value={searchQuery}
-            onChange={(e) => {
-                setSearchQuery(e.target.value);
-                updateSearchData('searchPrompt',e.target.value);
-            }}
-            className="search-input"
-            InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
-                        <IconButton
-                            onClick={handleSearch}
-                            edge="end"
-                        >
-                            <SearchIcon />
-                        </IconButton>
-                    </InputAdornment>
-                )
-            }}
-            />
+                    onKeyDown={handleKeyDown}
+                    className="search-input"
+                    InputProps={{
+                        style: { borderRadius: '20px' },
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={handleSearch}
+                                    edge="end"
+                                    className="search-icon-button"
+                                >
+                                    <SearchIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+            </div>
         </div>
-
-    </div>
     );
-
 }
