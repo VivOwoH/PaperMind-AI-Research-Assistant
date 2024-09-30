@@ -22,7 +22,7 @@ public class Opinion {
     @Column(name="opinion_val")
     private String opinionVal;
 
-    private Opinion() {}
+    public Opinion() {}
 
     protected Opinion(String opinionVal) {
         this.opinionVal = opinionVal;

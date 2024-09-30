@@ -22,7 +22,7 @@ public class OpinionEdge {
     @JoinColumn(name = "opinion_id", nullable=false)
     private Opinion opinion;
 
-    private OpinionEdge() {}
+    public OpinionEdge() {}
 
     protected OpinionEdge(OpinionEdgeId id, Graph graph, Opinion opinion) {
         this.id = id;

@@ -21,104 +21,115 @@ class UserPromptServiceTests {
     @Mock
     private UserPromptRepo userPromptRepo;
 
-    @Mock
-    private UserPrompt userPromptOne;
-
-    @Mock
-    private UserPrompt userPromptTwo;
-
     @InjectMocks
     private UserPromptService userPromptService;
+
+    private UserPrompt userPrompt;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+
+        // sample UserPrompt object
+        userPrompt = new UserPrompt();
+        userPrompt.setId(1);
+        userPrompt.setSearchPrompt("Sample prompt");
+        userPrompt.setDateTime(LocalDateTime.now());
     }
 
-    // @Test
-    // void testGetAllUserPrompts() {
-    //     // mock
-    //     List<UserPrompt> prompts = Arrays.asList(userPromptOne, userPromptTwo);
-    //     when(userPromptRepo.findAll()).thenReturn(prompts);
+    @Test
+    void testGetAllUserPrompts() {
+        // mock 
+        List<UserPrompt> mockPrompts = Arrays.asList(userPrompt);
+        when(userPromptRepo.findAll()).thenReturn(mockPrompts);
 
-    //     // test
-    //     List<UserPrompt> result = userPromptService.getAllUserPrompts();
-    //     assertEquals(2, result.size());
+        List<UserPrompt> result = this.userPromptService.getAllUserPrompts();
+        assertEquals(1, result.size());
+        verify(userPromptRepo, times(1)).findAll();
+    }
 
-    //     verify(userPromptRepo, times(1)).findAll();
-    // }
+    @Test
+    void testGetUserPromptById() {
+        when(userPromptRepo.findById(1)).thenReturn(Optional.of(userPrompt));
 
-    // @Test
-    // void testGetUserPromptById_Exists() {
-    //     // mock
-    //     Integer currentId = userPromptOne.getId();
-    //     when(userPromptRepo.findById(1)).thenReturn(Optional.of(userPromptOne));
+        UserPrompt result = this.userPromptService.getUserPromptById(1);
+        assertNotNull(result);
+        assertEquals(1, result.getId());
+        verify(userPromptRepo, times(1)).findById(1);
+    }
 
-    //     // test
-    //     UserPrompt result = userPromptService.getUserPromptById(1);
-    //     assertNotNull(result);
-    //     assertEquals(currentId, result.getId());
+    @Test
+    void testGetUserPromptByIdNotFound() {
+        when(userPromptRepo.findById(2)).thenReturn(Optional.empty());
 
-    //     verify(userPromptRepo, times(1)).findById(1);
-    // }
+        UserPrompt result = this.userPromptService.getUserPromptById(2);
+        assertNull(result);
+        verify(userPromptRepo, times(1)).findById(2);
+    }
 
-    // @Test
-    // void testGetUserPromptById_NotExists() {
-    //     // mock
-    //     when(userPromptRepo.findById(1)).thenReturn(Optional.empty());
+    @Test
+    void testSaveUserPromptSuccess() {
+        when(userPromptRepo.save(userPrompt)).thenReturn(userPrompt);
 
-    //     // test
-    //     UserPrompt result = userPromptService.getUserPromptById(1);
-    //     assertNull(result);
+        UserPrompt result = this.userPromptService.saveUserPrompt(userPrompt);
+        assertNotNull(result);
+        verify(userPromptRepo, times(1)).save(userPrompt);
+    }
 
-    //     verify(userPromptRepo, times(1)).findById(1);
-    // }
+    @Test
+    void testSaveUserPromptWithOriginalNullDateTime() {
+        userPrompt.setDateTime(null);
+        when(userPromptRepo.save(userPrompt)).thenReturn(userPrompt);
 
-    // // fails
-    // @Test
-    // void testSaveUserPrompt_WithNullDateTime() {
-    //     // mock
-    //     UserPrompt prompt = userPromptOne;
-    //     when(userPromptRepo.save(any(UserPrompt.class))).thenAnswer(i -> {
-    //         UserPrompt savedPrompt = i.getArgument(0);
-    //         savedPrompt.setId(1);
-    //         return savedPrompt;
-    //     });
+        UserPrompt result = this.userPromptService.saveUserPrompt(userPrompt);
+        assertNotNull(result.getDateTime());
+        verify(userPromptRepo, times(1)).save(userPrompt);
+    }
 
-    //     // test
-    //     UserPrompt result = userPromptService.saveUserPrompt(prompt);
-    //     assertNotNull(result.getDateTime());
-    //     assertEquals(1, result.getId());
-        
-    //     verify(userPromptRepo, times(1)).save(any(UserPrompt.class));
-    // }
+    @Test
+    void testUpdateUserPromptSuccess() {
+        // new user prompt details
+        UserPrompt updatedPrompt = new UserPrompt();
+        updatedPrompt.setId(1);
+        updatedPrompt.setSearchPrompt("Updated prompt");
+        when(userPromptRepo.findById(1)).thenReturn(Optional.of(userPrompt));
+        when(userPromptRepo.save(userPrompt)).thenReturn(userPrompt);
 
-    // // fails
-    // @Test
-    // void testSaveUserPrompt_WithNonNullDateTime() {
-    //     LocalDateTime dateTime = LocalDateTime.of(2023, 9, 15, 12, 0);
-    //     UserPrompt prompt = userPromptOne;
-    //     prompt.setDateTime(dateTime);
+        UserPrompt result = this.userPromptService.updateUserPrompt(1, updatedPrompt);
+        assertNotNull(result);
+        assertEquals("Updated prompt", result.getSearchPrompt());
+        verify(userPromptRepo, times(1)).findById(1);
+        verify(userPromptRepo, times(1)).save(userPrompt);
+    }
 
-    //     when(userPromptRepo.save(any(UserPrompt.class))).thenAnswer(i -> {
-    //         UserPrompt savedPrompt = i.getArgument(0);
-    //         savedPrompt.setId(1);
-    //         return savedPrompt;
-    //     });
+    @Test
+    void testUpdateUserPromptIdDoesNotExist() {
+        UserPrompt updatedPrompt = new UserPrompt();
+        updatedPrompt.setId(2); 
+        when(userPromptRepo.findById(1)).thenReturn(Optional.of(userPrompt));
 
-    //     UserPrompt result = userPromptService.saveUserPrompt(prompt);
+        UserPrompt result = this.userPromptService.updateUserPrompt(1, updatedPrompt);
 
-    //     assertEquals(dateTime, result.getDateTime());
-    //     assertEquals(1, result.getId());
-    //     verify(userPromptRepo, times(1)).save(any(UserPrompt.class));
-    // }
+        assertNull(result);
+        verify(userPromptRepo, times(1)).findById(1);
+        verify(userPromptRepo, times(0)).save(any());
+    }
 
-    // @Test
-    // void testDeleteUserPromptById() {
-    //     doNothing().when(userPromptRepo).deleteById(1);
+    @Test
+    void testUpdateUserPromptNotFound() {
+        UserPrompt updatedPrompt = new UserPrompt();
+        updatedPrompt.setId(1);
+        when(userPromptRepo.findById(1)).thenReturn(Optional.empty());
 
-    //     userPromptService.deleteUserPromptById(1);
+        UserPrompt result = this.userPromptService.updateUserPrompt(1, updatedPrompt);
+        assertNull(result);
+        verify(userPromptRepo, times(1)).findById(1);
+    }
 
-    //     verify(userPromptRepo, times(1)).deleteById(1);
-    // }
+    @Test
+    void testDeleteUserPromptById() {
+        this.userPromptService.deleteUserPromptById(1);
+
+        verify(userPromptRepo, times(1)).deleteById(1);
+    }
 }

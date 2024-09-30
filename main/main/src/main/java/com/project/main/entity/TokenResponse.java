@@ -29,7 +29,7 @@ public class TokenResponse {
     @Column(name="generated_response")
     private String generatedResponse;
 
-    private TokenResponse() {}
+    public TokenResponse() {}
 
     protected TokenResponse(UserPrompt userPrompt, String generatedResponse, String processedPrompt) {
         this.userPrompt = userPrompt;
