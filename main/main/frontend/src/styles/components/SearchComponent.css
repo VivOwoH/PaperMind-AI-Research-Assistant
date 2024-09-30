@@ -10,12 +10,11 @@
 }
 
 .search-container {
-    padding: 20px;
+    padding-top:20px;
     display: flex;
     align-items:center;
     justify-content: space-between;
     width:100%;
-    max-width: 800px;
     margin: auto;
 }
 
@@ -45,4 +44,14 @@
 
 .radio-label {
     color: #555;
+}
+
+.citation-opinion-toggle {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.citation-opinion-toggle button {
+    margin-left: 10px;
 }

@@ -30,8 +30,12 @@ export default function ColorToggleButton() {
       aria-label="Platform"
       
     >
-      <ToggleButton value="CITATION" style={graphView === 'CITATION' ? { boxShadow: '0px 0px 10px #555', backgroundColor:'blue', color:'white' } : {backgroundColor:'lightgray'}}>Citation</ToggleButton>
-      <ToggleButton value="OPINION" style={graphView === 'OPINION' ? { boxShadow: '0px 0px 10px #555',backgroundColor:'blue' , color:'white'} : {backgroundColor:'lightgray'}}>Opinion</ToggleButton>
+      <ToggleButton value="CITATION" style={graphView === 'CITATION' ? {borderRadius: '20px 0px 0px 20px', boxShadow: '0px 0px 10px #555', backgroundColor:'blue', color:'white' } : {borderRadius: '20px 0px 0px 20px', backgroundColor:'lightgray'}}>
+        Citation
+      </ToggleButton>
+      <ToggleButton value="OPINION" style={graphView === 'OPINION' ? {borderRadius: '0px 20px 20px 0px', boxShadow: '0px 0px 10px #555',backgroundColor:'blue' , color:'white'} : {borderRadius: '0px 20px 20px 0px', backgroundColor:'lightgray'}}>
+        Opinion
+      </ToggleButton>
     </ToggleButtonGroup>
   );
 }

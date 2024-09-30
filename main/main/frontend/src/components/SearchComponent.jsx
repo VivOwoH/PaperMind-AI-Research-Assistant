@@ -50,7 +50,9 @@ export default function SearchComponent(){
             <Typography variant="h4" component="h6" className="search-type">
                 Hi there, what would you like to know?
             </Typography>
-            <CitationOpinionToggle />
+            <div className="citation-opinion-toggle">
+                <CitationOpinionToggle />
+            </div>
             {searchData.graphViewType === 'CITATION' && (
                 <FormControl component="fieldset" className="options-fieldset">
                     <RadioGroup
