@@ -1,5 +1,6 @@
 package com.project.main.service;
 
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.List;  // Import java.util.List
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Service
 public class SemanticService {
@@ -62,7 +64,22 @@ public class SemanticService {
                     return 0; // handling null values 
                 });
 
+                // // limit to only top 20 papers
+                // List<java.util.Map<String, Object>> top20papers = papers.stream().limit(20).collect(Collectors.toList());
+
+                // // for each top paper, add citations field
+                // for (java.util.Map<String,Object> paper : top20papers){
+                //     List<java.util.Map<String, Object>> citations = (List<java.util.Map<String, Object>>) paper.get("citations");
+                //     // ensure citations exist before processing
+                //     if (citations != null && !citations.isEmpty()) {
+                //         // log the citing papers here if necessary
+                //         return "No citations found";
+                //     }
+                // }
+
                 // convert the sorted list back to JSON string
+                // return objectMapper.writeValueAsString(top20papers);
+                
                 return objectMapper.writeValueAsString(papers);
             } else {
                 return "No papers found for the query.";
@@ -74,3 +91,4 @@ public class SemanticService {
         }
     }
 }
+
