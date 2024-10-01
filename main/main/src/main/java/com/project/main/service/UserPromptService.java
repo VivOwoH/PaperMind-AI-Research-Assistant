@@ -56,12 +56,12 @@ public class UserPromptService {
                 // Save the updated entity
                 UserPrompt updatedUserPrompt = this.userPromptRepo.save(existingUserPrompt);
 
-                System.out.printf("User Prompt with id: %d updated successfully", updatedUserPrompt.getId());
+                System.out.printf("User Prompt with id: %d updated successfully\n", updatedUserPrompt.getId());
                 return updatedUserPrompt;
             }
         }
         
-        System.out.printf("User Prompt with id: %d doesn't exist", id);
+        System.out.printf("User Prompt with id: %d doesn't exist\n", id);
         return null;
     }
 
