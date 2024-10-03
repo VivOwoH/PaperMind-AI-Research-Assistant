@@ -16,9 +16,9 @@ const TopNavigation = ({ currentView, onViewChange }) => {
     const handleMenuClose = (viewOption) => {
         if (viewOption === 'List View') {
             // Navigate to the List View page when "List View" is selected from the dropdown
-            navigate('/list-view', { state: { papers: [] } }); // Redirect to ListViewPage with papers (empty in this example)
+            navigate('/list-view', { state: { papers: [] } }); // Redirect to ListViewPage with papers 
         } else {
-            onViewChange(viewOption); // For other options, update the view
+            onViewChange(viewOption); 
         }
         setAnchorEl(null);
     };
@@ -36,7 +36,7 @@ const TopNavigation = ({ currentView, onViewChange }) => {
                 {/* Display current view */}
                 <Typography
                     variant="h6"
-                    style={{ marginRight: '10px', color: '#fff' }} // Removed cursor pointer for non-clickable text
+                    style={{ marginRight: '10px', color: '#fff' }} 
                 >
                     {currentView} {/* This will display the current view */}
                 </Typography>
@@ -55,11 +55,11 @@ const TopNavigation = ({ currentView, onViewChange }) => {
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
-                    onClose={() => setAnchorEl(null)} // Close without action
+                    onClose={() => setAnchorEl(null)} // close without action
                     PaperProps={{
                         style: {
-                            backgroundColor: '#333', // Background color of the dropdown
-                            color: '#fff', // Text color of the dropdown
+                            backgroundColor: '#333', 
+                            color: '#fff',
                         },
                     }}
                 >

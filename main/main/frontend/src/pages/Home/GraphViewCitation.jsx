@@ -10,7 +10,6 @@ function GraphViewCitation() {
   const location = useLocation();
   const [graphPapers, setGraphPapers] = useState([]); // Start with an empty array
   const [currentView, setCurrentView] = useState('Graph View');
-  // const [loading, setLoading] = useState(true); // Assume loading until proven otherwise
   const isLoading = location.state?.loading ?? true;
   
 
@@ -33,11 +32,12 @@ function GraphViewCitation() {
     <div>
       <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
       <Container maxWidth="xl">
+        <br></br>
         <Typography variant="h5" textAlign="left" gutterBottom>Results for </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
             {/* TODO show keywords of search */}
-            <Typography variant="h6">Top 20 papers</Typography>
+            <Typography variant="h6" fontWeight="bold" fontSize="16px">Top 20 papers</Typography>
             {graphPapers.length > 0 ? (
               <PaperListOpinion papers={graphPapers} onGenerateSummaryClick={setSelectedPaper} />
             ) : (
@@ -45,14 +45,14 @@ function GraphViewCitation() {
             )}
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant="h6">Paper Summary</Typography>
+            {/* <Typography variant="h6">Paper Summary</Typography>
             {selectedPaper ? (
               <PaperDetailOpinion paper={selectedPaper} />
             ) : (
               <Paper style={{ padding: '20px' }}>
                 <Typography>Select a paper to view its summary</Typography>
               </Paper>
-            )}
+            )} */}
           </Grid>
         </Grid>
       </Container>
