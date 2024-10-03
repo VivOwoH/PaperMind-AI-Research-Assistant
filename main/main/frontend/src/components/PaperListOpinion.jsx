@@ -13,12 +13,12 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
   return (
     <List component="nav">
       {papers.map((paper) => (
-        <React.Fragment key={paper.id}>
-          <ListItemButton onClick={() => handleClick(paper.id)}>
+        <React.Fragment key={paper.id || paper.paperId}> {/* Ensure the key is unique */}
+          <ListItemButton onClick={() => handleClick(paper.id || paper.paperId)}>
             <ListItemText primary={paper.title} />
-            {open[paper.id] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            {open[paper.id || paper.paperId] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </ListItemButton>
-          <Collapse in={open[paper.id]} timeout="auto" unmountOnExit>
+          <Collapse in={open[paper.id || paper.paperId]} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem sx={{ pl: 4 }}>
                 <ListItemText secondary={`Author: ${paper.author}`} />
@@ -40,4 +40,3 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
 }
 
 export default PaperListOpinion;
-
