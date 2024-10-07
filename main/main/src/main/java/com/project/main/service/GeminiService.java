@@ -20,7 +20,7 @@ public class GeminiService {
 
     private final String API_URL_TEMPLATE = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=%s";
 
-    public String callApi(UserPrompt prompt, String geminiKey) {
+    public String callApi(String prompt, String geminiKey) {
         String apiUrl = String.format(API_URL_TEMPLATE, geminiKey);
 
         HttpHeaders headers = new HttpHeaders();
@@ -42,7 +42,7 @@ public class GeminiService {
         //       }
         //     ]
         //  }
-        partsNode.put("text", prompt.getSearchPrompt()); // user prompt
+        partsNode.put("text", prompt); // user prompt
         contentNode.set("parts", objectMapper.createArrayNode().add(partsNode));
         requestBodyNode.set("contents", objectMapper.createArrayNode().add(contentNode));
 

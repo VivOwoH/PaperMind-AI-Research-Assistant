@@ -47,7 +47,8 @@ export default function SearchComponent(){
                 .then(response => {
                 
                 // obtain the top 20 papers to display in frontend
-                const top20papers = response.data.slice(0,20);
+                // const top20papers = response.data.slice(0,20);
+                const top20papers = null
                 setGraphPapers(top20papers);
 
                 console.log('Server response:', response.data);

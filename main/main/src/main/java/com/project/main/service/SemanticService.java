@@ -33,6 +33,7 @@ public class SemanticService {
 
         UriComponents fullUrl = UriComponentsBuilder.fromHttpUrl(API_URL)
                 .queryParam("query", UriUtils.encode(query, StandardCharsets.UTF_8))
+                .queryParam("sort", UriUtils.encode("citationCount:desc", StandardCharsets.UTF_8))
                 .queryParam("fields", UriUtils.encode(fields, StandardCharsets.UTF_8))
                 .build(true);
 
@@ -53,34 +54,12 @@ public class SemanticService {
             List<java.util.Map<String, Object>> papers = (List<java.util.Map<String, Object>>) responseBody.get("data");
 
             if (papers != null && !papers.isEmpty()) {
-
-                // sort by mostly cited 
-                papers.sort((p1, p2) -> {
-                    Integer c1 = (Integer) p1.get("citationCount");
-                    Integer c2 = (Integer) p2.get("citationCount");
-                    if (c1 != null && c2 != null) {
-                        return c2.compareTo(c1);  // descending order
-                    }
-                    return 0; // handling null values 
-                });
-
-                // // limit to only top 20 papers
-                // List<java.util.Map<String, Object>> top20papers = papers.stream().limit(20).collect(Collectors.toList());
-
-                // // for each top paper, add citations field
-                // for (java.util.Map<String,Object> paper : top20papers){
-                //     List<java.util.Map<String, Object>> citations = (List<java.util.Map<String, Object>>) paper.get("citations");
-                //     // ensure citations exist before processing
-                //     if (citations != null && !citations.isEmpty()) {
-                //         // log the citing papers here if necessary
-                //         return "No citations found";
-                //     }
-                // }
-
-                // convert the sorted list back to JSON string
-                // return objectMapper.writeValueAsString(top20papers);
-                
+                // limit to 20 papers
+                if (papers.size() > 20) {
+                    papers = papers.subList(0, 20);
+                }
                 return objectMapper.writeValueAsString(papers);
+
             } else {
                 return "No papers found for the query.";
             }
