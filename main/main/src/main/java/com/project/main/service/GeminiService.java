@@ -10,7 +10,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.project.main.entity.UserPrompt;
 
 @Service
 public class GeminiService {

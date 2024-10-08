@@ -9,11 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.project.main.entity.UserPrompt;
 import com.project.main.service.GeminiService;
@@ -37,11 +34,13 @@ public class APIController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ObjectNode> receiveUserPrompt(@RequestBody UserPrompt userPrompt) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<ObjectNode> mainAPIflow(@RequestBody UserPrompt userPrompt) {
 
+		ObjectMapper objectMapper = new ObjectMapper();
+		
 		userPromptService.saveUserPrompt(userPrompt); // saving user prompt using service
 
-		// gemini: tuned user_prompt for a list of extracted keywords
+		// gemini (1): tuned user_prompt for a list of extracted keywords
 		/**
 		 * E.g.
 		 * extract key words and determine positive or negative sentiment for statement "Channel estimation with pilots is outdated";
@@ -54,21 +53,43 @@ public class APIController {
 		// userPrompt.setSearchPrompt(formattedPrompt); // reset user prompt to tuned prompt
 		String responseBody = geminiService.callApi(formattedPrompt, "AIzaSyDLmB0f1-lmo2-WH9Dif0fC32t0_Z9Hpuo"); // TODO: encrypt key
 		
-		// response formatting
-		ObjectNode responseJSON = responseFormatting(responseBody).getBody();
+		ObjectNode responseJSON = responseFormatting(responseBody).getBody(); // response formatting
 
-		// semantic: use the list of extracted keywords to get a JSON list of papers
+		if (responseJSON == null)
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(objectMapper.createObjectNode().put("message", "No gemini response (1) received."));
+
+		// semantic (1): use the list of extracted keywords to get a JSON list of papers
 		String semanticQuery = responseJSON.get("keywords").asText()
 						.replace(",", "")
 						.replaceAll(";$", "").trim();
-		String fetchedPapers = semanticService.paperRelevanceSearch(semanticQuery);
 
-		// System.out.println(fetchedPapers);
+		/**
+		 * Note: Fetched Papers are limited by a certain number in descending order from most cited 
+		 */
+		JsonNode fetchedPapers = semanticService.paperRelevanceSearch(semanticQuery).getBody();
+
+		if (fetchedPapers == null)
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(objectMapper.createObjectNode().put("message", "No semantic response (1) received."));
 
 		// ------------ Citation-based ------------------
 		
-		// semantic: get the 20 top cited papers's next 5 citations (ideally some papers may cite each other) => 100 papers
+		// semantic (2): get the top cited papers's next 5 citations (ideally some papers cite each other)
+		ObjectNode fetchedCitations = objectMapper.createObjectNode();
+		// System.out.println(fetchedPapers);
+		for (JsonNode paper: fetchedPapers) {
+			try {
+				String paperID = paper.get("paperId").asText();
+				JsonNode citation = semanticService.citationSearch(paperID).getBody();
 
+				fetchedCitations.set(paperID, citation);
+				
+				Thread.sleep(1000); // semantic limit is 1rps
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
 		
 		// ------------ Opinion-based ------------------
 		
@@ -82,64 +103,63 @@ public class APIController {
 
 		String categorizedResponseBody = geminiService.callApi(opinionPrompt, "AIzaSyDLmB0f1-lmo2-WH9Dif0fC32t0_Z9Hpuo");
 
-		// response formatting
-		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody();
+		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
 
-		ObjectMapper mapper = new ObjectMapper();
-		JsonNode paperNode = mapper.readTree(fetchedPapers);
-		categorizedResponseJSON.putPOJO("Papers", paperNode);
-
-		// System.out.println("\n Categorized: \n" + categorizedResponseJSON);
-
-		// output: JSON list of 40 papers, or input required for the graph back to react via request
-		return ResponseEntity.ok(categorizedResponseJSON);
+		if (categorizedResponseJSON != null) {
+			categorizedResponseJSON.putPOJO("Papers", fetchedPapers);
+			categorizedResponseJSON.putPOJO("Citations", fetchedCitations);
+			return ResponseEntity.ok(categorizedResponseJSON); // final output: JSON list of papers + support/opposing
+		} 
+		else {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 
 	public ResponseEntity<ObjectNode> categorizedResponseFormatting(String responseBody) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode rootNode = mapper.readTree(responseBody);
-
-            String textNode = rootNode.path("candidates")
-                .get(0).path("content").path("parts")
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode rootNode = mapper.readTree(responseBody);
+	
+			String textNode = rootNode.path("candidates")
+				.get(0).path("content").path("parts")
 				.get(0).path("text").asText();
-
+	
 			textNode = textNode.replace("```json", "")
 								.replaceAll("\n", "")	.replaceAll("\\\\", "")
 								.replace("```", "").trim();
-
-            ObjectNode formattedNode = (ObjectNode) mapper.readTree(textNode);
-
+	
+			ObjectNode formattedNode = (ObjectNode) mapper.readTree(textNode);
+	
 			return ResponseEntity.ok(formattedNode);
 
-        } catch (Exception e) {
+		} catch (Exception e) {
             e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
 	public ResponseEntity<ObjectNode> responseFormatting(String responseBody) {
-		ObjectMapper objectMapper = new ObjectMapper();
 		try {
+			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(responseBody);
-
+	
 			String text = jsonNode.path("candidates").get(0)
 					.path("content").path("parts").get(0)
 					.path("text").asText()
 					.replaceAll("\\*|\\n", " ").trim();
-
+	
 			String keywords = text.substring(text.indexOf("keywords:") + 9, text.indexOf("sentiment:")).trim();
 			String sentiment = text.substring(text.indexOf("sentiment:") + 10).trim();
-
+	
 			ObjectNode responseJson = objectMapper.createObjectNode();
 			responseJson.put("keywords", keywords);
 			responseJson.put("sentiment", sentiment);
-
+	
 			return ResponseEntity.ok(responseJson);
-		} 
-		catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-		}
+
+		} catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
 	}
 }
