@@ -14,12 +14,12 @@ public class Author {
     @Column(nullable = false)
     private String authorName;
 
-    // Many-to-Many relationship with ResearchPaper
-    @ManyToMany
+    // Owning side of the Many-to-Many relationship with ResearchPaper
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
-        name = "author_paper", // Join table
-        joinColumns = @JoinColumn(name = "author_id"),
-        inverseJoinColumns = @JoinColumn(name = "paper_id")
+        name = "author_paper", // Join table name
+        joinColumns = @JoinColumn(name = "author_id"), // Author ID in the join table
+        inverseJoinColumns = @JoinColumn(name = "paper_id") // ResearchPaper ID in the join table
     )
     private Set<ResearchPaper> researchPapers = new HashSet<>();
 
@@ -28,6 +28,8 @@ public class Author {
     public Author(String authorName) {
         this.authorName = authorName;
     }
+
+    // Getters and setters...
 
     public Integer getAuthorId() {
         return authorId;
@@ -51,6 +53,17 @@ public class Author {
 
     public void setResearchPapers(Set<ResearchPaper> researchPapers) {
         this.researchPapers = researchPapers;
+    }
+
+    // Adding helper methods to handle bi-directionality
+    public void addResearchPaper(ResearchPaper paper) {
+        this.researchPapers.add(paper);
+        paper.getAuthors().add(this);
+    }
+
+    public void removeResearchPaper(ResearchPaper paper) {
+        this.researchPapers.remove(paper);
+        paper.getAuthors().remove(this);
     }
 
     @Override

@@ -1,12 +1,6 @@
 package com.project.main.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,10 +22,10 @@ public class ResearchPaper {
     private String abstractText; // 'abstract' is a keyword, so use 'abstractText'
 
     @Column(length = 2000)
-    private String methodologySummary; // Simplified by AI for a general audience
+    private String methodologySummary;
 
     @Column(nullable = false)
-    private String sourceLink; // URL to the paper
+    private String sourceLink;
 
     @Column(nullable = false)
     private Integer citationsCount;
@@ -39,7 +33,9 @@ public class ResearchPaper {
     @Column(nullable = false)
     private Integer viewsCount;
 
-    // Constructors, Getters, Setters
+    // Inverse side of the Many-to-Many relationship with Author
+    @ManyToMany(mappedBy = "researchPapers", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    private Set<Author> authors = new HashSet<>();
 
     public ResearchPaper() {}
 
@@ -52,6 +48,8 @@ public class ResearchPaper {
         this.citationsCount = citationsCount;
         this.viewsCount = viewsCount;
     }
+
+    // Getters and setters...
 
     public Integer getPaperId() {
         return paperId;
@@ -117,6 +115,14 @@ public class ResearchPaper {
         this.viewsCount = viewsCount;
     }
 
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
     @Override
     public String toString() {
         return "ResearchPaper{" +
@@ -128,22 +134,17 @@ public class ResearchPaper {
                 ", sourceLink='" + sourceLink + '\'' +
                 ", citationsCount=" + citationsCount +
                 ", viewsCount=" + viewsCount +
-                ", authors=" + authors +
                 '}';
     }
 
-    // Many-to-Many relationship with Author
-    @ManyToMany(mappedBy = "researchPapers")
-    private Set<Author> authors = new HashSet<>();
-
-    // Constructors, Getters, and Setters
-
-    public Set<Author> getAuthors() {
-        return authors;
+    // Helper methods to handle bi-directionality
+    public void addAuthor(Author author) {
+        this.authors.add(author);
+        author.getResearchPapers().add(this);
     }
 
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
+    public void removeAuthor(Author author) {
+        this.authors.remove(author);
+        author.getResearchPapers().remove(this);
     }
-
 }
