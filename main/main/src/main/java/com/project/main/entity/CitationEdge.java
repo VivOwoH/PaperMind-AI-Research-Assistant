@@ -11,9 +11,9 @@ public class CitationEdge {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer edgeId; 
 
-    // @ManyToOne
-    // @JoinColumn(name = "graph_id", nullable = false)
-    // private Graph graph;  // Foreign Key to Graph
+    @ManyToOne
+    @JoinColumn(name = "graph_id", nullable = false)
+    private Graph graph;  // Foreign Key to Graph
 
     @ManyToOne
     @JoinColumn(name = "paper_id", nullable = false)
@@ -22,10 +22,10 @@ public class CitationEdge {
     
     public CitationEdge() {}
 
-    // public CitationEdge(Graph graph, ResearchPaper researchPaper) {
-    //     this.graph = graph;
-    //     this.researchPaper = researchPaper;
-    // }
+    public CitationEdge(Graph graph, ResearchPaper researchPaper) {
+        this.graph = graph;
+        this.researchPaper = researchPaper;
+    }
 
     public Integer getEdgeId() {
         return edgeId;
@@ -35,13 +35,13 @@ public class CitationEdge {
         this.edgeId = edgeId;
     }
 
-    // public Graph getGraph() {
-    //     return graph;
-    // }
+    public Graph getGraph() {
+        return graph;
+    }
 
-    // public void setGraph(Graph graph) {
-    //     this.graph = graph;
-    // }
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
 
     public ResearchPaper getResearchPaper() {
         return researchPaper;

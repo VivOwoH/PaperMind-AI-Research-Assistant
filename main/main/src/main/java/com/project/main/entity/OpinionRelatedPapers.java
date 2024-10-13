@@ -12,9 +12,9 @@ public class OpinionRelatedPapers {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer opinionRelatedPaperId;  // Primary Key auto-generated
 
-    // @ManyToOne
-    // @JoinColumn(name = "opinion_id", nullable = false)
-    // private Opinion opinion;  // Foreign Key to Opinion
+    @ManyToOne
+    @JoinColumn(name = "opinion_id", nullable = false)
+    private Opinion opinion;  // Foreign Key to Opinion
 
     @ManyToOne
     @JoinColumn(name = "paper_id", nullable = false)
@@ -23,10 +23,10 @@ public class OpinionRelatedPapers {
     // Constructors, Getters, and Setters
     public OpinionRelatedPapers() {}
 
-    // public OpinionRelatedPapers(Opinion opinion, ResearchPaper researchPaper) {
-    //     this.opinion = opinion;
-    //     this.researchPaper = researchPaper;
-    // }
+    public OpinionRelatedPapers(Opinion opinion, ResearchPaper researchPaper) {
+        this.opinion = opinion;
+        this.researchPaper = researchPaper;
+    }
 
     public Integer getOpinionRelatedPaperId() {
         return opinionRelatedPaperId;
@@ -36,13 +36,13 @@ public class OpinionRelatedPapers {
         this.opinionRelatedPaperId = opinionRelatedPaperId;
     }
 
-    // public Opinion getOpinion() {
-    //     return opinion;
-    // }
+    public Opinion getOpinion() {
+        return opinion;
+    }
 
-    // public void setOpinion(Opinion opinion) {
-    //     this.opinion = opinion;
-    // }
+    public void setOpinion(Opinion opinion) {
+        this.opinion = opinion;
+    }
 
     public ResearchPaper getResearchPaper() {
         return researchPaper;
