@@ -76,19 +76,19 @@ public class AuthorController {
         }
     }
 
+    @PostMapping("/")
+    public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
+        try {
+            Author savedAuthor = authorService.saveAuthor(author);
+            return ResponseEntity.ok().body(savedAuthor);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     // @PostMapping("/")
     // public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
-    //     try {
-    //         Author savedAuthor = authorService.saveAuthor(author);
-    //         return ResponseEntity.ok().body(savedAuthor);
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    //     }
+    //     return ResponseEntity.ok().body(authorService.saveAuthor(author));
     // }
-    @PostMapping("/")
-public ResponseEntity<Author> saveAuthor(@RequestBody Author author) {
-    return ResponseEntity.ok().body(authorService.saveAuthor(author));
-}
 
 
     @DeleteMapping("/{id}")
