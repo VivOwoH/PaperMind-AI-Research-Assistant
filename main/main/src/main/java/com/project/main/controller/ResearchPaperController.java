@@ -24,8 +24,14 @@ public class ResearchPaperController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ResearchPaper> getResearchPaperById(@PathVariable Integer id) {
-        return ResponseEntity.ok().body(researchPaperService.getResearchPaperById(id));
+        ResearchPaper paper = researchPaperService.getResearchPaperById(id);
+        if (paper != null) {
+            return ResponseEntity.ok().body(paper);
+        } else {
+            return ResponseEntity.notFound().build(); // Return 404 if not found
+        }
     }
+
 
     @PostMapping("/")
     public ResponseEntity<ResearchPaper> saveResearchPaper(@RequestBody ResearchPaper researchPaper) {
