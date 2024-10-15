@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -34,7 +35,7 @@ public class APIController {
 	}
 
 	@PostMapping
-	public ResponseEntity<ObjectNode> mainAPIflow(@RequestBody UserPrompt userPrompt) {
+	public ResponseEntity<String> mainAPIflow(@RequestBody UserPrompt userPrompt) {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 		
@@ -56,8 +57,7 @@ public class APIController {
 		ObjectNode responseJSON = responseFormatting(responseBody).getBody(); // response formatting
 
 		if (responseJSON == null)
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(objectMapper.createObjectNode().put("message", "No gemini response (1) received."));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No gemini response (1) received.");
 
 		// semantic (1): use the list of extracted keywords to get a JSON list of papers
 		String semanticQuery = responseJSON.get("keywords").asText()
@@ -70,8 +70,7 @@ public class APIController {
 		JsonNode fetchedPapers = semanticService.paperRelevanceSearch(semanticQuery).getBody();
 
 		if (fetchedPapers == null)
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(objectMapper.createObjectNode().put("message", "No semantic response (1) received."));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No semantic response (1) received.");
 
 		// ------------ Citation-based ------------------
 		
@@ -108,7 +107,13 @@ public class APIController {
 		if (categorizedResponseJSON != null) {
 			categorizedResponseJSON.putPOJO("Papers", fetchedPapers);
 			categorizedResponseJSON.putPOJO("Citations", fetchedCitations);
-			return ResponseEntity.ok(categorizedResponseJSON); // final output: JSON list of papers + support/opposing
+
+			try {
+				return ResponseEntity.ok(objectMapper.writeValueAsString(categorizedResponseJSON)); // final output: JSON list of papers + support/opposing
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No gemini response (2) received.");
+			} 
 		} 
 		else {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
