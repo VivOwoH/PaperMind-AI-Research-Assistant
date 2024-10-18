@@ -1,113 +1,122 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Slider, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography, Paper } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import PaperDetailOpinion from '../../components/PaperDetailOpinion';
-import { useSearchParams } from 'react-router-dom';
+import TopNavigation from '../../components/TopNavigation';
+import { useLocation } from 'react-router-dom';
 
 function ListViewOpinion() {
-  const [selectedPaper, setSelectedPaper] = useState(null);
-  const [papers, setPapers] = useState({
-    supporting: [
-      { id: 1, title: "Deep Learning Exploration", year: 2019, citedBy: 100, author: "John Doe" },
-      { id: 3, title: "The Future of AI", year: 2018, citedBy: 150, author: "Alice Johnson" }
-    ],
-    opposing: [
-      { id: 2, title: "AI Predictions", year: 2021, citedBy: 200, author: "Jane Smith" }
-    ]
-  });
-  const [originalPapers] = useState(papers);
-  const [yearRange, setYearRange] = useState([2018, 2021]);
-  const [selectedAuthor, setSelectedAuthor] = useState('');
-  const [mostCited, setMostCited] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+    const [selectedPaper, setSelectedPaper] = useState(null);
+    const location = useLocation();
+    const [graphPapers, setGraphPapers] = useState([]);
+    const [supportPapers, setSupportPapers] = useState({});
+    const [supportingPapersList, setSupportingPapersList] = useState([]);
+    const [opposingPapers, setOpposingPapers] = useState({});
+    const [opposingPapersList, setOpposingPapersList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    filterPapers();
-  }, [yearRange, selectedAuthor, mostCited]);
+    useEffect(() => {
+        if (location.state?.papers) {
+            setGraphPapers(location.state.papers);
+        }
+        if (location.state?.supporting) {
+            setSupportPapers(location.state.supporting);
+        }
+        if (location.state?.opposing) {
+            setOpposingPapers(location.state.opposing);
+        }
+        setIsLoading(false);
+    }, [location.state]);
 
-  const filterPapers = () => {
-    const filteredSupporting = originalPapers.supporting.filter(paper =>
-      (selectedAuthor ? paper.author === selectedAuthor : true) &&
-      paper.year >= yearRange[0] && paper.year <= yearRange[1]
-    );
-    const filteredOpposing = originalPapers.opposing.filter(paper =>
-      (selectedAuthor ? paper.author === selectedAuthor : true) &&
-      paper.year >= yearRange[0] && paper.year <= yearRange[1]
-    );
+    useEffect(() => {
+        const calculateSupportingPapers = () => {
+            if (!supportPapers || typeof supportPapers !== 'object' || !graphPapers) {
+                return [];
+            }
+          
+            const result = [];
+            Object.keys(supportPapers).forEach(opinion => {
+                const paperIds = supportPapers[opinion];
+                paperIds.forEach(paperId => {
+                    const paper = graphPapers.find(p => p.paperId === paperId);
+                    if (paper) {
+                        result.push({ paper, opinion });
+                    }
+                });
+            });
+            return result;
+        };
 
-    if (mostCited) {
-      filteredSupporting.sort((a, b) => b.citedBy - a.citedBy);
-      filteredOpposing.sort((a, b) => b.citedBy - a.citedBy);
+        const calculateOpposingPapers = () => {
+            if (!opposingPapers || typeof opposingPapers !== 'object' || !graphPapers) {
+                return [];
+            }
+          
+            const result = [];
+            Object.keys(opposingPapers).forEach(opinion => {
+                const paperIds = opposingPapers[opinion];
+                paperIds.forEach(paperId => {
+                    const paper = graphPapers.find(p => p.paperId === paperId);
+                    if (paper) {
+                        result.push({ paper, opinion });
+                    }
+                });
+            });
+            return result;
+        };
+
+        setSupportingPapersList(calculateSupportingPapers());
+        setOpposingPapersList(calculateOpposingPapers());
+    }, [supportPapers, opposingPapers, graphPapers]);
+
+    if (isLoading) {
+        return (
+            <Container maxWidth="xl" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CircularProgress />
+            </Container>
+        );
     }
 
-    setPapers({
-      supporting: filteredSupporting,
-      opposing: filteredOpposing
-    });
-  };
-
-  return (
-    <Container maxWidth="xl">
-      <Typography variant="h5" textAlign="center" gutterBottom>Research Papers</Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Author</InputLabel>
-            <Select
-              value={selectedAuthor}
-              label="Author"
-              onChange={e => setSelectedAuthor(e.target.value)}
-            >
-              {['John Doe', 'Jane Smith', 'Alice Johnson'].map(author => (
-                <MenuItem key={author} value={author}>{author}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Most Cited</InputLabel>
-            <Select
-              value={mostCited}
-              label="Most Cited"
-              onChange={e => setMostCited(e.target.value)}
-            >
-              <MenuItem value={true}>Yes</MenuItem>
-              <MenuItem value={false}>No</MenuItem>
-            </Select>
-          </FormControl>
-          <Typography gutterBottom>Year Range</Typography>
-          <Slider
-            value={yearRange}
-            onChange={(event, newValue) => setYearRange(newValue)}
-            valueLabelDisplay="auto"
-            min={2018}
-            max={2021}
-            marks={[
-              { value: 2018, label: '2018' },
-              { value: 2021, label: '2021' }
-            ]}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Supporting Papers</Typography>
-          <PaperListOpinion papers={papers.supporting} onGenerateSummaryClick={setSelectedPaper} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Opposing Papers</Typography>
-          <PaperListOpinion papers={papers.opposing} onGenerateSummaryClick={setSelectedPaper} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Paper Summary</Typography>
-          {selectedPaper ? (
-            <PaperDetailOpinion paper={selectedPaper} />
-          ) : (
-            <Paper style={{ padding: '20px' }}>
-              <Typography>Select a paper to view its summary</Typography>
-            </Paper>
-          )}
-        </Grid>
-      </Grid>
-    </Container>
-  );
+    return (
+        <div>
+            <TopNavigation />
+            <Container maxWidth="xl">
+                <Typography variant="h5" textAlign="left" gutterBottom>Search Results</Typography>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h6">Supporting Papers List</Typography>
+                        {supportingPapersList.length > 0 ? (
+                            supportingPapersList.map((entry, index) => (
+                                <Paper key={index} style={{ padding: '10px', marginBottom: '10px' }}>
+                                    <Typography variant="subtitle1" color="textSecondary">{entry.opinion}</Typography>
+                                    <Typography variant="h6">{entry.paper.title}</Typography>
+                                    <Typography>Authors: {entry.paper.authors.map(author => author.name).join(', ')}</Typography>
+                                    <Typography>Cited by: {entry.paper.citationCount}</Typography>
+                                </Paper>
+                            ))
+                        ) : (
+                            <Typography>No supporting papers found.</Typography>
+                        )}
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h6">Opposing Papers List</Typography>
+                        {opposingPapersList.length > 0 ? (
+                            opposingPapersList.map((entry, index) => (
+                                <Paper key={index} style={{ padding: '10px', marginBottom: '10px' }}>
+                                    <Typography variant="subtitle1" color="textSecondary">{entry.opinion}</Typography>
+                                    <Typography variant="h6">{entry.paper.title}</Typography>
+                                    <Typography>Authors: {entry.paper.authors.map(author => author.name).join(', ')}</Typography>
+                                    <Typography>Cited by: {entry.paper.citationCount}</Typography>
+                                </Paper>
+                            ))
+                        ) : (
+                            <Typography>No opposing papers found.</Typography>
+                        )}
+                    </Grid>
+                </Grid>
+            </Container>
+        </div>
+    );
 }
 
 export default ListViewOpinion;

@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HomeIcon from '@mui/icons-material/Home';
 
-const TopNavigation = ({ currentView, onViewChange, papers }) => {
+const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting, opposing }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
 
@@ -14,9 +14,15 @@ const TopNavigation = ({ currentView, onViewChange, papers }) => {
     };
 
     const handleMenuClose = (viewOption) => {
+        
         if (viewOption === 'List View') {
             // Navigate to the List View page when "List View" is selected from the dropdown
-            navigate('/list-view', { state: { papers } }); // Redirect to ListViewPage with papers 
+            if (viewtype === 'CITATION'){
+                navigate('/list-view', { state: { papers } }); // Redirect to ListViewPage with papers
+            }else if (viewtype === 'OPINION'){
+                navigate('/opinion-list-view', { state: { papers, supporting, opposing } }); 
+            }
+             
         } else {
             onViewChange(viewOption); 
         }
