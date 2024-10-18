@@ -120,15 +120,7 @@ function ListViewCitation() {
               <MenuItem value="Review">Review</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={3}>
-            <Button
-              variant={mostCited ? "contained" : "outlined"}
-              onClick={() => setMostCited(!mostCited)}
-              fullWidth
-            >
-              Sort by Most Cited
-            </Button>
-          </Grid>
+  
         </Grid>
         <Grid container spacing={3} style={{ marginTop: '20px' }}>
         <Grid item xs={6} sx={{ overflow: 'auto', height: '90vh' }}>
