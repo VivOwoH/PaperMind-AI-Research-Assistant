@@ -31,7 +31,7 @@ export default function SearchComponent(){
         console.log('search prompt:', searchQuery);
         console.log('selected filter:', category);
         console.log('graph view type:', searchData['graphViewType'])
-        
+
         setLoading(true); // set loading to true before the request
 
         // print search object to console
@@ -39,6 +39,7 @@ export default function SearchComponent(){
 
         // TODO : Search logic
         try{
+            
             // navigate to target page immediately, passing empty state initially
             navigate('papers-graphview', { state: { loading: true } } );
 

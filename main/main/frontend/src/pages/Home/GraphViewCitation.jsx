@@ -30,7 +30,7 @@ function GraphViewCitation() {
   
   return (
     <div>
-      <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
+      <TopNavigation currentView={currentView} onViewChange={setCurrentView} papers={graphPapers} />
       <Container maxWidth="xl">
         <br></br>
         <Typography variant="h5" textAlign="left" gutterBottom>Results for </Typography>

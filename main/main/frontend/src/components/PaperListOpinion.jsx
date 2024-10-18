@@ -9,11 +9,13 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
   const handleSummaryToggle = (id) => {
     setSummaryOpen(prev => {  
       const isCurrentlyOpen = !prev[id];
-      if (!isCurrentlyOpen) {
-        onGenerateSummaryClick(id);
-      }
+
+      onGenerateSummaryClick(id);
       return { ...prev, [id]: isCurrentlyOpen };  
     });
+  };
+  const onPaperSelect = (id) =>{
+    onGenerateSummaryClick(id);
   };
 
   const formatAuthors = (authors) => {
@@ -31,7 +33,9 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
     <List component="nav" sx={{ width: '100%' }}>
       {papers.map((paper,index) => (
         <React.Fragment key={paper.paperId}>
-          <ListItem alignItems="flex-start" sx={{ flexDirection: "column", alignItems: "flex-start", width: '100%' }}>
+          <ListItem alignItems="flex-start" sx={{ flexDirection: "column", alignItems: "flex-start", width: '100%', cursor:'pointer','&:hover': {
+                backgroundColor: '#f4f4f4' // Optional: Change background on hover for better UX
+              } }} onClick={() => onPaperSelect(paper.paperId)}>
           <Typography
               variant="h6"
               style={{ fontWeight: 'bold', color: '#302C29', fontSize:'20px' }}  
