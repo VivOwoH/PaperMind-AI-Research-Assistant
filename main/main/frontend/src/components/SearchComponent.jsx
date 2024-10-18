@@ -59,8 +59,6 @@ export default function SearchComponent(){
                 // console.log(response.data.Citations)
 
                 console.log('Server response:', response.data);
-                console.log('supporting', supporting);
-                console.log('opposing', opposing);
 
                 // Update with the actual results once the API call completes
                 

@@ -22,12 +22,10 @@ function GraphViewOpinion() {
         setGraphPapers(location.state.graphPapers);
     }
     if (location.state?.supporting) {
-        console.log("Supporting papers loaded: ", location.state.supporting);
         setSupporting(location.state.supporting);
         
     }
     if (location.state?.opposing) {
-        console.log("Opposing papers loaded: ", location.state.opposing);
         setOpposing(location.state.opposing);
         
     }
