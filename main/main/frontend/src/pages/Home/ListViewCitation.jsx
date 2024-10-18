@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CircularProgress, Container, Grid, Typography, Paper, TextField, MenuItem, Button } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography, Paper, TextField, MenuItem } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import PaperDetailOpinion from '../../components/PaperDetailOpinion';
 import TopNavigation from '../../components/TopNavigation';
@@ -14,15 +14,13 @@ function ListViewCitation() {
   const [isLoading, setIsLoading] = useState(true); // Local loading state
   const [years, setYears] = useState([]); // Store unique publication years
 
-  // Filter states
+  // Properly declaring state variables for filters
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useState('');
   const [selectedType, setSelectedType] = useState('');
-  const [mostCited, setMostCited] = useState(false); // Track if sorting by most cited is selected
 
   useEffect(() => {
     if (location.state?.papers) {
-      console.log("Papers loaded: ", location.state.papers); // Debugging line to ensure data is received
       setGraphPapers(location.state.papers);
       setFilteredPapers(location.state.papers);
       setIsLoading(false);
@@ -39,25 +37,22 @@ function ListViewCitation() {
       filtered = filtered.filter(paper => new Date(paper.publicationDate).getFullYear() === parseInt(selectedYear));
     }
     if (selectedAuthor) {
-      filtered = filtered.filter(paper => paper.authors && paper.authors.some(author => author.name.includes(selectedAuthor)));
+      filtered = filtered.filter(paper => paper.authors.some(author => author.name.includes(selectedAuthor)));
     }
     if (selectedType) {
-      filtered = filtered.filter(paper => paper.publicationTypes && paper.publicationTypes.includes(selectedType));
-    }
-    if (mostCited) {
-      filtered = filtered.sort((a, b) => b.citationCount - a.citationCount);
+      filtered = filtered.filter(paper => paper.publicationTypes.includes(selectedType));
     }
 
     setFilteredPapers(filtered);
   };
 
   useEffect(() => {
-    if (selectedYear || selectedAuthor || selectedType || mostCited) {
+    if (selectedYear || selectedAuthor || selectedType) {
       applyFilters();
     } else {
       setFilteredPapers(graphPapers); // Reset to initial state when all filters are cleared
     }
-  }, [selectedYear, selectedAuthor, selectedType, mostCited, graphPapers]);
+  }, [selectedYear, selectedAuthor, selectedType, graphPapers]);
 
   if (isLoading) {
     return (
@@ -72,14 +67,12 @@ function ListViewCitation() {
     setSelectedPaper(paper);
   };
 
-
   return (
     <div>
       <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
       <Container maxWidth="xl">
         <Typography variant="h5" textAlign="left" gutterBottom>Search Results</Typography>
         <Grid container spacing={2}>
-          {/* Filters */}
           <Grid item xs={3}>
             <TextField
               fullWidth
@@ -120,20 +113,18 @@ function ListViewCitation() {
               <MenuItem value="Review">Review</MenuItem>
             </TextField>
           </Grid>
-  
         </Grid>
         <Grid container spacing={3} style={{ marginTop: '20px' }}>
-        <Grid item xs={6} sx={{ overflow: 'auto', height: '90vh' }}>
-            <Typography variant="h6">Papers List</Typography>
+          <Grid item xs={6} sx={{ overflow: 'auto', height: '90vh' }}>
+            <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Papers List</Typography>
             {filteredPapers.length > 0 ? (
               <PaperListOpinion papers={filteredPapers} onGenerateSummaryClick={handlePaperClick} />
             ) : (
               <Typography>No papers found.</Typography>
-
             )}
           </Grid>
-          <Grid item xs={6} sx={{ position: 'fixed', top: '25vh', right: 0, width: '50%',  height: '90vh', overflowY: 'auto' }}>
-            <Typography variant="h6">Paper Summary</Typography> <br></br>
+          <Grid item xs={6} sx={{ position: 'fixed', top: '25vh', right: 0, width: '50%', height: `calc(100vh - 100px)`, overflowY: 'auto' }}>
+            <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Paper Summary</Typography><br />
             {selectedPaper ? (
               <PaperDetailOpinion paper={selectedPaper} />
             ) : (
