@@ -31,7 +31,7 @@ export default function SearchComponent(){
         console.log('search prompt:', searchQuery);
         console.log('selected filter:', category);
         console.log('graph view type:', searchData['graphViewType'])
-        
+
         setLoading(true); // set loading to true before the request
 
         // print search object to console
@@ -40,14 +40,19 @@ export default function SearchComponent(){
         // TODO : Search logic
         try{
             // navigate to target page immediately, passing empty state initially
-            navigate('papers-graphview', { state: { loading: true } } );
-
+            if (searchData['graphViewType'] === 'CITATION'){
+                navigate('papers-graphview', { state: { loading: true } } );
+            }else if (searchData['graphViewType'] === 'OPINION'){
+                navigate('/papers-opinion-graphview', { state: { loading: true } } );
+            }
             // perform the search request after navigation
             axios.post('http://localhost:8080/api/data', searchData)
                 .then(response => {
                 
                 // obtain the top 20 papers to display in frontend
                 const top20papers = response.data.Papers;
+                const supporting = response.data.supporting;
+                const opposing = response.data.opposing;
                 setGraphPapers(top20papers);
 
                 // console.log(response.data.Papers);
@@ -56,11 +61,20 @@ export default function SearchComponent(){
                 console.log('Server response:', response.data);
 
                 // Update with the actual results once the API call completes
-                navigate('papers-graphview', { state: { papers: response.data, graphPapers:top20papers, loading: false } });
+                
+                if (searchData['graphViewType'] === 'CITATION'){
+                    navigate('papers-graphview', { state: { papers: response.data, graphPapers:top20papers, loading: false, graphViewType:searchData['graphViewType'] } });
+                }else if (searchData['graphViewType'] === 'OPINION'){
+                    navigate('papers-opinion-graphview', { state: { papers: response.data, graphPapers:top20papers, loading: false, graphViewType:searchData['graphViewType'], supporting:supporting, opposing:opposing} });
+                }
             })
             .catch(error => {
                 console.error('Failed to fetch data', error);
-                navigate('papers-graphview', { state: { loading: false, error: true } });
+                if (searchData['graphViewType'] === 'CITATION'){
+                    navigate('papers-graphview', { state: { loading: false, error: true } });
+                }else if (searchData['graphViewType'] === 'OPINION'){
+                    navigate('papers-opinion-graphview', { state: { loading: false, error: true } });
+                }
             });
 
             // // send entire search data object to backend
