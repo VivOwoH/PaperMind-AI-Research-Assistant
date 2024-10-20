@@ -7,8 +7,8 @@ import { Document, Packer, Paragraph, TextRun } from 'docx'; // docx plugin
 
 function PaperDetailOpinion({ paper }) {
   const SCOPES = "https://www.googleapis.com/auth/drive.file";
-  const CLIENT_ID = "680830897024-qj3n2h7765vjo0pbuijhfgc8fk0idcng.apps.googleusercontent.com"; // client id
-  const API_KEY = 'AIzaSyBm_HwS28YlRzEOcf5xAmBdBRV4GmL8btA'; //  API key
+  const CLIENT_ID = process.env.REACT_APP_CLIENT_ID; // client id
+  const API_KEY = process.env.REACT_APP_API_KEY; //  API key
 
   // initiate Google API client
   useEffect(() => {
@@ -20,7 +20,7 @@ function PaperDetailOpinion({ paper }) {
       });
     };
     gapi.load('client:auth2', start);
-  }, []);
+  }, [[API_KEY, CLIENT_ID]]);
 
   // create .docx file with the ai summary content
   const createDocx = async () => {
@@ -139,12 +139,12 @@ function PaperDetailOpinion({ paper }) {
           {paper.abstract}
         </Typography>
         <Tooltip title="Copy Abstract">
-          <IconButton onClick={copyToClipboard}>
+          <IconButton onClick={copyToClipboard} sx={{ color: '#4287f5' }}>
             <FileCopyIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="Save to Google Drive">
-          <IconButton onClick={saveToDrive}>
+          <IconButton onClick={saveToDrive} sx={{ color: '#4287f5' }}>
             <SaveIcon />
           </IconButton>
         </Tooltip>
