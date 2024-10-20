@@ -4,6 +4,7 @@ import Home from './pages/Home/Home';
 import ListViewCitation from './pages/Home/ListViewCitation';
 import ListViewOpinion from './pages/Home/ListViewOpinion';
 import GraphViewCitation from './pages/Home/GraphViewCitation';
+import GraphViewOpinion from './pages/Home/GraphViewOpinion';
 
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/papers-graphview" element={<GraphViewCitation />} /> 
             <Route path="/list-view" element={<ListViewCitation />}></Route>
+            <Route path="/opinion-list-view" element={<ListViewOpinion />}></Route>
+            <Route path="/papers-opinion-graphview" element={<GraphViewOpinion />} /> 
         </Routes>
     </Router>
   );

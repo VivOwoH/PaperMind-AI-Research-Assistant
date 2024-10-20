@@ -1,113 +1,198 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Slider, FormControl, InputLabel, Select, MenuItem, Paper } from '@mui/material';
-import PaperListOpinion from '../../components/PaperListOpinion';
+import { CircularProgress, Container, Grid, Typography, Paper, Link, IconButton, Collapse, Box, Chip } from '@mui/material';
+import TopNavigation from '../../components/TopNavigation';
+import { useLocation } from 'react-router-dom';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PaperDetailOpinion from '../../components/PaperDetailOpinion';
-import { useSearchParams } from 'react-router-dom';
 
 function ListViewOpinion() {
-  const [selectedPaper, setSelectedPaper] = useState(null);
-  const [papers, setPapers] = useState({
-    supporting: [
-      { id: 1, title: "Deep Learning Exploration", year: 2019, citedBy: 100, author: "John Doe" },
-      { id: 3, title: "The Future of AI", year: 2018, citedBy: 150, author: "Alice Johnson" }
-    ],
-    opposing: [
-      { id: 2, title: "AI Predictions", year: 2021, citedBy: 200, author: "Jane Smith" }
-    ]
-  });
-  const [originalPapers] = useState(papers);
-  const [yearRange, setYearRange] = useState([2018, 2021]);
-  const [selectedAuthor, setSelectedAuthor] = useState('');
-  const [mostCited, setMostCited] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+    const [selectedPaper, setSelectedPaper] = useState(null);
+    const location = useLocation();
+    const [graphPapers, setGraphPapers] = useState([]);
+    const [supportPapers, setSupportPapers] = useState({});
+    const [supportingPapersList, setSupportingPapersList] = useState([]);
+    const [opposingPapers, setOpposingPapers] = useState({});
+    const [opposingPapersList, setOpposingPapersList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [summaryOpen, setSummaryOpen] = React.useState({});
 
-  useEffect(() => {
-    filterPapers();
-  }, [yearRange, selectedAuthor, mostCited]);
+    // Define a consistent style for paper cards
+    const paperCardStyle = {
+        padding: '20px',
+        margin: '10px 0',
+        backgroundColor:'#f2f2f2',
+        minHeight: '150px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        '&:hover': {
+            backgroundColor: '#e6e6e6' 
+        }
+    };
 
-  const filterPapers = () => {
-    const filteredSupporting = originalPapers.supporting.filter(paper =>
-      (selectedAuthor ? paper.author === selectedAuthor : true) &&
-      paper.year >= yearRange[0] && paper.year <= yearRange[1]
-    );
-    const filteredOpposing = originalPapers.opposing.filter(paper =>
-      (selectedAuthor ? paper.author === selectedAuthor : true) &&
-      paper.year >= yearRange[0] && paper.year <= yearRange[1]
-    );
+    useEffect(() => {
+        if (location.state?.papers) {
+            setGraphPapers(location.state.papers);
+        }
+        if (location.state?.supporting) {
+            setSupportPapers(location.state.supporting);
+        }
+        if (location.state?.opposing) {
+            setOpposingPapers(location.state.opposing);
+        }
+        setIsLoading(false);
+    }, [location.state]);
 
-    if (mostCited) {
-      filteredSupporting.sort((a, b) => b.citedBy - a.citedBy);
-      filteredOpposing.sort((a, b) => b.citedBy - a.citedBy);
+    useEffect(() => {
+        const calculatePapers = (papersMap) => {
+            if (!papersMap || typeof papersMap !== 'object' || !graphPapers) {
+                return [];
+            }
+          
+            const result = [];
+            Object.keys(papersMap).forEach(opinion => {
+                const paperIds = papersMap[opinion];
+                paperIds.forEach(paperId => {
+                    const paper = graphPapers.find(p => p.paperId === paperId);
+                    if (paper) {
+                        result.push({ paper, opinion });
+                    }
+                });
+            });
+            return result;
+        };
+
+        setSupportingPapersList(calculatePapers(supportPapers));
+        setOpposingPapersList(calculatePapers(opposingPapers));
+    }, [supportPapers, opposingPapers, graphPapers]);
+
+    const formatPublicationTypes = (types) => {
+      if (!types) {  
+        return '';  
+      }
+      return types.join(' ');
     }
 
-    setPapers({
-      supporting: filteredSupporting,
-      opposing: filteredOpposing
-    });
-  };
+    const handleSummaryToggle = (id) => {
+      setSummaryOpen(prev => {  
+        const isCurrentlyOpen = !prev[id];
+        return { ...prev, [id]: isCurrentlyOpen };  
+      });
+    };
 
-  return (
-    <Container maxWidth="xl">
-      <Typography variant="h5" textAlign="center" gutterBottom>Research Papers</Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Author</InputLabel>
-            <Select
-              value={selectedAuthor}
-              label="Author"
-              onChange={e => setSelectedAuthor(e.target.value)}
-            >
-              {['John Doe', 'Jane Smith', 'Alice Johnson'].map(author => (
-                <MenuItem key={author} value={author}>{author}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Most Cited</InputLabel>
-            <Select
-              value={mostCited}
-              label="Most Cited"
-              onChange={e => setMostCited(e.target.value)}
-            >
-              <MenuItem value={true}>Yes</MenuItem>
-              <MenuItem value={false}>No</MenuItem>
-            </Select>
-          </FormControl>
-          <Typography gutterBottom>Year Range</Typography>
-          <Slider
-            value={yearRange}
-            onChange={(event, newValue) => setYearRange(newValue)}
-            valueLabelDisplay="auto"
-            min={2018}
-            max={2021}
-            marks={[
-              { value: 2018, label: '2018' },
-              { value: 2021, label: '2021' }
-            ]}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Supporting Papers</Typography>
-          <PaperListOpinion papers={papers.supporting} onGenerateSummaryClick={setSelectedPaper} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Opposing Papers</Typography>
-          <PaperListOpinion papers={papers.opposing} onGenerateSummaryClick={setSelectedPaper} />
-        </Grid>
-        <Grid item xs={4}>
-          <Typography variant="h6">Paper Summary</Typography>
-          {selectedPaper ? (
-            <PaperDetailOpinion paper={selectedPaper} />
-          ) : (
-            <Paper style={{ padding: '20px' }}>
-              <Typography>Select a paper to view its summary</Typography>
-            </Paper>
-          )}
-        </Grid>
-      </Grid>
-    </Container>
-  );
+    if (isLoading) {
+        return (
+            <Container maxWidth="xl" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CircularProgress />
+            </Container>
+        );
+    }
+    // Opinion to color mapping
+    const opinionColorMap = {
+      Supporting: 'success',  // Green color for supporting
+      Opposing: 'error',      // Red color for opposing
+      Neutral: 'default'      // Yellow for neutral (or any other opinions you may have)
+    };
+
+  const getChipColor = (opinion) => opinionColorMap[opinion] || 'default';
+
+
+    return (
+        <div>
+            <TopNavigation />
+            <Container maxWidth="xl">
+              <br></br>
+                <Typography variant="h5" textAlign="left" gutterBottom>Search Results</Typography><br></br>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h6" fontWeight={'bold'} color={"grey"}>Supporting Papers</Typography>
+                        {supportingPapersList.length > 0 ? (
+                            supportingPapersList.map((entry, index) => (
+                                <Paper key={index} sx={paperCardStyle}>
+                                  
+                                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <Chip label={entry.opinion} color={getChipColor('Supporting')} size="small" sx={{ marginBottom: '10px' }} />
+                                    </div>
+                                    
+                                    <Typography variant="h6"style={{ fontWeight: 'bold', color: '#302C29', fontSize:'20px' }}  >{entry.paper.title}</Typography>
+                                    <Typography component="span" variant="body2" color="#29436e" fontSize="16px" fontWeight='light'>
+                                      {entry.paper.authors.map(author => author.name).join(', ')}</Typography>
+                                    <Typography component="span" variant="body2" color="textPrimary" fontSize="16px">
+                                    Year: {new Date(entry.paper.publicationDate).getFullYear()} | {formatPublicationTypes(entry.paper.publicationTypes)}
+                                    </Typography>
+                                    
+                                  <Typography>Cited by: {entry.paper.citationCount}</Typography>
+                                    {entry.paper.url && (
+                                      <Link href={entry.paper.url} target="_blank" rel="noopener noreferrer">
+                                      <IconButton color="primary" aria-label="download pdf">
+                                      <PictureAsPdfIcon />
+                                      </IconButton>
+                                      </Link>
+                                    )}
+                                    <Typography
+                                    variant="body2"
+                                    color="primary"
+                                    style={{ cursor: 'pointer', marginTop: 8 }}
+                                    onClick={() => handleSummaryToggle(entry.paper.paperId)}
+                                  >
+                                  {summaryOpen[entry.paper.paperId] ? "Hide AI Summary" : "Show AI Summary"}
+                                  </Typography>
+                                  <Collapse in={summaryOpen[entry.paper.paperId]} timeout="auto" unmountOnExit>
+                                  <Box sx={{ width: '90%', paddingLeft: 4, paddingRight: 4 }}>
+                                  <PaperDetailOpinion paper={entry.paper} />
+                                  </Box>
+                                  </Collapse>
+                          </Paper>
+                            ))
+                        ) : (
+                            <Typography>No supporting papers found.</Typography>
+                        )}
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h6" fontWeight={'bold'} color={"grey"}>Opposing Papers</Typography>
+                        {opposingPapersList.length > 0 ? (
+                            opposingPapersList.map((entry, index) => (
+                                <Paper key={index} sx={paperCardStyle}>
+                                    <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <Chip label={entry.opinion} color={getChipColor('Opposing')} size="small" sx={{ marginBottom: '10px' }} />
+                                    </div>
+                                    <Typography variant="h6"style={{ fontWeight: 'bold', color: '#302C29', fontSize:'20px' }}  >{entry.paper.title}</Typography>
+                                    <Typography component="span" variant="body2" color="#29436e" fontSize="16px" fontWeight='light'>
+                                      {entry.paper.authors.map(author => author.name).join(', ')}</Typography>
+                                    <Typography component="span" variant="body2" color="textPrimary" fontSize="16px">
+                                    Year: {new Date(entry.paper.publicationDate).getFullYear()} | {formatPublicationTypes(entry.paper.publicationTypes)}
+                                    </Typography>
+                                    <Typography>Cited by: {entry.paper.citationCount}</Typography>
+                                    {entry.paper.url && (
+                                    <Link href={entry.paper.url} target="_blank" rel="noopener noreferrer">
+                                    <IconButton color="primary" aria-label="download pdf">
+                                    <PictureAsPdfIcon />
+                                    </IconButton>
+                                    </Link>
+                                    )}
+                                    <Typography
+                                      variant="body2"
+                                      color="primary"
+                                      style={{ cursor: 'pointer', marginTop: 8 }}
+                                      onClick={() => handleSummaryToggle(entry.paper.paperId)}
+                                    >
+                                    {summaryOpen[entry.paper.paperId] ? "Hide AI Summary" : "Show AI Summary"}
+                                    </Typography>
+                                    <Collapse in={summaryOpen[entry.paper.paperId]} timeout="auto" unmountOnExit>
+                                      <Box sx={{ width: '90%', paddingLeft: 4, paddingRight: 4 }}>
+                                      <PaperDetailOpinion paper={entry.paper} />
+                                    </Box>
+                                    </Collapse>
+                                </Paper>
+                            ))
+                        ) : (
+                            <Typography>No opposing papers found.</Typography>
+                        )}
+                    </Grid>
+                </Grid>
+            </Container>
+        </div>
+    );
 }
 
 export default ListViewOpinion;

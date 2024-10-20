@@ -7,9 +7,12 @@ function PaperDetailOpinion({ paper }) {
       <CardContent>
         <Typography variant="h6" component="div">
           {/* AI Summary for {paper.title} */}
+          AI Summary for {paper.title}
         </Typography>
         <Typography variant="body2">
-          {paper.summary || "AI summary not available."}
+          <b>Abstract</b>
+          <br></br>
+          {paper.abstract}
         </Typography>
       </CardContent>
     </Card>
