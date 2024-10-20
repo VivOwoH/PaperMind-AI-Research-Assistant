@@ -15,13 +15,15 @@ public class ResearchPaper {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime publishedDate;
 
-    @Column(length = 2000)
+    @Lob
+    @Column()
     private String abstractText; // 'abstract' is a keyword, so use 'abstractText'
 
-    @Column(length = 2000)
+    @Lob
+    @Column()
     private String methodologySummary;
 
     @Column(nullable = false)

@@ -1,0 +1,931 @@
+[
+    {
+        "paperId": "1ae127a34ee64a20dd4bd9bc5b26b32903f7a90f",
+        "url": "https://www.semanticscholar.org/paper/1ae127a34ee64a20dd4bd9bc5b26b32903f7a90f",
+        "title": "Estimation of metabolite concentrations from localized in vivo proton NMR spectra",
+        "abstract": "The LCModel method analyzes an in vivo spectrum as a Linear Combination of Model spectra of metabolite solutions in vitro. By using complete model spectra, rather than just individual resonances, maximum information and uniqueness are incorporated into the analysis. A constrained regularization method accounts for differences in phase, baseline, and lineshapes between the in vitro and in vivo spectra, and estimates the metabolite concentrations and their uncertainties. LCModel is fully automatic in that the only input is the time‐domain in vivo data. The lack of subjective interaction should help the exchange and comparison of results. More than 3000 human brain STEAM spectra from patients and healthy volunteers have been analyzed with LCModel. N‐acetylaspartate, cholines, creatines, myo‐inositol, and glutamate can be reliably determined, and abnormal levels of these or elevated levels of lactate, alanine, scyllo‐inositol, glutamine, or glucose clearly indicate numerous pathologies. A computer program will be available.",
+        "citationCount": 3692,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "1993-12-01",
+        "authors": [
+            {
+                "authorId": "38928044",
+                "name": "S. Provencher"
+            }
+        ]
+    },
+    {
+        "paperId": "b70a8480363d0f8694c792acf36ee66a8937d82a",
+        "url": "https://www.semanticscholar.org/paper/b70a8480363d0f8694c792acf36ee66a8937d82a",
+        "title": "Clinical characteristics of 113 deceased patients with coronavirus disease 2019: retrospective study",
+        "abstract": "Abstract Objective To delineate the clinical characteristics of patients with coronavirus disease 2019 (covid-19) who died. Design Retrospective case series. Setting Tongji Hospital in Wuhan, China. Participants Among a cohort of 799 patients, 113 who died and 161 who recovered with a diagnosis of covid-19 were analysed. Data were collected until 28 February 2020. Main outcome measures Clinical characteristics and laboratory findings were obtained from electronic medical records with data collection forms. Results The median age of deceased patients (68 years) was significantly older than recovered patients (51 years). Male sex was more predominant in deceased patients (83; 73%) than in recovered patients (88; 55%). Chronic hypertension and other cardiovascular comorbidities were more frequent among deceased patients (54 (48%) and 16 (14%)) than recovered patients (39 (24%) and 7 (4%)). Dyspnoea, chest tightness, and disorder of consciousness were more common in deceased patients (70 (62%), 55 (49%), and 25 (22%)) than in recovered patients (50 (31%), 48 (30%), and 1 (1%)). The median time from disease onset to death in deceased patients was 16 (interquartile range 12.0-20.0) days. Leukocytosis was present in 56 (50%) patients who died and 6 (4%) who recovered, and lymphopenia was present in 103 (91%) and 76 (47%) respectively. Concentrations of alanine aminotransferase, aspartate aminotransferase, creatinine, creatine kinase, lactate dehydrogenase, cardiac troponin I, N-terminal pro-brain natriuretic peptide, and D-dimer were markedly higher in deceased patients than in recovered patients. Common complications observed more frequently in deceased patients included acute respiratory distress syndrome (113; 100%), type I respiratory failure (18/35; 51%), sepsis (113; 100%), acute cardiac injury (72/94; 77%), heart failure (41/83; 49%), alkalosis (14/35; 40%), hyperkalaemia (42; 37%), acute kidney injury (28; 25%), and hypoxic encephalopathy (23; 20%). Patients with cardiovascular comorbidity were more likely to develop cardiac complications. Regardless of history of cardiovascular disease, acute cardiac injury and heart failure were more common in deceased patients. Conclusion Severe acute respiratory syndrome coronavirus 2 infection can cause both pulmonary and systemic inflammation, leading to multi-organ dysfunction in patients at high risk. Acute respiratory distress syndrome and respiratory failure, sepsis, acute cardiac injury, and heart failure were the most common critical complications during exacerbation of covid-19.",
+        "citationCount": 3666,
+        "openAccessPdf": {
+            "url": "https://www.bmj.com/content/bmj/368/bmj.m1091.full.pdf",
+            "status": "HYBRID"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "2020-03-26",
+        "authors": [
+            {
+                "authorId": "2118212307",
+                "name": "Tao Chen"
+            },
+            {
+                "authorId": "91259583",
+                "name": "Di Wu"
+            },
+            {
+                "authorId": "2155552685",
+                "name": "Huilong Chen"
+            },
+            {
+                "authorId": "46705036",
+                "name": "Weiming Yan"
+            },
+            {
+                "authorId": "6640473",
+                "name": "Danlei Yang"
+            },
+            {
+                "authorId": "2149508908",
+                "name": "Guang Chen"
+            },
+            {
+                "authorId": "144922287",
+                "name": "K. Ma"
+            },
+            {
+                "authorId": "145481071",
+                "name": "Dong Xu"
+            },
+            {
+                "authorId": "10400870",
+                "name": "Hai-jing Yu"
+            },
+            {
+                "authorId": "46507391",
+                "name": "Hongwu Wang"
+            },
+            {
+                "authorId": "1624168812",
+                "name": "Taojiao Wang"
+            },
+            {
+                "authorId": "153301546",
+                "name": "W. Guo"
+            },
+            {
+                "authorId": "2144157921",
+                "name": "Jia Chen"
+            },
+            {
+                "authorId": "2053158265",
+                "name": "Chen Ding"
+            },
+            {
+                "authorId": "2144524015",
+                "name": "Xiaoping Zhang"
+            },
+            {
+                "authorId": "21700591",
+                "name": "Jiaquan Huang"
+            },
+            {
+                "authorId": "77778535",
+                "name": "Meifang Han"
+            },
+            {
+                "authorId": "50341866",
+                "name": "Shusheng Li"
+            },
+            {
+                "authorId": "2144527028",
+                "name": "Xiaoping Luo"
+            },
+            {
+                "authorId": "1994764",
+                "name": "Jianping Zhao"
+            },
+            {
+                "authorId": "48498843",
+                "name": "Q. Ning"
+            }
+        ]
+    },
+    {
+        "paperId": "990a30cd118cc427dd80a3db5e69f8652a68bc37",
+        "url": "https://www.semanticscholar.org/paper/990a30cd118cc427dd80a3db5e69f8652a68bc37",
+        "title": "Arginine metabolism: nitric oxide and beyond.",
+        "abstract": "Arginine is one of the most versatile amino acids in animal cells, serving as a precursor for the synthesis not only of proteins but also of nitric oxide, urea, polyamines, proline, glutamate, creatine and agmatine. Of the enzymes that catalyse rate-controlling steps in arginine synthesis and catabolism, argininosuccinate synthase, the two arginase isoenzymes, the three nitric oxide synthase isoenzymes and arginine decarboxylase have been recognized in recent years as key factors in regulating newly identified aspects of arginine metabolism. In particular, changes in the activities of argininosuccinate synthase, the arginases, the inducible isoenzyme of nitric oxide synthase and also cationic amino acid transporters play major roles in determining the metabolic fates of arginine in health and disease, and recent studies have identified complex patterns of interaction among these enzymes. There is growing interest in the potential roles of the arginase isoenzymes as regulators of the synthesis of nitric oxide, polyamines, proline and glutamate. Physiological roles and relationships between the pathways of arginine synthesis and catabolism in vivo are complex and difficult to analyse, owing to compartmentalized expression of various enzymes at both organ (e.g. liver, small intestine and kidney) and subcellular (cytosol and mitochondria) levels, as well as to changes in expression during development and in response to diet, hormones and cytokines. The ongoing development of new cell lines and animal models using cDNA clones and genes for key arginine metabolic enzymes will provide new approaches more clearly elucidating the physiological roles of these enzymes.",
+        "citationCount": 2745,
+        "openAccessPdf": {
+            "url": "https://europepmc.org/articles/pmc1219836?pdf=render",
+            "status": "GREEN"
+        },
+        "publicationTypes": [
+            "Review",
+            "JournalArticle"
+        ],
+        "publicationDate": "1998-11-15",
+        "authors": [
+            {
+                "authorId": "144203977",
+                "name": "Guoyao Wu"
+            },
+            {
+                "authorId": "34892604",
+                "name": "S. Morris"
+            }
+        ]
+    },
+    {
+        "paperId": "33d2078783830ac13fc7b8776b53d3ecf0d53dba",
+        "url": "https://www.semanticscholar.org/paper/33d2078783830ac13fc7b8776b53d3ecf0d53dba",
+        "title": "The prognostic value of C-reactive protein and serum amyloid a protein in severe unstable angina.",
+        "abstract": "BACKGROUND\nThe pathogenesis of unstable angina is poorly understood, and predicting the prognosis at the time of hospital admission is problematic. Recent evidence suggests that there may be active inflammation, possibly in the coronary arteries, in this syndrome. We therefore studied the prognostic value of measurements of the circulating acute-phase reactants C-reactive protein and serum amyloid A protein, which are sensitive indicators of inflammation.\n\n\nMETHODS\nWe measured C-reactive protein, serum amyloid A protein, creatine kinase, and cardiac troponin T in 32 patients with chronic stable angina, 31 patients with severe unstable angina, and 29 patients with acute myocardial infarction.\n\n\nRESULTS\nAt the time of hospital admission, creatine kinase and cardiac troponin T levels were normal in all the patients, but the levels of C-reactive protein and serum amyloid A protein were > or = 0.3 mg per deciliter (exceeding the 90th percentile of the normal distribution) in 4 of the patients with stable angina (13 percent), 20 of the patients with unstable angina (65 percent), and 22 of the patients with acute myocardial infarction (76 percent). The 20 patients with unstable angina who had levels of C-reactive protein and serum amyloid A protein > or = 0.3 mg per deciliter had more ischemic episodes in the hospital than those with levels < 0.3 mg per deciliter (mean [+/- SD] number of episodes per patient, 4.8 +/- 2.5 vs. 1.8 +/- 2.4; P = 0.004); 5 patients subsequently had a myocardial infarction, 2 died, and 12 required immediate coronary revascularization. In contrast, no deaths or myocardial infarction occurred among the 11 patients with levels of C-reactive protein and serum amyloid A protein < 0.3 mg per deciliter, and only 2 of them required coronary revascularization. Among the patients admitted with a diagnosis of acute myocardial infarction, unstable angina preceded infarction in 14 of the 22 patients (64 percent) with levels of C-reactive protein and serum amyloid A protein > or = 0.3 mg per deciliter but in none of the 7 patients with levels < 0.3 mg per deciliter.\n\n\nCONCLUSIONS\nElevation of the sensitive acute-phase proteins C-reactive protein and serum amyloid A protein at the time of hospital admission predicts a poor outcome in patients with unstable angina and may reflect an important inflammatory component in the pathogenesis of this condition.",
+        "citationCount": 2473,
+        "openAccessPdf": {
+            "url": "https://www.nejm.org/doi/pdf/10.1056/NEJM199408183310701?articleTools=true",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "1994-08-18",
+        "authors": [
+            {
+                "authorId": "114257981",
+                "name": "G. Liuzzo"
+            },
+            {
+                "authorId": "82632904",
+                "name": "L. Biasucci"
+            },
+            {
+                "authorId": "3103734",
+                "name": "J. Gallimore"
+            },
+            {
+                "authorId": "38252114",
+                "name": "R. Grillo"
+            },
+            {
+                "authorId": "6999301",
+                "name": "A. Rebuzzi"
+            },
+            {
+                "authorId": "4432493",
+                "name": "M. Pepys"
+            },
+            {
+                "authorId": "3537571",
+                "name": "A. Maseri"
+            }
+        ]
+    },
+    {
+        "paperId": "5eb7ad4f270363903fd825a6722b65d58ab59e0a",
+        "url": "https://www.semanticscholar.org/paper/5eb7ad4f270363903fd825a6722b65d58ab59e0a",
+        "title": "Creatine and creatinine metabolism.",
+        "abstract": "The goal of this review is to present a comprehensive survey of the many intriguing facets of creatine (Cr) and creatinine metabolism, encompassing the pathways and regulation of Cr biosynthesis and degradation, species and tissue distribution of the enzymes and metabolites involved, and of the inherent implications for physiology and human pathology. Very recently, a series of new discoveries have been made that are bound to have distinguished implications for bioenergetics, physiology, human pathology, and clinical diagnosis and that suggest that deregulation of the creatine kinase (CK) system is associated with a variety of diseases. Disturbances of the CK system have been observed in muscle, brain, cardiac, and renal diseases as well as in cancer. On the other hand, Cr and Cr analogs such as cyclocreatine were found to have antitumor, antiviral, and antidiabetic effects and to protect tissues from hypoxic, ischemic, neurodegenerative, or muscle damage. Oral Cr ingestion is used in sports as an ergogenic aid, and some data suggest that Cr and creatinine may be precursors of food mutagens and uremic toxins. These findings are discussed in depth, the interrelationships are outlined, and all is put into a broader context to provide a more detailed understanding of the biological functions of Cr and of the CK system.",
+        "citationCount": 2464,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "Review",
+            "JournalArticle"
+        ],
+        "publicationDate": "2000-07-01",
+        "authors": [
+            {
+                "authorId": "34634199",
+                "name": "M. Wyss"
+            },
+            {
+                "authorId": "12021659",
+                "name": "R. Kaddurah-Daouk"
+            }
+        ]
+    },
+    {
+        "paperId": "88909957217eb37885e63fafd1aba50b8beb1435",
+        "url": "https://www.semanticscholar.org/paper/88909957217eb37885e63fafd1aba50b8beb1435",
+        "title": "Decreased catecholamine sensitivity and beta-adrenergic-receptor density in failing human hearts.",
+        "abstract": "To identify the role of the myocardial beta-adrenergic pathway in congestive heart failure, we examined beta-adrenergic-receptor density, adenylate cyclase and creatine kinase activities, muscle contraction in vitro, and myocardial contractile protein levels in the left ventricles of failing and normally functioning hearts from cardiac-transplant recipients or prospective donors. Eleven failing left ventricles had a 50 to 56 per cent reduction in beta-receptor density, a 45 per cent reduction in maximal isoproterenol-mediated adenylate cyclase stimulation, and a 54 to 73 per cent reduction in maximal isoproterenol-stimulated muscle contraction, as compared with six normally functioning ventricles (P less than 0.05 for each comparison). In contrast, cytoplasmic creatine kinase activity, adenylate cyclase activities stimulated by fluoride ion and by histamine, histamine-stimulated muscle contraction, and levels of contractile protein were not different in the two groups (P less than 0.05). We conclude that in failing human hearts a decrease in beta-receptor density leads to subsensitivity of the beta-adrenergic pathway and decreased beta-agonist-stimulated muscle contraction. Regulation of beta-adrenergic receptors may be an important variable in cardiac failure.",
+        "citationCount": 2378,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "1982-07-22",
+        "authors": [
+            {
+                "authorId": "3342537",
+                "name": "M. Bristow"
+            },
+            {
+                "authorId": "143891313",
+                "name": "R. Ginsburg"
+            },
+            {
+                "authorId": "6365765",
+                "name": "W. Minobe"
+            },
+            {
+                "authorId": "50698688",
+                "name": "R. Cubicciotti"
+            },
+            {
+                "authorId": "11993305",
+                "name": "W. Sageman"
+            },
+            {
+                "authorId": "2484528",
+                "name": "K. Lurie"
+            },
+            {
+                "authorId": "6659156",
+                "name": "M. Billingham"
+            },
+            {
+                "authorId": "2070203074",
+                "name": "D. Harrison"
+            },
+            {
+                "authorId": "2146413",
+                "name": "E. Stinson"
+            }
+        ]
+    },
+    {
+        "paperId": "4b78bea398ef38893618f418223b10ad72bebe9c",
+        "url": "https://www.semanticscholar.org/paper/4b78bea398ef38893618f418223b10ad72bebe9c",
+        "title": "A major outbreak of severe acute respiratory syndrome in Hong Kong.",
+        "abstract": "BACKGROUND\nThere has been an outbreak of the severe acute respiratory syndrome (SARS) worldwide. We report the clinical, laboratory, and radiologic features of 138 cases of suspected SARS during a hospital outbreak in Hong Kong.\n\n\nMETHODS\nFrom March 11 to 25, 2003, all patients with suspected SARS after exposure to an index patient or ward were admitted to the isolation wards of the Prince of Wales Hospital. Their demographic, clinical, laboratory, and radiologic characteristics were analyzed. Clinical end points included the need for intensive care and death. Univariate and multivariate analyses were performed.\n\n\nRESULTS\nThere were 66 male patients and 72 female patients in this cohort, 69 of whom were health care workers. The most common symptoms included fever (in 100 percent of the patients); chills, rigors, or both (73.2 percent); and myalgia (60.9 percent). Cough and headache were also reported in more than 50 percent of the patients. Other common findings were lymphopenia (in 69.6 percent), thrombocytopenia (44.8 percent), and elevated lactate dehydrogenase and creatine kinase levels (71.0 percent and 32.1 percent, respectively). Peripheral air-space consolidation was commonly observed on thoracic computed tomographic scanning. A total of 32 patients (23.2 percent) were admitted to the intensive care unit; 5 patients died, all of whom had coexisting conditions. In a multivariate analysis, the independent predictors of an adverse outcome were advanced age (odds ratio per decade of life, 1.80; 95 percent confidence interval, 1.16 to 2.81; P=0.009), a high peak lactate dehydrogenase level (odds ratio per 100 U per liter, 2.09; 95 percent confidence interval, 1.28 to 3.42; P=0.003), and an absolute neutrophil count that exceeded the upper limit of the normal range on presentation (odds ratio, 1.60; 95 percent confidence interval, 1.03 to 2.50; P=0.04).\n\n\nCONCLUSIONS\nSARS is a serious respiratory illness that led to significant morbidity and mortality in our cohort.",
+        "citationCount": 2306,
+        "openAccessPdf": {
+            "url": "https://www.nejm.org/doi/pdf/10.1056/NEJMoa030685",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "2003-05-15",
+        "authors": [
+            {
+                "authorId": "47683602",
+                "name": "N. Lee"
+            },
+            {
+                "authorId": "32367085",
+                "name": "D. Hui"
+            },
+            {
+                "authorId": "2075410053",
+                "name": "A. Wu"
+            },
+            {
+                "authorId": "143953400",
+                "name": "P. Chan"
+            },
+            {
+                "authorId": "32230224",
+                "name": "P. Cameron"
+            },
+            {
+                "authorId": "5818221",
+                "name": "G. Joynt"
+            },
+            {
+                "authorId": "30605052",
+                "name": "A. Ahuja"
+            },
+            {
+                "authorId": "2317208",
+                "name": "M. Yung"
+            },
+            {
+                "authorId": "74047582",
+                "name": "C. Leung"
+            },
+            {
+                "authorId": "11199703",
+                "name": "K. To"
+            },
+            {
+                "authorId": "3658198",
+                "name": "S. Lui"
+            },
+            {
+                "authorId": "153264855",
+                "name": "C. Szeto"
+            },
+            {
+                "authorId": "32885619",
+                "name": "S. Chung"
+            },
+            {
+                "authorId": "66607152",
+                "name": "J. Sung"
+            }
+        ]
+    },
+    {
+        "paperId": "802269ab7e59440e6a88a85a005f085901e89c29",
+        "url": "https://www.semanticscholar.org/paper/802269ab7e59440e6a88a85a005f085901e89c29",
+        "title": "Dysfunction of mitochondria in human skeletal muscle in type 2 diabetes.",
+        "abstract": "Skeletal muscle is strongly dependent on oxidative phosphorylation for energy production. Because the insulin resistance of skeletal muscle in type 2 diabetes and obesity entails dysregulation of the oxidation of both carbohydrate and lipid fuels, the current study was undertaken to examine the potential contribution of perturbation of mitochondrial function. Vastus lateralis muscle was obtained by percutaneous biopsy during fasting conditions from lean (n = 10) and obese (n = 10) nondiabetic volunteers and from volunteers with type 2 diabetes (n = 10). The activity of rotenone-sensitive NADH:O(2) oxidoreductase, reflecting the overall activity of the respiratory chain, was measured in a mitochondrial fraction by a novel method based on providing access for NADH to intact mitochondria via alamethicin, a channel-forming antibiotic. Creatine kinase and citrate synthase activities were measured as markers of myocyte and mitochondria content, respectively. Activity of rotenone-sensitive NADH:O(2) oxidoreductase was normalized to creatine kinase activity, as was citrate synthase activity. NADH:O(2) oxidoreductase activity was lowest in type 2 diabetic subjects and highest in the lean volunteers (lean 0.95 +/- 0.17, obese 0.76 +/- 0.30, type 2 diabetes 0.56 +/- 0.14 units/mU creatine kinase; P < 0.005). Also, citrate synthase activity was reduced in type 2 diabetic patients (lean 3.10 +/- 0.74, obese 3.24 +/- 0.82, type 2 diabetes 2.48 +/- 0.47 units/mU creatine kinase; P < 0.005). As measured by electron microscopy, skeletal muscle mitochondria were smaller in type 2 diabetic and obese subjects than in muscle from lean volunteers (P < 0.01). We conclude that there is an impaired bioenergetic capacity of skeletal muscle mitochondria in type 2 diabetes, with some impairment also present in obesity.",
+        "citationCount": 2291,
+        "openAccessPdf": {
+            "url": "https://diabetesjournals.org/diabetes/article-pdf/51/10/2944/369123/db1002002944.pdf",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "2002-10-01",
+        "authors": [
+            {
+                "authorId": "2583851",
+                "name": "D. Kelley"
+            },
+            {
+                "authorId": "2158099864",
+                "name": "Jing He"
+            },
+            {
+                "authorId": "114468275",
+                "name": "Elizabeth V. Menshikova"
+            },
+            {
+                "authorId": "5093572",
+                "name": "V. Ritov"
+            }
+        ]
+    },
+    {
+        "paperId": "bc1ca47ae507d0cccc8a94fcef16c137f83e4f30",
+        "url": "https://www.semanticscholar.org/paper/bc1ca47ae507d0cccc8a94fcef16c137f83e4f30",
+        "title": "Transcriptional co-activator PGC-1α drives the formation of slow-twitch muscle fibres",
+        "abstract": null,
+        "citationCount": 2276,
+        "openAccessPdf": null,
+        "publicationTypes": null,
+        "publicationDate": "2002-08-15",
+        "authors": [
+            {
+                "authorId": "3499348",
+                "name": "Jiandie D. Lin"
+            },
+            {
+                "authorId": "46477296",
+                "name": "Hai-Ping Wu"
+            },
+            {
+                "authorId": "31714363",
+                "name": "Paul T. Tarr"
+            },
+            {
+                "authorId": "2120230770",
+                "name": "Chen-Yu Zhang"
+            },
+            {
+                "authorId": "2385505",
+                "name": "Zhidan Wu"
+            },
+            {
+                "authorId": "3237396",
+                "name": "O. Boss"
+            },
+            {
+                "authorId": "145266989",
+                "name": "L. F. Michael"
+            },
+            {
+                "authorId": "4750231",
+                "name": "P. Puigserver"
+            },
+            {
+                "authorId": "4575743",
+                "name": "E. Isotani"
+            },
+            {
+                "authorId": "37933650",
+                "name": "E. Olson"
+            },
+            {
+                "authorId": "5942236",
+                "name": "B. Lowell"
+            },
+            {
+                "authorId": "1398022798",
+                "name": "R. Bassel-Duby"
+            },
+            {
+                "authorId": "4619232",
+                "name": "B. Spiegelman"
+            }
+        ]
+    },
+    {
+        "paperId": "bed6103f0a15814c9b1338a90117969d42ef9a03",
+        "url": "https://www.semanticscholar.org/paper/bed6103f0a15814c9b1338a90117969d42ef9a03",
+        "title": "Intracellular compartmentation, structure and function of creatine kinase isoenzymes in tissues with high and fluctuating energy demands: the 'phosphocreatine circuit' for cellular energy homeostasis.",
+        "abstract": null,
+        "citationCount": 1974,
+        "openAccessPdf": {
+            "url": "https://europepmc.org/articles/pmc1130636?pdf=render",
+            "status": "GREEN"
+        },
+        "publicationTypes": [
+            "Review",
+            "JournalArticle"
+        ],
+        "publicationDate": null,
+        "authors": [
+            {
+                "authorId": "4438214",
+                "name": "T. Wallimann"
+            },
+            {
+                "authorId": "34634199",
+                "name": "M. Wyss"
+            },
+            {
+                "authorId": "4624413",
+                "name": "D. Brdiczka"
+            },
+            {
+                "authorId": "2194576004",
+                "name": "Klaas Nicolay"
+            },
+            {
+                "authorId": "5685289",
+                "name": "H. Eppenberger"
+            }
+        ]
+    },
+    {
+        "paperId": "f1892b6e9209bcc93d13bea2218d42a2824037e4",
+        "url": "https://www.semanticscholar.org/paper/f1892b6e9209bcc93d13bea2218d42a2824037e4",
+        "title": "Circadian variation in the frequency of onset of acute myocardial infarction.",
+        "abstract": "To determine whether the onset of myocardial infarction occurs randomly throughout the day, we analyzed the time of onset of pain in 2999 patients admitted with myocardial infarction. A marked circadian rhythm in the frequency of onset was detected, with a peak from 6 a.m. to noon (P less than 0.01). In 703 of the patients, the time of the first elevation in the plasma creatine kinase MB (CK-MB) level could be used to time the onset of myocardial infarction objectively. CK-MB-estimated timing confirmed the existence of a circadian rhythm, with a three-fold increase in the frequency of onset of myocardial infarction at peak (9 a.m.) as compared with trough (11 p.m.) periods. The circadian rhythm was not detected in patients receiving beta-adrenergic blocking agents before myocardial infarction but was present in those not receiving such therapy. If coronary arteries become vulnerable to occlusion when the intima covering an atherosclerotic plaque is disrupted, the circadian timing of myocardial infarction may result from a variation in the tendency to thrombosis. If the rhythmic processes that drive the circadian rhythm of myocardial-infarction onset can be identified, their modification may delay or prevent the occurrence of infarction.",
+        "citationCount": 1863,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle",
+            "ClinicalTrial"
+        ],
+        "publicationDate": "1985-11-21",
+        "authors": [
+            {
+                "authorId": "2247232604",
+                "name": "J. Muller"
+            },
+            {
+                "authorId": "2057783968",
+                "name": "Peter H. Stone"
+            },
+            {
+                "authorId": "47680590",
+                "name": "Z. Turi"
+            },
+            {
+                "authorId": "34168367",
+                "name": "J. Rutherford"
+            },
+            {
+                "authorId": "2292586",
+                "name": "C. Czeisler"
+            },
+            {
+                "authorId": "2065177395",
+                "name": "C. Parker"
+            },
+            {
+                "authorId": "2075067129",
+                "name": "W. Poole"
+            },
+            {
+                "authorId": "7791763",
+                "name": "E. Passamani"
+            },
+            {
+                "authorId": "145907557",
+                "name": "R. Roberts"
+            },
+            {
+                "authorId": "2057022115",
+                "name": "T. Robertson"
+            },
+            {
+                "authorId": "144442493",
+                "name": "B. Sobel"
+            },
+            {
+                "authorId": "3638712",
+                "name": "J. Willerson"
+            },
+            {
+                "authorId": "4302862",
+                "name": "E. Braunwald"
+            }
+        ]
+    },
+    {
+        "paperId": "279f02e2e821df40bb7dea6f9afc1bd0e2d530e4",
+        "url": "https://www.semanticscholar.org/paper/279f02e2e821df40bb7dea6f9afc1bd0e2d530e4",
+        "title": "Helix-Loop-Helix Proteins: Regulators of Transcription in Eucaryotic Organisms",
+        "abstract": "The helix-loop-helix (HLH) family of transcriptional regulatory proteins are key players in a wide array of developmental processes. Over 240 HLH proteins have been identified to date in organisms ranging from the yeast Saccharomyces cerevisiae to humans (6). Studies in Xenopus laevis, Drosophila melanogaster, and mice have convincingly demonstrated that HLH proteins are intimately involved in developmental events such as cellular differentiation, lineage commitment, and sex determination. In yeast, HLH proteins regulate several important metabolic pathways, including phosphate uptake and phospholipid biosynthesis (19, 67, 112). In multicellular organisms, HLH factors are required for a multitude of important developmental processes, including neurogenesis, myogenesis, hematopoiesis, and pancreatic development (12, 86, 127, 179). The purpose of this review is to examine the structure and functional properties of HLH proteins. \n \n \n \nE-box sites: elements mediating cell-type-specific gene transcription. \nGene transcription of the immunoglobulin heavy-chain (IgH) gene has long been known to be regulated, in part, by a cis-acting DNA element known as the IgH intronic enhancer (109, 156). By in vivo methylation protection assays, a number of sites were identified in both the IgH and the kappa light-chain gene enhancers which were specifically protected in B cells but not in nonlymphoid cells (41). These elements shared a signature motif which consisted of the core hexanucleotide sequence, CANNTG, and were subsequently dubbed E boxes (41). A total of five E-box elements are present in the IgH gene enhancer: μE1, μE2, μE3, μE4, and μE5. The Ig kappa enhancer also contains three cannonical E boxes, designated κE1, κE2, and κE3. E-box sites have been subsequently found in B-cell-specific promoter and enhancer elements, including a subset of Ig light-chain gene promoters, the IgH and Ig light-chain 3′ enhancers, and, more recently, the λ5 promoter (110, 118, 156). \n \nE-box elements have also been identified in promoter and enhancer elements that regulate muscle-, neuron-, and pancreas-specific gene expression. For example, in muscle, the muscle creatine kinase gene, acetylcholine receptor genes α and δ, and the myosin light-chain gene all require E-box elements for full activity (27, 51, 85). A number of genes whose expression is limited to the pancreas also require E-box sites for proper expression. The insulin and somatostatin genes, for example, contain E-box sites that, when multimerized, are sufficient to regulate pancreatic β-cell-specific gene expression (168). More recently, E-box regulatory sites have been identified in a number of neuron-specific genes, including the opsin, hippocalcin, beta 2 subunit of the neuronal nicotinic acetylcholine receptor, and muscarinic acetylcholine receptor genes (1, 21, 52, 125). \n \n \n \n \nE-box sites: cognate recognition sequence for HLH proteins. \nTwo proteins, termed E12 and E47, were originally identified as binding to the κE2/μE5 site (65, 102). They have a region of homology with the Drosophila Daughterless protein, the myogenic differentiation factor MyoD, members of the achaete-scute gene complex, and the Myc family of transcription factors (102). This stretch of conserved residues, known as the Myc homology region, appeared to be critical for the DNA binding properties of E12 and E47 (102). The E12 and E47 proteins, which differ only within this Myc homology region, arise by alternative splicing of the E2A gene (157). This conserved sequence, which was modeled as two amphipathic alpha helices separated by a flexible loop structure, was named the HLH motif and shown to function as a dimerization domain. \n \n \n \n \nThe HLH structure. \nThe solution structure of the basic HLH (bHLH)-leucine zipper (LZ) factor Max first confirmed the existence of the HLH motif (44). Subsequently, the three-dimensional structure of the E47 bHLH polypeptide bound to its E-box recognition site, CACCTG, has been solved at 2.8-Å resolution (38). A number of interesting features were revealed from analysis of the E47 crystal structure. The E47 dimer forms a parallel, four-helix bundle which allows the basic region to contact the major groove (38). In addition to the basic region, residues in the loop and helix 2 also make contact with DNA (38). Stable interaction of the HLH domain is favored by van der Waals interactions between conserved hydrophobic residues (38). The E47 dimer is centered over the E box, with each monomer interacting with either a CAC or CAG half-site. A glutamate present in the basic region of each subunit makes contact with the cytosine and adenine bases in the E-box half-site. An adjacent arginine residue stabilizes the position of the glutamate by direct interaction with these nucleotides and additionally the phosphodiester backbone. Both the glutamate and the arginine residues are conserved in most bHLH proteins, consistent with a role in specific DNA binding (6, 38, 102). \n \n \n \n \nClassification of the HLH proteins. \nOwing to the large number of HLH proteins that have been described, a classification scheme that was based upon tissue distribution, dimerization capabilities, and DNA-binding specificities was devised (Fig. ​(Fig.1)1) (101). Class I HLH proteins, also known as the E proteins, include E12, E47, HEB, E2-2, and Daughterless. These proteins are expressed in many tissues and capable of forming either homo- or heterodimers (103). The DNA-binding specificity of class I proteins is limited to the E-box site. Class II HLH proteins, which include members such as MyoD, myogenin, Atonal, NeuroD/BETA2, and the achaete-scute complex, show a tissue-restricted pattern of expression. With few exceptions, they are incapable of forming homodimers and preferentially heterodimerize with the E proteins. Class I-class II heterodimers can bind both canonical and noncanonical E-box sites (103). Class III HLH proteins include the Myc family of transcription factors, TFE3, SREBP-1, and the microphthalmia-associated transcription factor, Mi. Proteins of this class contain an LZ adjacent to the HLH motif (66, 177). Class IV HLH proteins define a family of molecules, including Mad, Max, and Mxi, that are capable of dimerizing with the Myc proteins or with one another (7, 22, 174). A group of HLH proteins that lack a basic region, including Id and emc, define the class V HLH proteins (18, 39, 47). Class V members are negative regulators of class I and class II HLH proteins (18, 39, 47). Class VI HLH proteins have as their defining feature a proline in their basic region. This group includes the Drosophila proteins Hairy and Enhancer of split (76, 141). Finally, the class VII HLH proteins are categorized by the presence of the bHLH-PAS domain and include members such as the aromatic hydrocarbon receptor (AHR), the AHR nuclear-translocator (Arnt), hypoxia-inducible factor 1α, and the Drosophila Single-minded and Period proteins (34). \n \n \n \nFIG. 1 \n \nMultiple sequence alignment and classification of some representative members of the HLH family of transcription factors. Shown is a dendrogram created by aligning the sequences of the indicated HLH proteins by the Clustal W algorithm (160). \n \n \n \nRecently, another classification method of HLH proteins has been described (6). Based on the amino acid sequences of 242 HLH proteins, a phylogenetic tree was created to group family members according to evolutionary relationships (6). Four major groups, A through D, which comprise more than 24 protein families were identified (6). The groupings were based upon DNA-binding specificity as well as conservation of amino acids at certain positions (6). As the number of HLH proteins continues to grow, this evolutionary or “natural” classification may provide a more accurate and convenient means of categorization.",
+        "citationCount": 1758,
+        "openAccessPdf": {
+            "url": "https://europepmc.org/articles/pmc85097?pdf=render",
+            "status": "GREEN"
+        },
+        "publicationTypes": [
+            "Review",
+            "JournalArticle"
+        ],
+        "publicationDate": "2000-01-15",
+        "authors": [
+            {
+                "authorId": "34669647",
+                "name": "M. Massari"
+            },
+            {
+                "authorId": "5669283",
+                "name": "C. Murre"
+            }
+        ]
+    },
+    {
+        "paperId": "abe35cd41cc6f57de11dd371185daae4859c3fcc",
+        "url": "https://www.semanticscholar.org/paper/abe35cd41cc6f57de11dd371185daae4859c3fcc",
+        "title": "X chromosome-linked muscular dystrophy (mdx) in the mouse.",
+        "abstract": "An X chromosome-linked mouse mutant (gene symbol, mdx) has been found that has elevated plasma levels of muscle creatine kinase and pyruvate kinase and exhibits histological lesions characteristic of muscular dystrophy. The mutants show mild clinical symptoms and are viable and fertile. Linkage analysis with four X chromosome loci indicates that mdx maps in the Hq Bpa region of the mouse X chromosome. This gives a gene order of mdx-Tfm-Pgk-1-Ags, the same as for the equivalent genes on the human X chromosome.",
+        "citationCount": 1702,
+        "openAccessPdf": {
+            "url": "https://europepmc.org/articles/pmc344791?pdf=render",
+            "status": "GREEN"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "1984-02-01",
+        "authors": [
+            {
+                "authorId": "4618502",
+                "name": "G. Bulfield"
+            },
+            {
+                "authorId": "6203644",
+                "name": "W. Siller"
+            },
+            {
+                "authorId": "2679563",
+                "name": "P. Wight"
+            },
+            {
+                "authorId": "2254097501",
+                "name": "K. Moore"
+            }
+        ]
+    },
+    {
+        "paperId": "88ee11c9040a1a86f6bb0a773786d5daf9e5905c",
+        "url": "https://www.semanticscholar.org/paper/88ee11c9040a1a86f6bb0a773786d5daf9e5905c",
+        "title": "Protective effects of aspirin against acute myocardial infarction and death in men with unstable angina. Results of a Veterans Administration Cooperative Study.",
+        "abstract": "We conducted a multicenter, double-blind, placebo-controlled randomized trial of aspirin treatment (324 mg in buffered solution daily) for 12 weeks in 1266 men with unstable angina (625 taking aspirin and 641 placebo). The principal end points were death and acute myocardial infarction diagnosed by the presence of creatine kinase MB or pathologic Q-wave changes on electrocardiograms. The incidence of death or acute myocardial infarction was 51 per cent lower in the aspirin group than in the placebo group: 31 patients (5.0 per cent) as compared with 65 (10.1 per cent); P = 0.0005. Nonfatal acute myocardial infarction was 51 per cent lower in the aspirin group: 21 patients (3.4 per cent) as compared with 44 (6.9 per cent); P = 0.005. The reduction in mortality in the aspirin group was also 51 per cent--10 patients (1.6 per cent) as compared with 21 (3.3 per cent)--although it was not statistically significant; P = 0.054. There was no difference in gastrointestinal symptoms or evidence of blood loss between the treatment and control groups. Our data show that aspirin has a protective effect against acute myocardial infarction in men with unstable angina, and they suggest a similar effect on mortality.",
+        "citationCount": 1699,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle",
+            "Study",
+            "ClinicalTrial"
+        ],
+        "publicationDate": "1983-08-18",
+        "authors": [
+            {
+                "authorId": "35111079",
+                "name": "H. Lewis"
+            },
+            {
+                "authorId": "2107434377",
+                "name": "J. W. Davis"
+            },
+            {
+                "authorId": "38576415",
+                "name": "D. Archibald"
+            },
+            {
+                "authorId": "48817019",
+                "name": "W. Steinke"
+            },
+            {
+                "authorId": "32245210",
+                "name": "T. Smitherman"
+            },
+            {
+                "authorId": "24628766",
+                "name": "J. Doherty"
+            },
+            {
+                "authorId": "77079420",
+                "name": "H. Schnaper"
+            },
+            {
+                "authorId": "2127716",
+                "name": "M. LeWinter"
+            },
+            {
+                "authorId": "144821584",
+                "name": "E. Linares"
+            },
+            {
+                "authorId": "40228224",
+                "name": "J. Pouget"
+            },
+            {
+                "authorId": "153760779",
+                "name": "S. Sabharwal"
+            },
+            {
+                "authorId": "48049712",
+                "name": "E. Chesler"
+            },
+            {
+                "authorId": "9953516",
+                "name": "H. Demots"
+            }
+        ]
+    },
+    {
+        "paperId": "88cba3cb0f937d4b825bf11a438280417d66e718",
+        "url": "https://www.semanticscholar.org/paper/88cba3cb0f937d4b825bf11a438280417d66e718",
+        "title": "Automatic quantitation of localized in vivo 1H spectra with LCModel",
+        "abstract": "The LCModel method analyzes an in vivo spectrum as a Linear Combination of Model in vitro spectra from individual metabolite solutions. Complete model spectra, rather than individual resonances, are used in order to incorporate maximum prior information into the analysis. A nearly model‐free constrained regularization method automatically accounts for the baseline and lineshape in vivo without imposing a restrictive parameterized form on them. LCModel is automatic (non‐interactive) with no subjective input. Approximately maximum‐likelihood estimates of the metabolite concentrations and their uncertainties (Cramér‐Rao lower bounds) are obtained. LCModel analyses of spectra from users with fields from 1.5 to 9.4 T and a wide range of sequences, particularly with short TE, are used here to illustrate the capabilities and limitations of LCModel and proton MRS. Copyright © 2001 John Wiley & Sons, Ltd. Abbreviations used: Ala alanine Asp aspartate Cr creatine GABA γ‐aminobutyric acid Glc glucose Gln glutamine Glu glutamate GPC glycerophosphocholine GSH glutathione Ins myo‐inositol Lac lactate NAA N‐acetylaspartate NAAG N‐acetylaspartylglutamate PC phosphocholine PCr phosphocreatine PE phosphoethanolamine Scyllo scyllo‐inositol S/N signal‐to‐noise ratio Tau taurine.",
+        "citationCount": 1553,
+        "openAccessPdf": {
+            "url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/nbm.698",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "2001-06-01",
+        "authors": [
+            {
+                "authorId": "38928044",
+                "name": "S. Provencher"
+            }
+        ]
+    },
+    {
+        "paperId": "d9c32824d1e7e52a164270f14ac60020a9fd2bb8",
+        "url": "https://www.semanticscholar.org/paper/d9c32824d1e7e52a164270f14ac60020a9fd2bb8",
+        "title": "Factors Influencing Infarct Size Following Experimental Coronary Artery Occlusions",
+        "abstract": "The purpose of this study was the determination of whether hemodynamic and pharmacologic factors influence the extent and severity of myocardial necrosis produced by coronary occlusion. In 48 dogs, 10 to 14 epicardial leads were recorded on the anterior surface of the left ventricle in the distribution and vicinity of the site of occlusion of a branch of the left anterior descending coronary artery. The average S-T segment elevation for each animal was determined at 5-min intervals after occlusion. This elevation was used as an index of the presence and severity of myocardial ischemic injury. The number of sites showing this elevation provided an additional measure of the size of the injured area. Occlusion alone raised the average S-T segment elevation from 0.22 ± 0.04 to 3.32 ± 0.37 mv (SEM). Isoproterenol, ouabain, glucagon, bretylium, and tachycardia given prior to a repeated occlusion increased the severity and extent of ischemic injury, while propranolol decreased it. Elevation of arterial pressure with methoxamine reduced the occlusion-induced S-T segment elevation, and lowering of the mean arterial pressure by hemorrhage had the opposite effect. In 19 additional experiments, propranolol, isoproterenol, and alterations in arterial pressure produced similar alterations in S-T segment elevation when these interventions were applied as long as 3 hr after ligation. In a third group of dogs, myocardial creatine phosphokinase (CPK) activity was determined 24 hr after occlusion at the same sites at which epicardial electrocardiograms were taken. Depression of myocardial CPK activity in injured portions of the left ventricle 24 hr after coronary artery ligation correlated well with S-T segment elevation in the same sites 15 min after ligation. Moreover, isoproterenol increased and propranolol decreased the area of depression of myocardial CPK activity. We conclude that the hemodynamic status and neurohumoral background at the time of occlusion and for up to 3 hr thereafter can alter the extent and severity of myocardial ischemic injury and myocardial necrosis.",
+        "citationCount": 1551,
+        "openAccessPdf": {
+            "url": "http://circ.ahajournals.org/content/43/1/67.full.pdf",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "1971-01-01",
+        "authors": [
+            {
+                "authorId": "8410199",
+                "name": "P. Maroko"
+            },
+            {
+                "authorId": "6020747",
+                "name": "J. Kjekshus"
+            },
+            {
+                "authorId": "144442493",
+                "name": "B. Sobel"
+            },
+            {
+                "authorId": "2639743",
+                "name": "Tan Watanabe"
+            },
+            {
+                "authorId": "5038404",
+                "name": "J. Covell"
+            },
+            {
+                "authorId": "2116472114",
+                "name": "J. Ross"
+            },
+            {
+                "authorId": "2055813429",
+                "name": "E. Braunwald"
+            }
+        ]
+    },
+    {
+        "paperId": "43303546c7c6c3f23ae5fa6e8b0dff27d1d15e16",
+        "url": "https://www.semanticscholar.org/paper/43303546c7c6c3f23ae5fa6e8b0dff27d1d15e16",
+        "title": "Systematic Review: Transient Left Ventricular Apical Ballooning: A Syndrome That Mimics ST-Segment Elevation Myocardial Infarction",
+        "abstract": "Key Summary Points The transient left ventricular apical ballooning syndrome is a novel cardiac syndrome. It is characterized by peculiar transient apical ballooning of the left ventricle, which is the result of characteristic wall-motion abnormalities in the left ventricular apex and mid-ventricle. Despite the absence of obstructive epicardial coronary artery disease, clinical presentation in patients with the syndrome is similar to that of patients with ST-segment elevation myocardial infarction. Postmenopausal women seem to be most at risk for developing the syndrome. An episode of acute emotional or physiologic stress seems to often precede presentation with the syndrome. Patients with the syndrome should be monitored and treated for left heart failure, dynamic intraventricular obstruction, arrhythmias, and mechanical complications, should they develop. Patients with the syndrome seem to have a favorable in-hospital prognosis despite the development of acute left-sided heart failure and hemodynamic instability in many patients. The cause of the syndrome is not yet known. The transient left ventricular apical ballooning syndrome, also known as takotsubo cardiomyopathy, is a recently described novel acute cardiac syndrome. The syndrome is characterized by peculiar, yet characteristic, transient regional systolic dysfunction involving the left ventricular apex and mid-ventricle with hyperkinesis of the basal left ventricular segments. The syndrome was initially recognized and reported in the Japanese population (1-6). Dote and colleagues (1) were one of the first to describe the syndrome, which was given the moniker tako-tsubo-like left ventricular dysfunction, naming it after a round-bottomed narrow-necked Japanese fishing pot used for trapping octopus (Figure 1, parts A, B, and C). More recently, the condition has been called transient left ventricular apical ballooning syndrome in reference to the associated left ventricular morphologic features that accompany the syndrome. After the initial recognition and description of the transient left ventricular apical ballooning syndrome in the Japanese population, subsequent recent reports have documented the syndrome in the United States (7) and Belgium (8). Despite the acute onset of transient left ventricular systolic dysfunction involving the left ventricular apex and mid-ventricle, patients with the transient left ventricular apical ballooning syndrome do not have obstructive atherosclerotic coronary disease. The cause of the syndrome is unknown. Figure 1. Left ventriculograms (end-systole) of 2 patients with the transient left ventricular apical ballooning syndrome and examples of a tako-tsubo. A. B C D E D E American Heart Journal Available case series of the transient left ventricular apical ballooning syndrome have included relatively few patients. This review presents reported case series of the syndrome in order to more precisely summarize the demographic characteristics, clinical characteristics, and outcomes of patients presenting with the syndrome. In addition, we review the available literature evaluating possible pathophysiologic mechanisms responsible for the syndrome. Methods Literature Search and Identification of Relevant Studies We identified relevant English-language articles pertaining to the transient left ventricular apical ballooning syndrome by searching the PubMed and EMBASE databases (through June 2004). The following search terms were used to identify primary articles: left ventricular apical ballooning syndrome, takotsubo cardiomyopathy, ampulla cardiomyopathy, and transient left ventricular dysfunction. We then manually searched references from the primary articles. We included only peer-reviewed reports and did not search for unpublished data. When more than 1 case series was reported from the same medical center, we included the case series reporting on the largest number of patients and excluded those with fewer patients to avoid duplicate reporting. Only case series reporting on at least 5 consecutive patients with the transient left ventricular apical ballooning syndrome were initially identified and assessed for potential inclusion in this case series review. Case reports and small case series reporting on fewer than 5 patients were not included in the review in an attempt to minimize potential reporting bias of uncharacteristic or nonrepresentative cases. We included prospective and retrospective case series. Figure 2 outlines the search and selection process. Figure 2. Study identification. Case Series and Data Assessment We identified 13 case series for potential inclusion in this review. Of these, 10 reported on unselected, consecutive patients with the transient left ventricular apical ballooning syndrome. Seven of these 10 case series reported on patients who met the following criteria and were subsequently included in this review. First, the patient must have had transient apical and midleft ventricular wall-motion abnormalities resulting in the left ventricular morphologic appearance of apical ballooning. Second, coronary angiography data that excluded obstructive atherothrombotic coronary artery disease as the causative mechanism for left ventricular dysfunction had to be available. Third, the study had to report on patient demographic characteristics, presenting symptoms, clinical presentation, electrocardiographic characteristics, laboratory data, cardiac catheterization data, clinical complications, and clinical outcome. Of the 3 excluded series reporting on consecutive patients, 2 were excluded because they lacked coronary angiography data for all patients (9, 10), and 1 was excluded because it reported on only 2 patients (11). In addition, data that addressed potential pathophysiologic mechanisms responsible for the transient left ventricular apical ballooning syndrome were identified by using the search strategy described earlier. These data were then reviewed and summarized. One author read and assessed all studies. Results Table 1 summarizes the 7 case series that met the inclusion criteria for this review. Of these, 5 reports were from Japan (2-6), 1 was from the United States (7), and 1 was from Belgium (8). Three studies reported prospectively collected data, 2 studies reported retrospective data, and 2 studies did not specify the prospective or retrospective nature of the study. Table 1. Demographic and Clinical Characteristics of Consecutive Patients Given a Diagnosis of the Transient Left Ventricular Apical Ballooning Syndrome Demographic Characteristics and Presenting Symptoms All 7 case series consistently reported a sex discrepancy in patients presenting with the transient left ventricular apical ballooning syndrome: Most patients were women (range, 82% to 100%). The mean age of patients presenting with the syndrome was 62 to 75 years (overall range, 10 to 88 years). Patients often presented with chest pain at rest (33% to 71%), although dyspnea as the initial symptom was not uncommon. Isolated cases of syncope as the presenting symptom have been reported (2, 4, 5, 7). Electrocardiographic Data The most common finding on the admission electrocardiogram was ST-segment elevation (range, 46% to 100% of patients). All series except 1 reported ST-segment elevation in at least 81% of patients. ST-segment elevation, when present, was most often reported in the precordial leads. Concomitant ST-segment elevation in the inferior leads has been reported in a few cases, and isolated inferior or lateral ST-segment elevation seems to be an unusual electrocardiographic finding in patients presenting with the transient left ventricular apical ballooning syndrome. New left and right bundle-branch block on the presenting electrocardiogram has been reported. Almost all series patients developed evolutionary T-wave inversions that were usually present in most leads. New pathologic Q waves on the electrocardiogram were reported in 6% to 31% of patients; in some instances, the Q waves were transient. The corrected QT interval on the presenting electrocardiogram was prolonged; it ranged from a mean of 450 milliseconds to 501 milliseconds. Cardiac Enzyme and Biomarker Release Most patients had a small, rapid increase in cardiac enzyme and biomarker levels. Fifty-six percent to 100% of patients had a peak cardiac enzyme or biomarker level above the upper limit of normal. The series reporting a 56% incidence of cardiac enzyme increase assessed only creatine kinase (3), whereas the 2 series reporting a 100% incidence of biomarker release evaluated cardiac troponin (7, 8). Several series have reported that peak cardiac biomarker levels are often those drawn at the time of initial presentation; they appear to not follow the slow rise-and- fall kinetics observed with conventional myocardial infarction. Angiographic Data and Left Ventricular Function Patients with the transient left ventricular apical ballooning syndrome had either no angiographically detectable coronary disease (range, 25% to 100% of patients) or nonobstructive coronary disease (range, 0% to 75% of patients). None of the patients had epicardial stenosis greater than 50% of the luminal coronary artery diameter. Patients with the syndrome had an abnormal left ventricular ejection fraction at presentation (mean, 0.39 to 0.49) that improved rapidly over a period of days to weeks (mean follow-up left ventricular ejection fraction, 0.60 to 0.76). Apical and mid-ventricular regional wall-motion abnormalities completely resolved in most patients and followed a time course similar to that of the associated improvement in left ventricular ejection fraction. Four studies reported endomyocardial biopsy results in the acute phase of the syndrome (n= 18), with no evidence of myocarditis (2, 4-6). Evaluations of Endothelial Function and Coronary Microcirculation Either spontaneous or provocable multivessel epicardial spasm was present in a few patients; the incidence of provoca",
+        "citationCount": 1524,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "Review",
+            "JournalArticle"
+        ],
+        "publicationDate": "2004-12-07",
+        "authors": [
+            {
+                "authorId": "10122296",
+                "name": "K. Bybee"
+            },
+            {
+                "authorId": "50640166",
+                "name": "T. Kara"
+            },
+            {
+                "authorId": "48544238",
+                "name": "A. Prasad"
+            },
+            {
+                "authorId": "7292634",
+                "name": "A. Lerman"
+            },
+            {
+                "authorId": "3701937",
+                "name": "G. Barsness"
+            },
+            {
+                "authorId": "145544881",
+                "name": "R. Wright"
+            },
+            {
+                "authorId": "5992075",
+                "name": "C. Rihal"
+            }
+        ]
+    },
+    {
+        "paperId": "0d23e93ca075eaf56ab72ad28169d2ed9d8df49e",
+        "url": "https://www.semanticscholar.org/paper/0d23e93ca075eaf56ab72ad28169d2ed9d8df49e",
+        "title": "An improved procedure for serum creatine phosphokinase determination.",
+        "abstract": "Abstract The creatine phosphokinase activity of serum is determined by a procedure in which adenosine triphosphate, liberated by the action of the enzyme, is linked to the reduction of nicotinamide-adenine dinucleotide phosphate and the formation of reduced nicotinamide-adenine dinucleotide phosphate followed spectrophotometrically. The enzyme substrate for the reaction is prepared in bulk, freeze-dried, and distributed in gelatinecovered capsules. The capsule contents are reconstituted immediately before use by the addition of distilled water, and creatine phosphokinase activity is determined by measuring the increase in optical density at 340 mμ following serum addition. The method is convenient, more sensitive, and less time-consuming than other procedures for serum creatine phosphokinase determination in common laboratory use.",
+        "citationCount": 1504,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle",
+            "Study"
+        ],
+        "publicationDate": "1967-04-01",
+        "authors": [
+            {
+                "authorId": "3634033",
+                "name": "S. Rosalki"
+            }
+        ]
+    },
+    {
+        "paperId": "4d001c77c2c4ccadc40153114c1511462c70eddc",
+        "url": "https://www.semanticscholar.org/paper/4d001c77c2c4ccadc40153114c1511462c70eddc",
+        "title": "Updated Definitions of Healthy Ranges for Serum Alanine Aminotransferase Levels",
+        "abstract": "Context Current upper limits (500 nkat/L [30 U/L] for women, 667 nkat/L [40 U/L] for men) for serum alanine aminotransferase (ALT) level were defined in populations that included persons with nonalcoholic fatty liver disease (NAFLD) and persons with hepatitis C virus (HCV) infection. Contribution This study redefined ALT limits in blood donors at low risk for NAFLD and without hepatitis B or C (317 nkat/L [19 U/L] in women, 500 nkat/L [30 U/L] in men). When applied to 209 anti-HCV-positive donors, the new thresholds had 76.3% sensitivity and 88.5% specificity in identifying patients with hepatitis C viremia compared with 55% and 97.4% for old thresholds. Implications Laboratories should consider revising the upper limits of normal for ALT to improve the sensitivity of this test in identifying subclinical liver disease. The Editors Serum alanine aminotransferase (ALT) concentration is the most commonly used variable for assessment of liver disease (1, 2). However, particularly in the case of chronic hepatitis C virus (HCV) infection, ALT measurement often fails to identify patients with minimal to mild necroinflammatory activity (3-7). Current upper limits of normal for ALT level were set, on average, at 667 nkat/L (40 U/L) (range, 500 to 833 nkat/L [30 to 50 U/L]) in studies conducted over the past 10 years (1, 3-5, 7, 8). Such thresholds, however, were mostly computed in the 1980s, when ALT testing was introduced as a surrogate marker for the screening of non-A, non-B hepatitis among blood donors and before anti-HCV testing and restrictive behavioral criteria for donor selection were implemented. Furthermore, so-called reference populations were likely to include many persons with nonalcoholic fatty liver disease, now recognized as the most prevalent cause of chronic liver disease in developed countries (8-10). Current reference ranges for ALT level probably underestimate the frequency of chronic liver disease. Because dietary and behavioral risks for liver disease are widespread in many countries, a critical revision of ALT limits would require the definition of healthy ranges rather than a generic update of normal ranges. Thus far, several factors have hampered this task. For example, to obtain solid data, many clinical, biochemical, and behavioral variables potentially related to liver disease must be investigated, requiring screening of large numbers of persons. Furthermore, repeated blood donors, who currently represent the vast majority of blood-donation candidates, cannot be included in the sampling frame, because they have been selected on the basis of ALT activity during the past two decades. We report the results of a 4-year study of first-time blood-donation candidates. To update the definitions of healthy ranges for serum ALT level, we identified a population at low risk for subclinical liver disease by exploring factors related to enzyme activity in both healthy persons and those with mild abnormalities on liver tests. Next, we tested the sensitivity and specificity of the ranges obtained from these participants in the clinical evaluation of anti-HCVpositive persons with and without chronic liver damage. Methods Participants Figure 1 summarizes the selection of the study participants. Figure 1. Procedures for selection of the study participants. *Donor candidates were not suitable for the following reasons: previous blood transfusion (2%); use of major illicit drugs (1.5%); at-risk sexual exposures (9%); history of hepatitis or other blood borne infections (4%); recent exposure in a malaria-endemic area (5%); low hemoglobin level (15%); use of medication not compatible with blood donation (4%); seizure or central nervous system disorders (12%); hypertension, arrhythmias, or cardiac disease (8%); hypotension (9%); recent surgery (2%) or other medical or behavioral risks (26%); serologic reactivity on screening assays (antiHIV 1, antiHIV 2, hepatitis B surface antigen, antihepatitis C virus [HCV], or syphilis) on the sample collected at blood donation (2.5%). Standard upper limits were 667 nkat/L (40 U/L) in men, and 500 nkat/L (30 U/L) in women. Two trained hepatologists used a recently proposed algorithm (2) to re-evaluate medical history and physical examination. Participants also underwent additional blood testing, including measurement of the following values: aspartate aminotransferase, alanine aminotransferase (ALT), alkaline phosphatase, -glutamyl transpeptidase, total proteins, bilirubin, iron, total iron-binding capacity, serum ferritin, serum protein electrophoresis, creatine kinase, ceruloplasmin, 1-antitrypsin, antibodies to cytomegalovirus and EpsteinBarr virus, and autoantibodies. Participants also underwent ultrasonography of the liver. Anti-HCVNegative First-Time Blood Donors From 1 September 1995 through 26 October 1999, 9221 blood-donor candidates presenting for first-time donation underwent clinical and laboratory examinations as part of procedures for donor selection at Centro Transfusionale e di Immunologia dei Trapianti in Milan, Italy. A blood-bank physician 1) administered a psychosocial questionnaire [11, 12], which was aimed at identifying and excluding from donation persons at high risk for blood-borne infections; 2) took a medical history; and 3) examined all potential participants and measured body weight and height. Donors candidates had blood drawn for laboratory testing. Clinical data and laboratory-test results were recorded in a relational database management system, as described previously (11). We included in the study donor candidates who had no medical or behavioral contraindication to blood donation (12) and who had negative results on tests for hepatitis B surface antigen (HBsAg), anti-HCV, antiHIV 1, antiHIV 2, and hemagglutination (to assess for presence of syphilis). In addition, we used a recently recommended diagnostic algorithm (2) to conduct a diagnostic work-up in donors who repeatedly had abnormal ALT measurements (that is, they had increased values, according to current ALT ranges, in three subsequent measurements taken at 1-month intervals in the absence of HBsAg and anti-HCV reactivity) (2). Anti-HCVPositive Blood Donors We also studied 209 blood-donor candidates with confirmed anti-HCV reactivity between 1990 and 1999 who presented to our outpatient liver disease clinic for regular follow-up. Of these patients, 78 were HCV RNA negative at initial screening (59 patients) or after antiviral treatment (19 patients), and 131 were HCV RNA positive. Serum ALT activity was determined at presentation and in at least two other serial serum samples collected at 1- to 3-month intervals over at least 6 months. In patients with viremia who underwent treatment, the pattern of serum ALT levels was defined during the period of presumed viremia (that is, not during or after therapy). Liver biopsy was performed in 133 anti-HCVpositive blood donors (103 of whom were HCV RNA positive and 30 of whom were HCV RNA negative) for diagnostic reasons (32 patients) or within clinical trials. These clinical trials were conducted between 1993 and 1998 to define the optimal management of anti-HCVpositive patients with normal or slightly altered ALT levels (101 patients) (3, 4, 11, 13, 14). Laboratory Methods A fasting blood sample was collected in the morning and was centrifuged within 30 minutes of collection. The Laboratory of Biochemistry and the Laboratory of Virology of the Centro Trasfusionale e di Immunologia dei Trapianti at IRCCS Ospedale MaggioreMilan, Italy, performed all analyses by using consistent methods throughout the study period. Complete blood counts were performed by using an NE 8000 automatic cell counter (Sysmex, Kobe, Japan). Analyses of serum biochemistry were performed by using an Olympus AU510 analyzer (EppendorfNetheler, Hamburg, Germany). Upper reference limits for serum biochemistry analyses were computed in 1983 on the basis of findings from 5093 women and 9849 men who were apparently healthy donors with negative results on hepatitis B surface antigen and syphilis tests (4, 15). These limits were as follows: for total cholesterol level, 5.70 mmol/L (220 mg/dL); for triglyceride level, 2.26 mmol/L (200 mg/dL); for blood glucose level, 5.83 mmol/L (105 mg/dL) in men and 5.44 mmol/L (98 mg/dL) in women; for ALT level, 667 mmol/L (40 U/L) in men and 500 nkat/L (30 U/L) in women. Virologic tests included an hepatitis B surface antigen test (Wellcozyme HBsAg, Abbott Laboratories, Chicago, Illinois), an anti-HIV test (Ortho HIV1/HIV2, Ortho Diagnostic Systems, Raritan, New Jersey), and an anti-HCV test (Ortho HCV 3.0, Ortho Diagnostic Systems). Anti-HCV reactivity was confirmed by third-generation recombinant immunoblot assay (RIBA-3, Ortho Diagnostic Systems). Qualitative analysis of serum HCV RNA was performed by using the Amplicor HCV kit (Roche Molecular Systems, Basel, Switzerland). Body mass index (BMI) was calculated by dividing the weight (in kg) by the squared height (in m). On the basis of a recent recommendation (16), we considered a BMI of 24.9 kg/m2 the upper limit for healthy weight. The laboratory and the blood donor center were certified according to International Organization for Standardization 9002 standards. The laboratory intra-assay coefficient of variation (CV) for ALT was 1.1%, and the interassay CV over a 2-week period was 2.4%. Within-individual and between-individual variability were estimated on the basis of 20 donors who were randomly chosen among those with two measurements taken at 3-month intervals. Within-individual variability, expressed as CV, was 21.4% (CI, 16.4% to 31.0%); between-individual variability was 49.8% (CI, 37.9%- to 72.8%). Statistical Analysis Statistical analyses were performed by using the SAS package version 6.12 (SAS Institute, Inc., Cary, North Carolina). The 5th, 25th, 50th (median), 75th, and 95th percentiles for ALT level were calculated on the basis of the empirical distribution of the data. We",
+        "citationCount": 1431,
+        "openAccessPdf": null,
+        "publicationTypes": [
+            "JournalArticle"
+        ],
+        "publicationDate": "2002-07-02",
+        "authors": [
+            {
+                "authorId": "145136040",
+                "name": "D. Prati"
+            },
+            {
+                "authorId": "48948091",
+                "name": "E. Taioli"
+            },
+            {
+                "authorId": "34956133",
+                "name": "A. Zanella"
+            },
+            {
+                "authorId": "52155035",
+                "name": "E. Torre"
+            },
+            {
+                "authorId": "48689211",
+                "name": "S. Butelli"
+            },
+            {
+                "authorId": "5847436",
+                "name": "E. Del Vecchio"
+            },
+            {
+                "authorId": "9936875",
+                "name": "L. Vianello"
+            },
+            {
+                "authorId": "49680110",
+                "name": "F. Zanuso"
+            },
+            {
+                "authorId": "5233835",
+                "name": "F. Mozzi"
+            },
+            {
+                "authorId": "2058020136",
+                "name": "S. Milani"
+            },
+            {
+                "authorId": "122858793",
+                "name": "D. Conte"
+            },
+            {
+                "authorId": "144894442",
+                "name": "M. Colombo"
+            },
+            {
+                "authorId": "7851283",
+                "name": "G. Sirchia"
+            }
+        ]
+    },
+    {
+        "paperId": "89e69bd797eb37d8cd32ad46052d7add62ead232",
+        "url": "https://www.semanticscholar.org/paper/89e69bd797eb37d8cd32ad46052d7add62ead232",
+        "title": "Pneumonia and respiratory failure from swine-origin influenza A (H1N1) in Mexico.",
+        "abstract": "BACKGROUND\nIn late March 2009, an outbreak of a respiratory illness later proved to be caused by novel swine-origin influenza A (H1N1) virus (S-OIV) was identified in Mexico. We describe the clinical and epidemiologic characteristics of persons hospitalized for pneumonia at the national tertiary hospital for respiratory illnesses in Mexico City who had laboratory-confirmed S-OIV infection, also known as swine flu.\n\n\nMETHODS\nWe used retrospective medical chart reviews to collect data on the hospitalized patients. S-OIV infection was confirmed in specimens with the use of a real-time reverse-transcriptase-polymerase-chain-reaction assay.\n\n\nRESULTS\nFrom March 24 through April 24, 2009, a total of 18 cases of pneumonia and confirmed S-OIV infection were identified among 98 patients hospitalized for acute respiratory illness at the National Institute of Respiratory Diseases in Mexico City. More than half of the 18 case patients were between 13 and 47 years of age, and only 8 had preexisting medical conditions. For 16 of the 18 patients, this was the first hospitalization for their illness; the other 2 patients were referred from other hospitals. All patients had fever, cough, dyspnea or respiratory distress, increased serum lactate dehydrogenase levels, and bilateral patchy pneumonia. Other common findings were an increased creatine kinase level (in 62% of patients) and lymphopenia (in 61%). Twelve patients required mechanical ventilation, and seven died. Within 7 days after contact with the initial case patients, a mild or moderate influenza-like illness developed in 22 health care workers; they were treated with oseltamivir, and none were hospitalized.\n\n\nCONCLUSIONS\nS-OIV infection can cause severe illness, the acute respiratory distress syndrome, and death in previously healthy persons who are young to middle-aged. None of the secondary infections among health care workers were severe.",
+        "citationCount": 1372,
+        "openAccessPdf": {
+            "url": "https://www.nejm.org/doi/pdf/10.1056/NEJMoa0904252?articleTools=true",
+            "status": "BRONZE"
+        },
+        "publicationTypes": [
+            "JournalArticle",
+            "Review"
+        ],
+        "publicationDate": "2009-12-10",
+        "authors": [
+            {
+                "authorId": "83309525",
+                "name": "R. Perez-Padilla"
+            },
+            {
+                "authorId": "1420345254",
+                "name": "D. de la Rosa-Zamboni"
+            },
+            {
+                "authorId": "123445529",
+                "name": "S. Ponce de León"
+            },
+            {
+                "authorId": "153654611",
+                "name": "Mauricio Hernández"
+            },
+            {
+                "authorId": "83637765",
+                "name": "F. Quiñones-Falconi"
+            },
+            {
+                "authorId": "2091256172",
+                "name": "Edgar Bautista"
+            },
+            {
+                "authorId": "1400698987",
+                "name": "A. Ramírez-Venegas"
+            },
+            {
+                "authorId": "1401897460",
+                "name": "J. Rojas-Serrano"
+            },
+            {
+                "authorId": "1925168",
+                "name": "C. Ormsby"
+            },
+            {
+                "authorId": "2078466886",
+                "name": "Ariel Corrales"
+            },
+            {
+                "authorId": "50340304",
+                "name": "A. Higuera"
+            },
+            {
+                "authorId": "119249356",
+                "name": "E. Mondragón"
+            },
+            {
+                "authorId": "1402206790",
+                "name": "J. A. Córdova-Villalobos"
+            }
+        ]
+    }
+]

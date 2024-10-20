@@ -13,10 +13,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.project.main.entity.UserPrompt;
-import com.project.main.service.GeminiService;
-import com.project.main.service.SemanticService;
-import com.project.main.service.UserPromptService;
+
+import org.json.JSONArray;
+
+import com.project.main.entity.*;
+import com.project.main.service.*;
+import com.project.main.enums.*;
+
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/data")
@@ -25,13 +33,26 @@ public class APIController {
 
 	@Autowired
 	GeminiService geminiService;
-
-	private final UserPromptService userPromptService;
 	private final SemanticService semanticService;
 
-	public APIController(UserPromptService userPromptService, SemanticService semanticService) {
+	private final UserPromptService userPromptService;
+	private final TokenResponseService tokenResponseService;
+	private final AppResponseService appResponseService;
+
+	@Autowired
+	GraphService graphService;
+
+	@Autowired
+	AuthorService authorService;
+
+	@Autowired
+	ResearchPaperService researchPaperService;
+
+	public APIController(UserPromptService userPromptService, SemanticService semanticService, TokenResponseService tokenResponseService, AppResponseService appResponseService) {
 		this.userPromptService = userPromptService;
 		this.semanticService = semanticService;
+		this.tokenResponseService = tokenResponseService;
+		this.appResponseService = appResponseService;
 	}
 
 	@PostMapping
@@ -59,6 +80,11 @@ public class APIController {
 		if (responseJSON == null)
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No gemini response (1) received.");
 
+		// create token response
+		TokenResponse tokenResponse = new TokenResponse();
+		tokenResponse.setUserPrompt(userPrompt);
+		tokenResponse.setProcessedPrompt(responseJSON.toString());
+
 		// semantic (1): use the list of extracted keywords to get a JSON list of papers
 		String semanticQuery = responseJSON.get("keywords").asText()
 						.replace(",", "")
@@ -71,6 +97,83 @@ public class APIController {
 
 		if (fetchedPapers == null)
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No semantic response (1) received.");
+
+		// save all research papers
+		for (JsonNode paperNode : fetchedPapers) {
+			String title = paperNode.get("title").asText();			
+			LocalDate publishedDate = null; // Initialize to null
+			if (paperNode.has("publicationDate") && !paperNode.get("publicationDate").isNull()) {
+				String publicationDateStr = paperNode.get("publicationDate").asText();
+				
+				if (!publicationDateStr.isEmpty() && !publicationDateStr.equalsIgnoreCase("null")) {
+					publishedDate = LocalDate.parse(publicationDateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+				}
+			}
+	
+			String abstractText = paperNode.get("abstract").asText("");
+			String sourceLink = paperNode.get("url").asText();
+			if (paperNode.has("openAccessPdf") && paperNode.get("openAccessPdf").has("url")) {
+				sourceLink = paperNode.get("openAccessPdf").get("url").asText();
+			}
+
+			int citationsCount = paperNode.get("citationCount").asInt(0);
+			int viewsCount = 0; 
+
+			LocalDateTime publishedDateTime = null;
+			if (publishedDate != null) {
+				publishedDateTime = publishedDate.atStartOfDay();
+			}
+
+			ResearchPaper researchPaper = new ResearchPaper(
+				title,
+				publishedDateTime,
+				abstractText,
+				null,
+				sourceLink,
+				citationsCount,
+				viewsCount
+			);
+			researchPaperService.saveResearchPaper(researchPaper);
+
+			// extract authors from the 'authors' array in the paperNode
+			Set<Author> authors = new HashSet<>();
+			if (paperNode.has("authors")) {
+				for (JsonNode authorNode : paperNode.get("authors")) {
+
+					String authorName = authorNode.get("name").asText();
+					Author author = new Author(authorName);
+					
+					author.getResearchPapers().add(researchPaper);
+					authors.add(author);
+
+					authorService.saveAuthor(author);
+				}
+			}
+
+			// update authors to the researchPaper
+			researchPaper.setAuthors(authors);
+			researchPaperService.updateResearchPaper(researchPaper.getPaperId(), researchPaper);
+		}
+
+		// first get paper ids into json array
+		// set generated response to token response and save
+		// for TokenResponse
+		JSONArray fetchedPapersIds = DataService.getPaperIDs(fetchedPapers);
+		tokenResponse.setGeneratedResponse(fetchedPapersIds.toString());
+		tokenResponseService.saveTokenResponse(tokenResponse);
+
+		// create app response. will save after
+		AppResponse appResponse = new AppResponse();
+		appResponse.setUserPrompt(userPrompt);
+
+		// save graph
+		Graph graph = new Graph();
+		graph.setAppResponse(appResponse);
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
+			graph.setGraphType(GraphType.CITATION);
+		} else if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.OPINION) {
+			graph.setGraphType(GraphType.OPINION);
+		}
 
 		// ------------ Citation-based ------------------
 		
@@ -89,10 +192,17 @@ public class APIController {
 				e.printStackTrace();
 			}	
 		}
+
+        // if citiation graph, then create citationedge
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
+			CitationEdge citationEdge = new CitationEdge();
+			citationEdge.setGraph(graph);
+			// TODO: add setResearchPaper
+		}
 		
 		// ------------ Opinion-based ------------------
 		
-		// gemini: tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
+		// gemini (2): tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
 		String opinionPrompt = String.format(
 				"Here is the user's opinionated prompt: '%s' and a JSON list of relevant research papers: '%s',"
 				 + "I need you to sort the list of papers into 2 categories either 'supporting' or 'opposing' the user-prompt;" 
@@ -101,6 +211,12 @@ public class APIController {
 				 , userPrompt.getSearchPrompt(), fetchedPapers);
 
 		String categorizedResponseBody = geminiService.callApi(opinionPrompt, "AIzaSyDLmB0f1-lmo2-WH9Dif0fC32t0_Z9Hpuo");
+
+		// save app response
+		appResponse.setGeneratedResponse(categorizedResponseBody);
+		appResponse.setGeneratedDateTime(LocalDateTime.now());
+		appResponseService.saveAppResponse(appResponse);
+		graphService.saveGraph(graph);
 
 		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
 

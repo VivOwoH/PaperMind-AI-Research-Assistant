@@ -26,7 +26,7 @@ public class TokenResponse {
     @Column(name="processed_prompt")
     private String processedPrompt;
 
-    @Column(name="generated_response")
+    @Column(name="generated_response", length = 1024)
     private String generatedResponse;
 
     public TokenResponse() {}
