@@ -40,8 +40,8 @@ function ListViewCitation() {
       filtered = filtered.filter(paper => paper.authors.some(author => author.name.includes(selectedAuthor)));
     }
     if (selectedType) {
-      filtered = filtered.filter(paper => paper.publicationTypes.includes(selectedType));
-    }
+      filtered = filtered.filter(paper => paper.publicationTypes && paper.publicationTypes.includes(selectedType));
+    }    
 
     setFilteredPapers(filtered);
   };
