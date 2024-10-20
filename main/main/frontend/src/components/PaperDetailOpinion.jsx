@@ -57,7 +57,7 @@ function PaperDetailOpinion({ paper }) {
             new Paragraph({
               children: [
                 new TextRun({
-                  text: paper.abstract, // ai summary form the paper
+                  text: paper.summary, // ai summary form the paper
                   size: 22, 
                 }),
               ],
@@ -123,7 +123,7 @@ function PaperDetailOpinion({ paper }) {
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(paper.abstract);
+    navigator.clipboard.writeText(paper.summary);
     alert("Abstract copied to clipboard!");
   };
 
@@ -134,9 +134,7 @@ function PaperDetailOpinion({ paper }) {
           AI Summary for {paper.title}
         </Typography>
         <Typography variant="body2">
-          <b>Abstract</b>
-          <br />
-          {paper.abstract}
+          {paper.summary}
         </Typography>
         <Tooltip title="Copy Abstract">
           <IconButton onClick={copyToClipboard} sx={{ color: '#4287f5' }}>
