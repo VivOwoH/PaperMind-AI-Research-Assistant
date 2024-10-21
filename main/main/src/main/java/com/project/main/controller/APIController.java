@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 
 @RestController
 @RequestMapping("/api/data")
@@ -47,6 +48,9 @@ public class APIController {
 
 	@Autowired
 	ResearchPaperService researchPaperService;
+
+	@Autowired
+	CitationEdgeService citationEdgeService;
 
 	public APIController(UserPromptService userPromptService, SemanticService semanticService, TokenResponseService tokenResponseService, AppResponseService appResponseService) {
 		this.userPromptService = userPromptService;
@@ -167,6 +171,7 @@ public class APIController {
 		// create app response. will save after
 		AppResponse appResponse = new AppResponse();
 		appResponse.setUserPrompt(userPrompt);
+		appResponseService.saveAppResponse(appResponse);
 
 		// save graph
 		Graph graph = new Graph();
@@ -176,6 +181,7 @@ public class APIController {
 		} else if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.OPINION) {
 			graph.setGraphType(GraphType.OPINION);
 		}
+		graphService.saveGraph(graph);
 
 		// ------------ Citation-based ------------------
 		
@@ -197,11 +203,35 @@ public class APIController {
 
 		// if citiation graph, then create citationedge
 		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
-			CitationEdge citationEdge = new CitationEdge();
-			citationEdge.setGraph(graph);
-			// citationEdge.setResearchPaper(researchPaper);
-			// citationEdgeService.saveCitationEdge(citationEdge);
-			// TODO: fix
+			fetchedCitations.fieldNames().forEachRemaining(firstPaperId -> {
+				ResearchPaper firstResearchPaper = researchPaperService.getResearchPaperBySemanticPaperId(firstPaperId);
+
+				JsonNode citingPapers = fetchedCitations.get(firstPaperId);
+				citingPapers.forEach(citingPaperNode -> {
+					String secondPaperId = citingPaperNode.get("citingPaper").get("paperId").asText();
+					ResearchPaper secondResearchPaper = researchPaperService.getResearchPaperBySemanticPaperId(secondPaperId);
+
+					// second paper does not exist
+					// NOTE: there is less information here, they lack title, etc.
+					if (secondResearchPaper == null) {
+						secondResearchPaper = new ResearchPaper();
+						secondResearchPaper.setSemanticPaperId(secondPaperId);
+						secondResearchPaper.setAbstractText(citingPaperNode.get("citingPaper").get("abstract").asText(""));
+						secondResearchPaper.setCitationsCount(citingPaperNode.get("citingPaper").get("citationCount").asInt(0));
+						String sourceLink = "";
+						if (citingPaperNode.has("openAccessPdf") && citingPaperNode.get("openAccessPdf").has("url")) {
+							sourceLink = citingPaperNode.get("citingPaper").get("openAccessPdf").get("url").asText();
+						}
+						secondResearchPaper.setSourceLink(sourceLink);
+						
+						researchPaperService.saveResearchPaper(secondResearchPaper);
+					}
+
+					// create a new CitationEdge
+					CitationEdge citationEdge = new CitationEdge(graph, firstResearchPaper, secondResearchPaper);
+					citationEdgeService.saveCitationEdge(citationEdge);
+				});
+			});
 		}
 
 		// ------------ Opinion-based ------------------
@@ -219,8 +249,7 @@ public class APIController {
 		// save app response
 		appResponse.setGeneratedResponse(categorizedResponseBody);
 		appResponse.setGeneratedDateTime(LocalDateTime.now());
-		appResponseService.saveAppResponse(appResponse);
-		graphService.saveGraph(graph);
+		appResponseService.updateAppResponse(appResponse.getId(), appResponse);
 
 		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
 

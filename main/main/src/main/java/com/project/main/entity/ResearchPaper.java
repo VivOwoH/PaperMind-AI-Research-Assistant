@@ -15,7 +15,7 @@ public class ResearchPaper {
     @Column(nullable = false)
     private String semanticPaperId;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String title;
 
     @Column(nullable = true)
@@ -35,7 +35,7 @@ public class ResearchPaper {
     @Column(nullable = false)
     private Integer citationsCount;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer viewsCount;
 
     // Inverse side of the Many-to-Many relationship with Author
