@@ -95,7 +95,7 @@ public class APIController {
 		
 		// ------------ Opinion-based ------------------
 		
-		// gemini: tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
+		// gemini (2): tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
 		String opinionPrompt = String.format(
 				"Here is the user's opinionated prompt: '%s' and a JSON list of relevant research papers: '%s',"
 				 + "I need you to sort the list of papers into 2 categories either 'supporting' or 'opposing' the user-prompt;" 
