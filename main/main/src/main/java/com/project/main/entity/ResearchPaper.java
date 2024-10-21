@@ -13,6 +13,9 @@ public class ResearchPaper {
     private Integer paperId;
 
     @Column(nullable = false)
+    private String semanticPaperId;
+
+    @Column(nullable = false)
     private String title;
 
     @Column(nullable = true)
@@ -41,7 +44,8 @@ public class ResearchPaper {
 
     public ResearchPaper() {}
 
-    public ResearchPaper(String title, LocalDateTime publishedDate, String abstractText, String methodologySummary, String sourceLink, Integer citationsCount, Integer viewsCount) {
+    public ResearchPaper(String semanticPaperId, String title, LocalDateTime publishedDate, String abstractText, String methodologySummary, String sourceLink, Integer citationsCount, Integer viewsCount) {
+        this.semanticPaperId = semanticPaperId;
         this.title = title;
         this.publishedDate = publishedDate;
         this.abstractText = abstractText;
@@ -59,6 +63,14 @@ public class ResearchPaper {
 
     public void setPaperId(Integer paperId) {
         this.paperId = paperId;
+    }
+
+    public String getSemanticPaperId() {
+        return semanticPaperId;
+    }
+
+    public void setSemanticPaperId(String semanticPaperId) {
+        this.semanticPaperId = semanticPaperId;
     }
 
     public String getTitle() {
@@ -129,6 +141,7 @@ public class ResearchPaper {
     public String toString() {
         return "ResearchPaper{" +
                 "paperId=" + paperId +
+                "semanticPaperId=" + semanticPaperId +
                 ", title='" + title + '\'' +
                 ", publishedDate=" + publishedDate +
                 ", abstractText='" + abstractText + '\'' +

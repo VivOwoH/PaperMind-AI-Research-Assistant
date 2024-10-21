@@ -26,6 +26,11 @@ public class ResearchPaperService {
         return researchPaper.orElse(null);
     }
 
+    public ResearchPaper getResearchPaperBySemanticPaperId(String semanticPaperId) {
+        Optional<ResearchPaper> researchPaper = researchPaperRepo.findBySemanticPaperId(semanticPaperId);
+        return researchPaper.orElse(null);
+    }
+
     public ResearchPaper saveResearchPaper(ResearchPaper researchPaper) {
         return researchPaperRepo.save(researchPaper);
     }

@@ -100,7 +100,8 @@ public class APIController {
 
 		// save all research papers
 		for (JsonNode paperNode : fetchedPapers) {
-			String title = paperNode.get("title").asText();			
+			String title = paperNode.get("title").asText();		
+			String paperId = paperNode.get("paperId").asText();			
 			LocalDate publishedDate = null; // Initialize to null
 			if (paperNode.has("publicationDate") && !paperNode.get("publicationDate").isNull()) {
 				String publicationDateStr = paperNode.get("publicationDate").asText();
@@ -125,6 +126,7 @@ public class APIController {
 			}
 
 			ResearchPaper researchPaper = new ResearchPaper(
+				paperId,
 				title,
 				publishedDateTime,
 				abstractText,
@@ -193,13 +195,15 @@ public class APIController {
 			}	
 		}
 
-        // if citiation graph, then create citationedge
+		// if citiation graph, then create citationedge
 		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
 			CitationEdge citationEdge = new CitationEdge();
 			citationEdge.setGraph(graph);
-			// TODO: add setResearchPaper
+			// citationEdge.setResearchPaper(researchPaper);
+			// citationEdgeService.saveCitationEdge(citationEdge);
+			// TODO: fix
 		}
-		
+
 		// ------------ Opinion-based ------------------
 		
 		// gemini (2): tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions

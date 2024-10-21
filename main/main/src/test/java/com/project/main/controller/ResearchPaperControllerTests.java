@@ -32,8 +32,8 @@ class ResearchPaperControllerTests {
 
     @Test
     void testGetAllResearchPapers() {
-        ResearchPaper paper1 = new ResearchPaper("Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
-        ResearchPaper paper2 = new ResearchPaper("Title 2", LocalDateTime.now(), "Abstract 2", "Methodology 2", "http://source2.com", 5, 50);
+        ResearchPaper paper1 = new ResearchPaper("1234abcd", "Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
+        ResearchPaper paper2 = new ResearchPaper("5678efgh", "Title 2", LocalDateTime.now(), "Abstract 2", "Methodology 2", "http://source2.com", 5, 50);
         List<ResearchPaper> researchPapers = Arrays.asList(paper1, paper2);
 
         when(researchPaperService.getAllResearchPapers()).thenReturn(researchPapers);
@@ -47,7 +47,7 @@ class ResearchPaperControllerTests {
 
     @Test
     void testGetResearchPaperById_Success() {
-        ResearchPaper researchPaper = new ResearchPaper("Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
+        ResearchPaper researchPaper = new ResearchPaper("1234abcd", "Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
         when(researchPaperService.getResearchPaperById(1)).thenReturn(researchPaper);
 
         ResponseEntity<ResearchPaper> response = researchPaperController.getResearchPaperById(1);
@@ -69,7 +69,7 @@ class ResearchPaperControllerTests {
 
     @Test
     void testSaveResearchPaper() {
-        ResearchPaper researchPaper = new ResearchPaper("Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
+        ResearchPaper researchPaper = new ResearchPaper("1234abcd", "Title 1", LocalDateTime.now(), "Abstract 1", "Methodology 1", "http://source1.com", 10, 100);
         when(researchPaperService.saveResearchPaper(researchPaper)).thenReturn(researchPaper);
 
         ResponseEntity<ResearchPaper> response = researchPaperController.saveResearchPaper(researchPaper);
