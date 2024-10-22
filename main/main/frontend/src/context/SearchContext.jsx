@@ -23,7 +23,6 @@ export const SearchProvider = ({children}) => {
         <SearchContext.Provider value={{searchData, updateSearchData}}>
             {children}
         </SearchContext.Provider>
-
     );
 }
 
