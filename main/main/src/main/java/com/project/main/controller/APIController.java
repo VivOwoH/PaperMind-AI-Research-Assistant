@@ -1,6 +1,7 @@
 package com.project.main.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,13 +26,16 @@ public class APIController {
 
 	@Autowired
 	GeminiService geminiService;
+	@Autowired
+	SemanticService semanticService;
 
 	private final UserPromptService userPromptService;
-	private final SemanticService semanticService;
 
-	public APIController(UserPromptService userPromptService, SemanticService semanticService) {
+	@Value("${apiKey}")
+    private String apiKey;
+
+	public APIController(UserPromptService userPromptService) {
 		this.userPromptService = userPromptService;
-		this.semanticService = semanticService;
 	}
 
 	@PostMapping
@@ -51,8 +55,7 @@ public class APIController {
 				"extract key words and determine positive or negative sentiment for statement '%s', only keep neural terms (non-sentimental terms) as keywords; must structure response like this: 'keywords:keyword1, keyword2 etc.; sentiment:positive/negative;'",
 				userPrompt.getSearchPrompt());
 
-		// userPrompt.setSearchPrompt(formattedPrompt); // reset user prompt to tuned prompt
-		String responseBody = geminiService.callApi(formattedPrompt, "AIzaSyDLmB0f1-lmo2-WH9Dif0fC32t0_Z9Hpuo"); // TODO: encrypt key
+		String responseBody = geminiService.callApi(formattedPrompt, apiKey);
 		
 		ObjectNode responseJSON = responseFormatting(responseBody).getBody(); // response formatting
 
@@ -76,7 +79,7 @@ public class APIController {
 		
 		// semantic (2): get the top cited papers's next 5 citations (ideally some papers cite each other)
 		ObjectNode fetchedCitations = objectMapper.createObjectNode();
-		// System.out.println(fetchedPapers);
+		
 		for (JsonNode paper: fetchedPapers) {
 			try {
 				String paperID = paper.get("paperId").asText();
@@ -92,7 +95,7 @@ public class APIController {
 		
 		// ------------ Opinion-based ------------------
 		
-		// gemini: tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
+		// gemini (2): tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
 		String opinionPrompt = String.format(
 				"Here is the user's opinionated prompt: '%s' and a JSON list of relevant research papers: '%s',"
 				 + "I need you to sort the list of papers into 2 categories either 'supporting' or 'opposing' the user-prompt;" 
@@ -100,7 +103,7 @@ public class APIController {
 				 + "strucutre response like a JSON object without any formatting (must to be able to be parsed directly so no invalid characters) that may look like: 'supporting: {opinion1: [paper1ID, paper2ID...], opinion2: [paper3ID...], ...}, opposing: {opinion1: [paper4ID], opinion2: [paper5ID...], ...}'"
 				 , userPrompt.getSearchPrompt(), fetchedPapers);
 
-		String categorizedResponseBody = geminiService.callApi(opinionPrompt, "AIzaSyDLmB0f1-lmo2-WH9Dif0fC32t0_Z9Hpuo");
+		String categorizedResponseBody = geminiService.callApi(opinionPrompt, apiKey);
 
 		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
 

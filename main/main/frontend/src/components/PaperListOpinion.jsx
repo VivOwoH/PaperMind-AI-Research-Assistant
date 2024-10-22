@@ -26,7 +26,7 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
 
         setSummaries(prev => ({
           ...prev,
-          [id]: response.data.summary,  // store the fetched summary in state
+          [id]: response.data,  // store the fetched summary in state
         }));
 
       } catch (error) {
