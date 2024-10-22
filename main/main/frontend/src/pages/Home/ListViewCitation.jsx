@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { CircularProgress, Container, Grid, Typography, Paper, TextField, MenuItem } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography, TextField, MenuItem, Box } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
-import PaperDetailOpinion from '../../components/PaperDetailOpinion';
 import TopNavigation from '../../components/TopNavigation';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 function ListViewCitation() {
-  const [selectedPaper, setSelectedPaper] = useState(null);
-  const location = useLocation();
   const [graphPapers, setGraphPapers] = useState([]); // Store all papers
   const [filteredPapers, setFilteredPapers] = useState([]); // Store filtered papers
   const [currentView, setCurrentView] = useState('List View');
@@ -18,6 +16,8 @@ function ListViewCitation() {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useState('');
   const [selectedType, setSelectedType] = useState('');
+
+  const location = useLocation();
 
   useEffect(() => {
     if (location.state?.papers) {
@@ -41,7 +41,7 @@ function ListViewCitation() {
     }
     if (selectedType) {
       filtered = filtered.filter(paper => paper.publicationTypes && paper.publicationTypes.includes(selectedType));
-    }    
+    }
 
     setFilteredPapers(filtered);
   };
@@ -54,81 +54,83 @@ function ListViewCitation() {
     }
   }, [selectedYear, selectedAuthor, selectedType, graphPapers]);
 
+  const generateAISummary = async (paperId, abstract) => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/generate-summary', { abstract });
+      console.log('AI Summary:', response.data);
+    } catch (error) {
+      console.error('Error fetching AI summary:', error);
+    }
+  };
+
   if (isLoading) {
     return (
       <Container maxWidth="xl" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <CircularProgress />
       </Container>
-    );  
+    );
   }
-
-  const handlePaperClick = (paperId) => {
-    const paper = filteredPapers.find(p => p.paperId === paperId);
-    setSelectedPaper(paper);
-  };
 
   return (
     <div>
       <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
       <Container maxWidth="xl">
-        <Typography variant="h5" textAlign="left" gutterBottom>Search Results</Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              select
-              label="Filter by Year"
-              variant="outlined"
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value)}
-            >
-              <MenuItem value="">All Years</MenuItem>
-              {years.map(year => (
-                <MenuItem key={year} value={year}>{year}</MenuItem>
-              ))}
-            </TextField>
+        <Grid container spacing={3}>
+          {/* Filters on the left with fixed positioning */}
+          <Grid item xs={3} style={{ position: 'fixed', top: '100px', left: 0, height: '80vh', overflowY: 'auto' }}>
+            <Box sx={{ paddingRight: '20px' }}>
+              <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Filters</Typography>
+              <TextField
+                fullWidth
+                select
+                label="Filter by Year"
+                variant="outlined"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value)}
+                style={{ marginBottom: '20px' }}
+              >
+                <MenuItem value="">All Years</MenuItem>
+                {years.map(year => (
+                  <MenuItem key={year} value={year}>{year}</MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                fullWidth
+                label="Filter by Author"
+                variant="outlined"
+                value={selectedAuthor}
+                onChange={(e) => setSelectedAuthor(e.target.value)}
+                style={{ marginBottom: '20px' }}
+              />
+              <TextField
+                fullWidth
+                select
+                label="Filter by Type"
+                variant="outlined"
+                value={selectedType}
+                onChange={(e) => setSelectedType(e.target.value)}
+                style={{ marginBottom: '20px' }}
+              >
+                <MenuItem value="">All Types</MenuItem>
+                <MenuItem value="JournalArticle">Journal</MenuItem>
+                <MenuItem value="Conference">Conference</MenuItem>
+                <MenuItem value="Book">Book</MenuItem>
+                <MenuItem value="Review">Review</MenuItem>
+              </TextField>
+            </Box>
           </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              label="Filter by Author"
-              variant="outlined"
-              value={selectedAuthor}
-              onChange={(e) => setSelectedAuthor(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              select
-              label="Filter by Type"
-              variant="outlined"
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
-            >
-              <MenuItem value="">All Types</MenuItem>
-              <MenuItem value="JournalArticle">Journal</MenuItem>
-              <MenuItem value="Conference">Conference</MenuItem>
-              <MenuItem value="Book">Book</MenuItem>
-              <MenuItem value="Review">Review</MenuItem>
-            </TextField>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3} style={{ marginTop: '20px' }}>
-          <Grid item xs={6} sx={{ overflow: 'auto', height: '90vh' }}>
+
+          {/* Papers List on the right */}
+          <Grid item xs={9} style={{ marginLeft: '25%', overflow: 'auto', height: '80vh' }}>
+            <br></br>
             <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Papers List</Typography>
             {filteredPapers.length > 0 ? (
-              <PaperListOpinion papers={filteredPapers} onGenerateSummaryClick={handlePaperClick} />
+              <PaperListOpinion 
+                papers={filteredPapers} 
+                onGenerateSummaryClick={(paperId, abstract) => generateAISummary(paperId, abstract)} 
+              />
             ) : (
               <Typography>No papers found.</Typography>
-            )}
-          </Grid>
-          <Grid item xs={6} sx={{ position: 'fixed', top: '25vh', right: 0, width: '50%', height: `calc(100vh - 100px)`, overflowY: 'auto' }}>
-            <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Paper Summary</Typography><br />
-            {selectedPaper ? (
-              <PaperDetailOpinion paper={selectedPaper} />
-            ) : (
-              <Typography>Select a paper to view details.</Typography>
             )}
           </Grid>
         </Grid>

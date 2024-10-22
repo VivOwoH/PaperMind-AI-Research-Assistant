@@ -105,7 +105,7 @@ function PaperListOpinion({ papers, onGenerateSummaryClick }) {
             </Typography>
           </ListItem>
           <Collapse in={summaryOpen[paper.paperId]} timeout="auto" unmountOnExit>
-            <Box sx={{ width: '100%', paddingLeft: 4, paddingRight: 4 }}>
+            <Box sx={{ maxWidth: '100%', paddingLeft: 4, paddingRight: 4, overflowWrap:'break-word', boxSizing:'border-box' }}>
                 {loading[paper.paperId] ? (
                   <CircularProgress size={24} /> // show loading spinner
                 ) : summaries[paper.paperId] ? (

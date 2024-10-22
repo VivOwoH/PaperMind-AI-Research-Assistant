@@ -23,9 +23,11 @@ export default function SearchComponent() {
 
         try {
             if (searchData['graphViewType'] === 'CITATION') {
-                navigate('papers-graphview', { state: { loading: true } });
+                // navigate('papers-graphview', { state: { loading: true } });
+                navigate('/loading');
             } else if (searchData['graphViewType'] === 'OPINION') {
-                navigate('/papers-opinion-graphview', { state: { loading: true } });
+                // navigate('papers-opinion-graphview', { state: { loading: true } });
+                navigate('/loading');
             }
 
             axios.post('http://localhost:8080/api/data', searchData)
@@ -38,15 +40,17 @@ export default function SearchComponent() {
                     if (searchData['graphViewType'] === 'CITATION') {
                         navigate('papers-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'] } });
                     } else if (searchData['graphViewType'] === 'OPINION') {
-                        navigate('papers-opinion-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], supporting, opposing } });
+                        navigate('papers-opinion-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], supporting, opposing, prompt:searchData['searchPrompt'] } });
                     }
                 })
                 .catch(error => {
                     console.error('Failed to fetch data', error);
                     if (searchData['graphViewType'] === 'CITATION') {
-                        navigate('papers-graphview', { state: { loading: false, error: true } });
+                        // navigate('papers-graphview', { state: { loading: false, error: true } });
+                        navigate('/error');
                     } else if (searchData['graphViewType'] === 'OPINION') {
-                        navigate('papers-opinion-graphview', { state: { loading: false, error: true } });
+                        // navigate('papers-opinion-graphview', { state: { loading: false, error: true } });
+                        navigate('error/');
                     }
                 });
         } catch (error) {
