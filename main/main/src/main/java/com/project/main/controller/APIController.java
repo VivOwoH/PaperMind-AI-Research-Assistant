@@ -52,6 +52,18 @@ public class APIController {
 	@Autowired
 	CitationEdgeService citationEdgeService;
 
+	@Autowired
+	OpinionService opinionService;
+
+	@Autowired
+	OpinionRelatedPaperService opinionRelatedPaperService;
+
+	@Autowired
+	OpinionEdgeService opinionEdgeService;
+
+	@Autowired
+	OpinionEdgeIdService opinionEdgeIdService;
+
 	public APIController(UserPromptService userPromptService, SemanticService semanticService, TokenResponseService tokenResponseService, AppResponseService appResponseService) {
 		this.userPromptService = userPromptService;
 		this.semanticService = semanticService;
@@ -252,6 +264,61 @@ public class APIController {
 		appResponseService.updateAppResponse(appResponse.getId(), appResponse);
 
 		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
+
+		// if opinion graph, then create opinions, opinionrelatedpapers and opinionedges
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.OPINION) {
+			Iterator<String> fieldNames = categorizedResponseJSON.fieldNames();
+			while (fieldNames.hasNext()) {
+				String key = fieldNames.next();
+				JsonNode opinionCategoryNode = categorizedResponseJSON.get(key);
+
+				String opinionType = key.equals("supporting") ? "supporting" : "opposing";
+
+				if (opinionCategoryNode != null && opinionCategoryNode.isObject()) {
+					Iterator<String> categoryNames = opinionCategoryNode.fieldNames();
+					while (categoryNames.hasNext()) {
+						String opinionVal = categoryNames.next();
+
+						// save new opinion
+						Opinion opinion = new Opinion(); 
+						opinion.setOpinionVal(opinionVal);
+
+						if (opinionType.equals("supporting")) {
+							opinion.setOpinionType(OpinionType.SUPPORTING);
+						} else {
+							opinion.setOpinionType(OpinionType.OPPOSING);
+						}
+
+
+						opinionService.saveOpinion(opinion);
+
+						// save opinionrelatedpaper object
+						JsonNode paperIdsArray = opinionCategoryNode.get(opinionVal);
+						if (paperIdsArray.isArray()) {
+							for (JsonNode paperIdNode : paperIdsArray) {
+								String paperId = paperIdNode.asText();
+
+								// find researchpaper related to the paperId
+								ResearchPaper researchPaper = researchPaperService.getResearchPaperBySemanticPaperId(paperId);
+
+								// create opinionrelatedpaper object
+								OpinionRelatedPapers opinionRelatedPaper = new OpinionRelatedPapers(opinion, researchPaper);
+								opinionRelatedPaperService.saveOpinionRelatedPapers(opinionRelatedPaper);
+							}
+						}
+						
+						// save opinion edge
+						OpinionEdgeId opinionEdgeId = new OpinionEdgeId(0, graph.getId(), opinion.getId());
+						opinionEdgeId.setEdgeId(opinionEdgeIdService.generateRandomEdgeId());
+						OpinionEdge opinionEdge = new OpinionEdge();
+						opinionEdge.setId(opinionEdgeId);
+						opinionEdge.setGraph(graph);
+						opinionEdge.setOpinion(opinion);
+						opinionEdgeService.saveOpinionEdge(opinionEdge);
+					}
+				}
+			}
+		}
 
 		if (categorizedResponseJSON != null) {
 			categorizedResponseJSON.putPOJO("Papers", fetchedPapers);
