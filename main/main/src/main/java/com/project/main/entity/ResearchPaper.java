@@ -13,15 +13,20 @@ public class ResearchPaper {
     private Integer paperId;
 
     @Column(nullable = false)
+    private String semanticPaperId;
+
+    @Column(nullable = true)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime publishedDate;
 
-    @Column(length = 2000)
+    @Lob
+    @Column()
     private String abstractText; // 'abstract' is a keyword, so use 'abstractText'
 
-    @Column(length = 2000)
+    @Lob
+    @Column()
     private String methodologySummary;
 
     @Column(nullable = false)
@@ -30,7 +35,7 @@ public class ResearchPaper {
     @Column(nullable = false)
     private Integer citationsCount;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer viewsCount;
 
     // Inverse side of the Many-to-Many relationship with Author
@@ -39,7 +44,8 @@ public class ResearchPaper {
 
     public ResearchPaper() {}
 
-    public ResearchPaper(String title, LocalDateTime publishedDate, String abstractText, String methodologySummary, String sourceLink, Integer citationsCount, Integer viewsCount) {
+    public ResearchPaper(String semanticPaperId, String title, LocalDateTime publishedDate, String abstractText, String methodologySummary, String sourceLink, Integer citationsCount, Integer viewsCount) {
+        this.semanticPaperId = semanticPaperId;
         this.title = title;
         this.publishedDate = publishedDate;
         this.abstractText = abstractText;
@@ -57,6 +63,14 @@ public class ResearchPaper {
 
     public void setPaperId(Integer paperId) {
         this.paperId = paperId;
+    }
+
+    public String getSemanticPaperId() {
+        return semanticPaperId;
+    }
+
+    public void setSemanticPaperId(String semanticPaperId) {
+        this.semanticPaperId = semanticPaperId;
     }
 
     public String getTitle() {
@@ -127,6 +141,7 @@ public class ResearchPaper {
     public String toString() {
         return "ResearchPaper{" +
                 "paperId=" + paperId +
+                "semanticPaperId=" + semanticPaperId +
                 ", title='" + title + '\'' +
                 ", publishedDate=" + publishedDate +
                 ", abstractText='" + abstractText + '\'' +

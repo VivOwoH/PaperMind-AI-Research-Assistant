@@ -16,6 +16,10 @@ Research Assistant
 - In another terminal window, navigate to ```frontend``` directory within ```main/main``` and run ```npm start``` to start your React application
 - View the frontend on the browser at ```http://localhost:3000```
 
+### API key
+- Obtain your own API key from https://aistudio.google.com/app/apikey
+- Navigate to application-dev.properties, and add this line ```apiKey={yourKey}```
+
 ## How to run tests
 Run the following command to run the tests and build the reports.
 ```./gradlew clean test jacocoTestReport```

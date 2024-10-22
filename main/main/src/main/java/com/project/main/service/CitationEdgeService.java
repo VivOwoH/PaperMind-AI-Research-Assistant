@@ -1,6 +1,7 @@
 package com.project.main.service;
 
 import com.project.main.entity.CitationEdge;
+import com.project.main.entity.ResearchPaper;
 import com.project.main.repository.CitationEdgeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,17 @@ public class CitationEdgeService {
 
     public void deleteCitationEdgeById(Integer id) {
         citationEdgeRepo.deleteById(id);
+    }
+
+    public List<CitationEdge> getCitationEdgesByFirstResearchPaper(ResearchPaper firstResearchPaper) {
+        return citationEdgeRepo.findByFirstResearchPaper(firstResearchPaper);
+    }
+
+    public List<CitationEdge> getCitationEdgesBySecondResearchPaper(ResearchPaper secondResearchPaper) {
+        return citationEdgeRepo.findBySecondResearchPaper(secondResearchPaper);
+    }
+
+    public List<CitationEdge> getCitationEdgesByFirstAndSecondResearchPapers(ResearchPaper firstResearchPaper, ResearchPaper secondResearchPaper) {
+        return citationEdgeRepo.findByFirstResearchPaperAndSecondResearchPaper(firstResearchPaper, secondResearchPaper);
     }
 }

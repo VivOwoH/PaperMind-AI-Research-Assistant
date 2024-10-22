@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Lob;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class AppResponse {
     @JoinColumn(name="prompt_id", referencedColumnName = "id", nullable=false)
     private UserPrompt userPrompt;
 
+    @Lob
     @Column(name="generated_response")
     private String generatedResponse;
 
