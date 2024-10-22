@@ -1,36 +1,30 @@
-.search-main-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .search-main-container .search-type {
     color: black;
     margin-bottom:20px;
 }
 
 .search-container {
-    padding-top:20px;
+    padding:1rem;
     display: flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content: space-between;
     width:100%;
     margin: auto;
+    background-color:transparent;
 }
 
 .search-input {
-    margin-bottom: 30px;
-    width:100%;
+    flex:1;
+    min-width:400px;
+
 }
 
 .options-fieldset {
     width:80%;
     margin-bottom: 10px;
+    color:black;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
 
 .search-container .search-icon-button {
     background-color: transparent;
@@ -43,7 +37,7 @@
 }
 
 .radio-label {
-    color: #555;
+    color: black;
 }
 
 .citation-opinion-toggle {
@@ -54,4 +48,55 @@
 
 .citation-opinion-toggle button {
     margin-left: 10px;
+}
+
+.search-type{
+    color:black;
+}
+
+.radio-icon{
+    color: black; 
+}
+
+.radio-icon.Mui-checked {
+    color: #f2bd29; /* when checked */
+}
+
+.toggle-container{
+    height: 50vh;
+    width:60%;
+}
+
+.search-container-wrapper {
+    width: 100%;
+    margin: 0 auto; /* Center the container */
+    
+}
+
+.search-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .search-type {
+        font-size: 1.5rem; /* Adjust font size */
+        text-align: center; /* Center the text */
+    }
+
+    .search-container {
+        flex-direction: column; /* Stack the search input and buttons */
+        align-items: stretch; /* Stretch to full width */
+    }
+
+    .options-fieldset {
+        width: 100%; /* Make options full width */
+        margin-bottom: 10px;
+    }
+    .search-input {
+        width: 100%; /* Full width on smaller screens */
+        min-width: auto; /* Remove min-width constraint */
+    }
 }

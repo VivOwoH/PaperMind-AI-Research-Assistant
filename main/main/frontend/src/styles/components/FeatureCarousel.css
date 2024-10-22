@@ -1,0 +1,95 @@
+.carousel-container {
+    display: flex;
+    transition: transform 1.5s ease-in-out; /* Smooth sliding transition */
+    width: 500%; /* Adjust the width based on the number of cards */
+    align-items:stretch;
+}
+
+/* Individual card styling */
+.card {
+    min-width: 100%; /* Each card should take up the full width of the container */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    text-align: center;
+    margin: 10px;
+    border-radius: 10px;
+    flex: 1; /* Ensure cards take up available space */
+}
+
+/* Hidden cards */
+.card-hidden {
+    display: none;
+}
+
+/* Arrow styles */
+.arrow {
+    cursor: pointer;
+    font-size: 30px;
+    color: #aea9a9;
+    padding: 10px;
+}
+
+/* Carousel indicator (dots) */
+.indicator {
+    background-color: #333;
+    border: none;
+    margin: 5px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Inactive indicators (dots) */
+.indicator-inactive {
+    background-color: #ddd;
+}
+
+/* Responsive adjustments */
+
+/* On smaller screens (tablets and phones) */
+@media (max-width: 768px) {
+    .carousel-container {
+        width: 300%; /* Adjust the width based on the number of cards */
+    }
+
+    .card {
+        min-width: 100%; /* Ensure each card still takes up the full width */
+        padding: 15px;
+        font-size: 0.9rem; /* Reduce font size for smaller screens */
+    }
+
+    .arrow {
+        font-size: 25px; /* Adjust arrow size for smaller screens */
+        padding: 5px;
+    }
+
+    .indicator {
+        height: 8px; /* Reduce indicator size */
+        width: 8px;
+    }
+}
+
+/* For very small screens (phones) */
+@media (max-width: 480px) {
+    .carousel-container {
+        width: 100%; /* Make it 100% for single card view */
+    }
+
+    .card {
+        min-width: 100%; /* Each card should still take up full width */
+        padding: 10px;
+        font-size: 0.8rem; /* Reduce font size even further for small screens */
+    }
+
+    .arrow {
+        font-size: 20px; /* Smaller arrows */
+    }
+
+    .indicator {
+        height: 6px; /* Even smaller indicators */
+        width: 6px;
+    }
+}

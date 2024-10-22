@@ -1,34 +1,100 @@
-.home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #fff;
-    color: #333;
-    font-family: 'Arial', sans-serif;
+/* Main container for image and text */
+.home-container {
+    display: flex; /* Flexbox for side-by-side layout */
+    flex-direction: column; /* Column layout for text stacking */
+    align-items: flex-end; /* Center the content */
+    justify-content: center; /* Center content vertically */
+    height: 45vh; /* Adjust the height to your needs */
+    position: relative; /* Ensure content overlays the background */
+    color: white; /* Ensure text is visible over the image */
+    padding-right: 5%;
+    padding-left:1%;
+    
 }
 
-.home h1 {
-    font-size: 2rem;
-    color: #2255a4;
+/* Make the card responsive */
+.explain-txt-box {
+    margin: 0; /* Center the card */
+    width: 60%; /* Ensure card width stays within bounds */
+    max-width: 600px; /* Set a maximum width */
+    font-family: 'monospace';
+    box-sizing: border-box;
+    padding:2rem;
+
 }
 
-.home p {
-    font-size: 1.2rem;
-}
-
-.home button {
-    padding: 10px 20px;
+/* Moving text */
+.middle-text {
     font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    z-index: 10;
+    margin-left: 2rem;
+    flex: 1;
+    color: white;
+    white-space: nowrap;
+    animation: moveText 10s linear infinite;
+    padding-right: 100%;
 }
 
-.home button:hover {
-    background-color: #0056b3;
+/* Responsive text in the card */
+.explain-txt {
+    text-align: right;
+    padding: 10px 0;
+    font-size: 1.2rem; /* Use responsive font size */
+}
+
+/* Ensure that the top-left text scales */
+.top-left-text {
+    position: absolute;
+    margin-top: 2vh;
+    margin-left: 2vh;
+    font-size: 2rem;
+    color: white;
+    z-index: 10;
+}
+
+/* Responsive adjustments for screen sizes */
+@media (max-width: 768px) {
+    /* Adjust layout when screen is smaller */
+    .home-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;  /* Add padding to avoid overlap */
+    }
+
+    /* Ensure the text box does not overlap the top text */
+    .explain-txt-box {
+        width: 90vw;  /* Allow the card to take up most of the width */
+        margin-top: 2rem;  /* Add top margin to separate from top-left-text */
+        text-align: center;  /* Center the text */
+    }
+
+    /* Adjust the top-left text position */
+    .top-left-text {
+        font-size: 1.5rem;  /* Reduce the font size */
+        margin-top: 1vh;  /* Adjust margin to avoid overlap */
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    .home-container {
+        flex-direction: column;
+        padding: 1rem;
+        align-items: center;
+    }
+
+    .explain-txt-box {
+        width: 100%;  /* Ensure the card takes full width */
+        margin-top: 3rem;  /* Add margin to push it away from the top */
+    }
+
+    .top-left-text {
+        font-size: 1.2rem;  /* Adjust the font size further for smaller screens */
+        margin-top: 1vh;
+    }
+}
+
+.search-provider-container{
+    background-color: white;
 }
