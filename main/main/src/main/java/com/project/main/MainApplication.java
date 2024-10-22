@@ -26,11 +26,6 @@ public class MainApplication {
 		SpringApplication.run(MainApplication.class, args);
 	}
 
-	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-		return String.format("Hello %s!", name);
-	}
-
 	// CORS config for react frontend to access backend
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
