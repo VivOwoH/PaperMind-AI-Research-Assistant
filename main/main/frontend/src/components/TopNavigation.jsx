@@ -18,7 +18,8 @@ const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting
         if (viewOption === 'List View') {
             // Navigate to the List View page when "List View" is selected from the dropdown
             if (viewtype === 'CITATION'){
-                navigate('/list-view', { state: { papers } }); // Redirect to ListViewPage with papers
+                console.log(prompt);
+                navigate('/list-view', { state: { papers, prompt } }); // Redirect to ListViewPage with papers
             }else if (viewtype === 'OPINION'){ 
                 navigate('/opinion-list-view', { state: { papers, supporting, opposing, prompt } }); 
             }

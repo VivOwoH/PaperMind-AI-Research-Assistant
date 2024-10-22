@@ -16,8 +16,9 @@ function ListViewCitation() {
   const [selectedYear, setSelectedYear] = useState('');
   const [selectedAuthor, setSelectedAuthor] = useState('');
   const [selectedType, setSelectedType] = useState('');
-
   const location = useLocation();
+  const [searchPrompt, setSearchPrompt] = useState('');
+  
 
   useEffect(() => {
     if (location.state?.papers) {
@@ -28,7 +29,20 @@ function ListViewCitation() {
       const uniqueYears = [...new Set(location.state.papers.map(paper => new Date(paper.publicationDate).getFullYear()))];
       setYears(uniqueYears.sort((a, b) => b - a));
     }
+    if (location.state?.prompt){
+      setSearchPrompt(location.state.prompt);
+    }
+    console.log(searchPrompt);
   }, [location.state?.papers]);
+
+  const capitalizeWords = (str) => {
+    return str
+      .split(' ')               
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+      .join(' ');               
+  };
+
+  const formattedPrompt = capitalizeWords(searchPrompt);
 
   const applyFilters = () => {
     let filtered = [...graphPapers];
@@ -79,7 +93,9 @@ function ListViewCitation() {
           {/* Filters on the left with fixed positioning */}
           <Grid item xs={3} style={{ position: 'fixed', top: '100px', left: 0, height: '80vh', overflowY: 'auto' }}>
             <Box sx={{ paddingRight: '20px' }}>
-              <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Filters</Typography>
+              <Typography variant="h6" sx={{ color: 'black', fontWeight: 'light' }}>Apply Filters</Typography>
+              <br></br>
+              <Typography sx={{ color: 'black', fontWeight: 'light' }}>Year</Typography>
               <TextField
                 fullWidth
                 select
@@ -94,6 +110,7 @@ function ListViewCitation() {
                   <MenuItem key={year} value={year}>{year}</MenuItem>
                 ))}
               </TextField>
+              <Typography sx={{ color: 'black', fontWeight: 'light' }}>Author</Typography>
               <TextField
                 fullWidth
                 label="Filter by Author"
@@ -102,6 +119,7 @@ function ListViewCitation() {
                 onChange={(e) => setSelectedAuthor(e.target.value)}
                 style={{ marginBottom: '20px' }}
               />
+              <Typography sx={{ color: 'black', fontWeight: 'light' }}>Publication Type</Typography>
               <TextField
                 fullWidth
                 select
@@ -109,7 +127,7 @@ function ListViewCitation() {
                 variant="outlined"
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value)}
-                style={{ marginBottom: '20px' }}
+                style={{ marginBottom: '20px'}}
               >
                 <MenuItem value="">All Types</MenuItem>
                 <MenuItem value="JournalArticle">Journal</MenuItem>
@@ -121,9 +139,9 @@ function ListViewCitation() {
           </Grid>
 
           {/* Papers List on the right */}
-          <Grid item xs={9} style={{ marginLeft: '25%', overflow: 'auto', height: '80vh' }}>
+          <Grid item xs={9} style={{ marginLeft: '25%', marginTop:'2.2%', height: 'calc(100vh - 10vh)', overflowY: 'auto' }}>
             <br></br>
-            <Typography variant="h6" sx={{ color: 'grey', fontWeight: 'bold' }}>Papers List</Typography>
+            <Typography  sx={{ color: 'darkblue', fontWeight: 'light', fontSize:'20px' }}>Showing results for {formattedPrompt} </Typography>
             {filteredPapers.length > 0 ? (
               <PaperListOpinion 
                 papers={filteredPapers} 

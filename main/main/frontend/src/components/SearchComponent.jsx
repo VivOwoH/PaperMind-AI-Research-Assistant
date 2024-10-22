@@ -38,7 +38,7 @@ export default function SearchComponent() {
                     setGraphPapers(top20papers);
 
                     if (searchData['graphViewType'] === 'CITATION') {
-                        navigate('papers-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'] } });
+                        navigate('papers-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], prompt:searchData['searchPrompt'] } });
                     } else if (searchData['graphViewType'] === 'OPINION') {
                         navigate('papers-opinion-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], supporting, opposing, prompt:searchData['searchPrompt'] } });
                     }

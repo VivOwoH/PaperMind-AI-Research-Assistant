@@ -197,7 +197,7 @@ function ListViewOpinion() {
                                 </Paper>
                             ))
                         ) : (
-                            <Typography>No supporting papers found.</Typography>
+                            <Typography sx={{marginTop:'3%'}}>No supporting papers found.</Typography>
                         )}
                     </Grid>
                     <Grid item xs={12} md={6}>
@@ -244,7 +244,8 @@ function ListViewOpinion() {
                                 </Paper>
                             ))
                         ) : (
-                            <Typography>No opposing papers found.</Typography>
+                            
+                            <Typography sx={{marginTop:'3%', color:'darkblue'}}>No opposing papers found.</Typography>
                         )}
                     </Grid>
                 </Grid>
