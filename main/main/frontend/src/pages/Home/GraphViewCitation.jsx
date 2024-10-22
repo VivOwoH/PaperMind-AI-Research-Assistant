@@ -11,12 +11,13 @@ function GraphViewCitation() {
   const [graphPapers, setGraphPapers] = useState([]); // Start with an empty array
   const [currentView, setCurrentView] = useState('Graph View');
   const isLoading = location.state?.loading ?? true;
+  const [viewType, setViewType] = useState(''); 
   
-
 
   useEffect(() => {
     if (location.state?.graphPapers) {
         setGraphPapers(location.state.graphPapers);
+        setViewType(location.state.graphViewType);
     }
   }, [location.state?.graphPapers]);
 
@@ -30,7 +31,7 @@ function GraphViewCitation() {
   
   return (
     <div>
-      <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
+      <TopNavigation currentView={currentView} onViewChange={setCurrentView} papers={graphPapers} viewtype={viewType}/>
       <Container maxWidth="xl">
         <br></br>
         <Typography variant="h5" textAlign="left" gutterBottom>Results for </Typography>
