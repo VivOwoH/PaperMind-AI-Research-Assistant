@@ -2,7 +2,7 @@ package com.project.main.entity;
 
 import jakarta.persistence.*;
 @Table(
-    uniqueConstraints = @UniqueConstraint(columnNames = {"graph_id", "paper_id"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"graph_id", "first_paper_id", "second_paper_id"})
 )
 @Entity
 public class CitationEdge {
@@ -16,15 +16,19 @@ public class CitationEdge {
     private Graph graph;  // Foreign Key to Graph
 
     @ManyToOne
-    @JoinColumn(name = "paper_id", nullable = false)
-    private ResearchPaper researchPaper;  // Foreign Key to ResearchPaper
+    @JoinColumn(name = "first_paper_id", nullable = false)
+    private ResearchPaper firstResearchPaper;  // Foreign Key to ResearchPaper
 
-    
+    @ManyToOne
+    @JoinColumn(name = "second_paper_id", nullable = false)
+    private ResearchPaper secondResearchPaper;  // Foreign Key to ResearchPaper
+
     public CitationEdge() {}
 
-    public CitationEdge(Graph graph, ResearchPaper researchPaper) {
+    public CitationEdge(Graph graph, ResearchPaper firstResearchPaper, ResearchPaper secondResearchPaper) {
         this.graph = graph;
-        this.researchPaper = researchPaper;
+        this.firstResearchPaper = firstResearchPaper;
+        this.secondResearchPaper = secondResearchPaper;
     }
 
     public Integer getEdgeId() {
@@ -43,11 +47,19 @@ public class CitationEdge {
         this.graph = graph;
     }
 
-    public ResearchPaper getResearchPaper() {
-        return researchPaper;
+    public ResearchPaper getFirstResearchPaper() {
+        return firstResearchPaper;
     }
 
-    public void setResearchPaper(ResearchPaper researchPaper) {
-        this.researchPaper = researchPaper;
+    public void setFirstResearchPaper(ResearchPaper firstResearchPaper) {
+        this.firstResearchPaper = firstResearchPaper;
+    }
+
+    public ResearchPaper getSecondResearchPaper() {
+        return secondResearchPaper;
+    }
+
+    public void setSecondResearchPaper(ResearchPaper secondResearchPaper) {
+        this.secondResearchPaper = secondResearchPaper;
     }
 }

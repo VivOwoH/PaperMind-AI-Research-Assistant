@@ -18,7 +18,7 @@ Research Assistant
 
 ### API key
 - Obtain your own API key from https://aistudio.google.com/app/apikey
-- Navigate to application.properties, and add this line ```apiKey={yourKey}```
+- Navigate to application-dev.properties, and add this line ```apiKey={yourKey}```
 
 ## How to run tests
 Run the following command to run the tests and build the reports.

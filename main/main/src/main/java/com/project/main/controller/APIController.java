@@ -14,10 +14,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.project.main.entity.UserPrompt;
-import com.project.main.service.GeminiService;
-import com.project.main.service.SemanticService;
-import com.project.main.service.UserPromptService;
+
+import org.json.JSONArray;
+
+import com.project.main.entity.*;
+import com.project.main.service.*;
+import com.project.main.enums.*;
+
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Iterator;
 
 @RestController
 @RequestMapping("/api/data")
@@ -26,16 +35,47 @@ public class APIController {
 
 	@Autowired
 	GeminiService geminiService;
+
 	@Autowired
 	SemanticService semanticService;
 
-	private final UserPromptService userPromptService;
+	@Autowired
+	UserPromptService userPromptService;
+
+	@Autowired
+	TokenResponseService tokenResponseService;
+
+	@Autowired
+	AppResponseService appResponseService;
+
+	@Autowired
+	GraphService graphService;
+
+	@Autowired
+	AuthorService authorService;
+
+	@Autowired
+	ResearchPaperService researchPaperService;
+
+	@Autowired
+	CitationEdgeService citationEdgeService;
+
+	@Autowired
+	OpinionService opinionService;
+
+	@Autowired
+	OpinionRelatedPaperService opinionRelatedPaperService;
+
+	@Autowired
+	OpinionEdgeService opinionEdgeService;
+
+	@Autowired
+	OpinionEdgeIdService opinionEdgeIdService;
 
 	@Value("${apiKey}")
     private String apiKey;
 
-	public APIController(UserPromptService userPromptService) {
-		this.userPromptService = userPromptService;
+	public APIController() {
 	}
 
 	@PostMapping
@@ -62,6 +102,11 @@ public class APIController {
 		if (responseJSON == null)
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No gemini response (1) received.");
 
+		// create token response
+		TokenResponse tokenResponse = new TokenResponse();
+		tokenResponse.setUserPrompt(userPrompt);
+		tokenResponse.setProcessedPrompt(responseJSON.toString());
+
 		// semantic (1): use the list of extracted keywords to get a JSON list of papers
 		String semanticQuery = responseJSON.get("keywords").asText()
 						.replace(",", "")
@@ -74,6 +119,87 @@ public class APIController {
 
 		if (fetchedPapers == null)
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No semantic response (1) received.");
+
+		// save all research papers
+		for (JsonNode paperNode : fetchedPapers) {
+			String title = paperNode.get("title").asText();		
+			String paperId = paperNode.get("paperId").asText();			
+			LocalDate publishedDate = null; // Initialize to null
+			if (paperNode.has("publicationDate") && !paperNode.get("publicationDate").isNull()) {
+				String publicationDateStr = paperNode.get("publicationDate").asText();
+				
+				if (!publicationDateStr.isEmpty() && !publicationDateStr.equalsIgnoreCase("null")) {
+					publishedDate = LocalDate.parse(publicationDateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+				}
+			}
+	
+			String abstractText = paperNode.get("abstract").asText("");
+			String sourceLink = paperNode.get("url").asText();
+			if (paperNode.has("openAccessPdf") && paperNode.get("openAccessPdf").has("url")) {
+				sourceLink = paperNode.get("openAccessPdf").get("url").asText();
+			}
+
+			int citationsCount = paperNode.get("citationCount").asInt(0);
+			int viewsCount = 0; 
+
+			LocalDateTime publishedDateTime = null;
+			if (publishedDate != null) {
+				publishedDateTime = publishedDate.atStartOfDay();
+			}
+
+			ResearchPaper researchPaper = new ResearchPaper(
+				paperId,
+				title,
+				publishedDateTime,
+				abstractText,
+				null,
+				sourceLink,
+				citationsCount,
+				viewsCount
+			);
+			researchPaperService.saveResearchPaper(researchPaper);
+
+			// extract authors from the 'authors' array in the paperNode
+			Set<Author> authors = new HashSet<>();
+			if (paperNode.has("authors")) {
+				for (JsonNode authorNode : paperNode.get("authors")) {
+
+					String authorName = authorNode.get("name").asText();
+					Author author = new Author(authorName);
+					
+					author.getResearchPapers().add(researchPaper);
+					authors.add(author);
+
+					authorService.saveAuthor(author);
+				}
+			}
+
+			// update authors to the researchPaper
+			researchPaper.setAuthors(authors);
+			researchPaperService.updateResearchPaper(researchPaper.getPaperId(), researchPaper);
+		}
+
+		// first get paper ids into json array
+		// set generated response to token response and save
+		// for TokenResponse
+		JSONArray fetchedPapersIds = DataService.getPaperIDs(fetchedPapers);
+		tokenResponse.setGeneratedResponse(fetchedPapersIds.toString());
+		tokenResponseService.saveTokenResponse(tokenResponse);
+
+		// create app response. will save after
+		AppResponse appResponse = new AppResponse();
+		appResponse.setUserPrompt(userPrompt);
+		appResponseService.saveAppResponse(appResponse);
+
+		// save graph
+		Graph graph = new Graph();
+		graph.setAppResponse(appResponse);
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
+			graph.setGraphType(GraphType.CITATION);
+		} else if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.OPINION) {
+			graph.setGraphType(GraphType.OPINION);
+		}
+		graphService.saveGraph(graph);
 
 		// ------------ Citation-based ------------------
 		
@@ -92,10 +218,43 @@ public class APIController {
 				e.printStackTrace();
 			}	
 		}
-		
+
+		// if citiation graph, then create citationedge
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.CITATION) {
+			fetchedCitations.fieldNames().forEachRemaining(firstPaperId -> {
+				ResearchPaper firstResearchPaper = researchPaperService.getResearchPaperBySemanticPaperId(firstPaperId);
+
+				JsonNode citingPapers = fetchedCitations.get(firstPaperId);
+				citingPapers.forEach(citingPaperNode -> {
+					String secondPaperId = citingPaperNode.get("citingPaper").get("paperId").asText();
+					ResearchPaper secondResearchPaper = researchPaperService.getResearchPaperBySemanticPaperId(secondPaperId);
+
+					// second paper does not exist
+					// NOTE: there is less information here, they lack title, etc.
+					if (secondResearchPaper == null) {
+						secondResearchPaper = new ResearchPaper();
+						secondResearchPaper.setSemanticPaperId(secondPaperId);
+						secondResearchPaper.setAbstractText(citingPaperNode.get("citingPaper").get("abstract").asText(""));
+						secondResearchPaper.setCitationsCount(citingPaperNode.get("citingPaper").get("citationCount").asInt(0));
+						String sourceLink = "";
+						if (citingPaperNode.has("openAccessPdf") && citingPaperNode.get("openAccessPdf").has("url")) {
+							sourceLink = citingPaperNode.get("citingPaper").get("openAccessPdf").get("url").asText();
+						}
+						secondResearchPaper.setSourceLink(sourceLink);
+						
+						researchPaperService.saveResearchPaper(secondResearchPaper);
+					}
+
+					// create a new CitationEdge
+					CitationEdge citationEdge = new CitationEdge(graph, firstResearchPaper, secondResearchPaper);
+					citationEdgeService.saveCitationEdge(citationEdge);
+				});
+			});
+		}
+
 		// ------------ Opinion-based ------------------
 		
-		// gemini: tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
+		// gemini (2): tuned_prompt for top 20 papers, sort them by support/oppose, and get the summarized opinions
 		String opinionPrompt = String.format(
 				"Here is the user's opinionated prompt: '%s' and a JSON list of relevant research papers: '%s',"
 				 + "I need you to sort the list of papers into 2 categories either 'supporting' or 'opposing' the user-prompt;" 
@@ -105,7 +264,67 @@ public class APIController {
 
 		String categorizedResponseBody = geminiService.callApi(opinionPrompt, apiKey);
 
+		// save app response
+		appResponse.setGeneratedResponse(categorizedResponseBody);
+		appResponse.setGeneratedDateTime(LocalDateTime.now());
+		appResponseService.updateAppResponse(appResponse.getId(), appResponse);
+
 		ObjectNode categorizedResponseJSON = categorizedResponseFormatting(categorizedResponseBody).getBody(); // response formatting
+
+		// if opinion graph, then create opinions, opinionrelatedpapers and opinionedges
+		if (userPrompt.getGraphViewType() != GraphViewType.NONE && userPrompt.getGraphViewType() == GraphViewType.OPINION) {
+			Iterator<String> fieldNames = categorizedResponseJSON.fieldNames();
+			while (fieldNames.hasNext()) {
+				String key = fieldNames.next();
+				JsonNode opinionCategoryNode = categorizedResponseJSON.get(key);
+
+				String opinionType = key.equals("supporting") ? "supporting" : "opposing";
+
+				if (opinionCategoryNode != null && opinionCategoryNode.isObject()) {
+					Iterator<String> categoryNames = opinionCategoryNode.fieldNames();
+					while (categoryNames.hasNext()) {
+						String opinionVal = categoryNames.next();
+
+						// save new opinion
+						Opinion opinion = new Opinion(); 
+						opinion.setOpinionVal(opinionVal);
+
+						if (opinionType.equals("supporting")) {
+							opinion.setOpinionType(OpinionType.SUPPORTING);
+						} else {
+							opinion.setOpinionType(OpinionType.OPPOSING);
+						}
+
+
+						opinionService.saveOpinion(opinion);
+
+						// save opinionrelatedpaper object
+						JsonNode paperIdsArray = opinionCategoryNode.get(opinionVal);
+						if (paperIdsArray.isArray()) {
+							for (JsonNode paperIdNode : paperIdsArray) {
+								String paperId = paperIdNode.asText();
+
+								// find researchpaper related to the paperId
+								ResearchPaper researchPaper = researchPaperService.getResearchPaperBySemanticPaperId(paperId);
+
+								// create opinionrelatedpaper object
+								OpinionRelatedPapers opinionRelatedPaper = new OpinionRelatedPapers(opinion, researchPaper);
+								opinionRelatedPaperService.saveOpinionRelatedPapers(opinionRelatedPaper);
+							}
+						}
+						
+						// save opinion edge
+						OpinionEdgeId opinionEdgeId = new OpinionEdgeId(0, graph.getId(), opinion.getId());
+						opinionEdgeId.setEdgeId(opinionEdgeIdService.generateRandomEdgeId());
+						OpinionEdge opinionEdge = new OpinionEdge();
+						opinionEdge.setId(opinionEdgeId);
+						opinionEdge.setGraph(graph);
+						opinionEdge.setOpinion(opinion);
+						opinionEdgeService.saveOpinionEdge(opinionEdge);
+					}
+				}
+			}
+		}
 
 		if (categorizedResponseJSON != null) {
 			categorizedResponseJSON.putPOJO("Papers", fetchedPapers);

@@ -26,6 +26,7 @@ dependencies {
 	// database
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.postgresql:postgresql'
+	implementation 'org.json:json:20230227'
 }
 
 jacoco {
@@ -44,5 +45,12 @@ jacocoTestReport {
         xml.required = true
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+	afterEvaluate {
+        classDirectories.setFrom(
+            files(classDirectories.files.collect {
+                fileTree(dir: it, exclude: ['com/project/main/entity/**'])
+            })
+        )
     }
 }

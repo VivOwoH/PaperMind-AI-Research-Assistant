@@ -44,6 +44,7 @@ public class OpinionService {
 
             if (newOpinionDetails.getId().equals(existingOpinion.getId())) {
                 existingOpinion.setOpinionVal(newOpinionDetails.getOpinionVal()); 
+                existingOpinion.setOpinionType(newOpinionDetails.getOpinionType()); 
 
                 // Save the updated entity
                 Opinion updatedOpinion = this.opinionRepo.save(existingOpinion);
