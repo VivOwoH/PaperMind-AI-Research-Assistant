@@ -35,10 +35,24 @@ export default function SearchComponent() {
                     const top20papers = response.data.Papers;
                     const supporting = response.data.supporting;
                     const opposing = response.data.opposing;
-                    setGraphPapers(top20papers);
+                    const citations = response.data.Citations;
 
+                    // printing out citations
+                    console.log(typeof response.data.Citations);
+                    if (citations) {
+                        Object.keys(citations).forEach(citationKey => {
+                        console.log(typeof citations[citationKey]);
+                        console.log(`Key: ${citationKey}, Value:`, citations[citationKey]);
+                    });
+                    } else {
+                        console.log('Citations not found');
+                    }
+
+
+                    setGraphPapers(top20papers);
+                    console.log(response.data);
                     if (searchData['graphViewType'] === 'CITATION') {
-                        navigate('papers-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], prompt:searchData['searchPrompt'] } });
+                        navigate('papers-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], prompt:searchData['searchPrompt'], supporting, opposing, citations, selectedFilter: category  }});
                     } else if (searchData['graphViewType'] === 'OPINION') {
                         navigate('papers-opinion-graphview', { state: { papers: response.data, graphPapers: top20papers, loading: false, graphViewType: searchData['graphViewType'], supporting, opposing, prompt:searchData['searchPrompt'] } });
                     }
