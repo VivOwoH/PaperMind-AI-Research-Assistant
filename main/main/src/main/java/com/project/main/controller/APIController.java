@@ -307,6 +307,12 @@ public class APIController {
 								// find researchpaper related to the paperId
 								ResearchPaper researchPaper = researchPaperService.getResearchPaperBySemanticPaperId(paperId);
 
+								if (researchPaper == null) {
+									researchPaper = new ResearchPaper();
+									researchPaper.setSemanticPaperId(paperId);
+									researchPaperService.saveResearchPaper(researchPaper);
+								}
+
 								// create opinionrelatedpaper object
 								OpinionRelatedPapers opinionRelatedPaper = new OpinionRelatedPapers(opinion, researchPaper);
 								opinionRelatedPaperService.saveOpinionRelatedPapers(opinionRelatedPaper);
