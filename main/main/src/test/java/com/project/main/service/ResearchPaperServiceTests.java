@@ -93,4 +93,75 @@ class ResearchPaperServiceTests {
 
         verify(researchPaperRepo, times(1)).deleteById(1);
     }
+
+    @Test
+    void testGetResearchPaperBySemanticPaperIdSuccess() {
+        ResearchPaper researchPaper = new ResearchPaper();
+        when(researchPaperRepo.findBySemanticPaperId("SP123")).thenReturn(Optional.of(researchPaper));
+
+        ResearchPaper result = researchPaperService.getResearchPaperBySemanticPaperId("SP123");
+
+        assertNotNull(result);
+        assertEquals(researchPaper, result);
+        verify(researchPaperRepo, times(1)).findBySemanticPaperId("SP123");
+    }
+
+    @Test
+    void testUpdateResearchPaperPaperIdMismatch() {
+        ResearchPaper existingResearchPaper = new ResearchPaper();
+        existingResearchPaper.setPaperId(1);
+        ResearchPaper newResearchPaperDetails = new ResearchPaper();
+        newResearchPaperDetails.setPaperId(2);
+
+        when(researchPaperRepo.findById(1)).thenReturn(Optional.of(existingResearchPaper));
+
+        ResearchPaper result = researchPaperService.updateResearchPaper(1, newResearchPaperDetails);
+
+        assertNull(result);
+        verify(researchPaperRepo, times(1)).findById(1);
+        verify(researchPaperRepo, times(0)).save(any(ResearchPaper.class));
+    }
+
+    @Test
+    void testGetResearchPaperBySemanticPaperIdNotFound() {
+        when(researchPaperRepo.findBySemanticPaperId("SP123")).thenReturn(Optional.empty());
+
+        ResearchPaper result = researchPaperService.getResearchPaperBySemanticPaperId("SP123");
+
+        assertNull(result);
+        verify(researchPaperRepo, times(1)).findBySemanticPaperId("SP123");
+    }
+
+    @Test
+    void testUpdateResearchPaperSuccess() {
+        ResearchPaper existingResearchPaper = new ResearchPaper();
+        existingResearchPaper.setPaperId(1);
+        ResearchPaper newResearchPaperDetails = new ResearchPaper();
+        newResearchPaperDetails.setPaperId(1);
+        newResearchPaperDetails.setTitle("Updated Title");
+
+        when(researchPaperRepo.findById(1)).thenReturn(Optional.of(existingResearchPaper));
+        when(researchPaperRepo.save(existingResearchPaper)).thenReturn(existingResearchPaper);
+
+        ResearchPaper result = researchPaperService.updateResearchPaper(1, newResearchPaperDetails);
+
+        assertNotNull(result);
+        assertEquals("Updated Title", result.getTitle());
+        verify(researchPaperRepo, times(1)).findById(1);
+        verify(researchPaperRepo, times(1)).save(existingResearchPaper);
+    }
+
+    @Test
+    void testUpdateResearchPaperNotFound() {
+        ResearchPaper newResearchPaperDetails = new ResearchPaper();
+        newResearchPaperDetails.setPaperId(1);
+
+        when(researchPaperRepo.findById(1)).thenReturn(Optional.empty());
+
+        ResearchPaper result = researchPaperService.updateResearchPaper(1, newResearchPaperDetails);
+
+        assertNull(result);
+        verify(researchPaperRepo, times(1)).findById(1);
+        verify(researchPaperRepo, times(0)).save(any(ResearchPaper.class));
+    }
 }
