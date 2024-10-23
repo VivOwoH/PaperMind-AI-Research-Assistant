@@ -5,6 +5,8 @@ import ListViewCitation from './pages/Home/ListViewCitation';
 import ListViewOpinion from './pages/Home/ListViewOpinion';
 import GraphViewCitation from './pages/Home/GraphViewCitation';
 import GraphViewOpinion from './pages/Home/GraphViewOpinion';
+import LoadingPage from './pages/LoadingPage';
+import ErrorPage from './pages/ErrorPage';
 
 
 function App() {
@@ -13,10 +15,12 @@ function App() {
     <Router>
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/papers-graphview" element={<GraphViewCitation />} /> 
-            <Route path="/list-view" element={<ListViewCitation />}></Route>
-            <Route path="/opinion-list-view" element={<ListViewOpinion />}></Route>
-            <Route path="/papers-opinion-graphview" element={<GraphViewOpinion />} /> 
+            <Route path="/papers-graphview" element={<GraphViewCitation />} />
+            <Route path="/list-view" element={<ListViewCitation />}/>
+            <Route path="/opinion-list-view" element={<ListViewOpinion />}/>
+            <Route path="/papers-opinion-graphview" element={<GraphViewOpinion />}/>
+            <Route path="/loading" element={<LoadingPage />} />
+            <Route path="/error" element={<ErrorPage />} />
         </Routes>
     </Router>
   );

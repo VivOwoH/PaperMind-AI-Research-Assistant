@@ -112,6 +112,8 @@ function PaperDetailOpinion({ paper }) {
         console.log('API Response:', value); // log the full API response
         if (value.id) {
           alert('File saved to your Google Drive with ID: ' + value.id);
+          // Redirect to the Google Drive file's URL
+          window.location.href = `https://drive.google.com/file/d/${value.id}/view`;
         } else {
           alert('File upload failed. No file ID returned.');
         }

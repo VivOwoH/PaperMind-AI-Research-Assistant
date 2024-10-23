@@ -12,14 +12,28 @@ function GraphViewCitation() {
   const [currentView, setCurrentView] = useState('Graph View');
   const isLoading = location.state?.loading ?? true;
   const [viewType, setViewType] = useState(''); 
+  const [searchPrompt, setSearchPrompt] = useState('');
   
 
   useEffect(() => {
     if (location.state?.graphPapers) {
-        setGraphPapers(location.state.graphPapers);
-        setViewType(location.state.graphViewType);
+      setGraphPapers(location.state.graphPapers);
+      setViewType(location.state.graphViewType);
+    }
+    if (location.state?.prompt){
+      setSearchPrompt(location.state.prompt);
+      console.log(prompt);
     }
   }, [location.state?.graphPapers]);
+
+  const capitalizeWords = (str) => {
+    return str
+      .split(' ')               
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1)) 
+      .join(' ');               
+  };
+
+  const formattedPrompt = capitalizeWords(searchPrompt);
 
   if (isLoading) {
     return (
@@ -31,14 +45,13 @@ function GraphViewCitation() {
   
   return (
     <div>
-      <TopNavigation currentView={currentView} onViewChange={setCurrentView} papers={graphPapers} viewtype={viewType}/>
+      <TopNavigation currentView={currentView} onViewChange={setCurrentView} papers={graphPapers} viewtype={viewType} prompt={searchPrompt}/>
       <Container maxWidth="xl">
         <br></br>
-        <Typography variant="h5" textAlign="left" gutterBottom>Results for </Typography>
+        <Typography  sx={{ color: 'darkblue', fontWeight: 'light', fontSize:'20px' }}>Showing results for {formattedPrompt} </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            {/* TODO show keywords of search */}
-            <Typography variant="h6" fontWeight="bold" fontSize="16px">Top 20 papers</Typography>
+            
             {graphPapers.length > 0 ? (
               <PaperListOpinion papers={graphPapers} onGenerateSummaryClick={setSelectedPaper} />
             ) : (
