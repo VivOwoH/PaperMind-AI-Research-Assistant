@@ -134,6 +134,10 @@ export default function SearchComponent() {
                             }}
                         />
                     </div>
+
+                    <Typography variant="body2" sx={{ textAlign: 'center', marginTop: '5px', color: 'grey' }}>
+                        Our AI can make mistakes. Verify important research results independently.
+                    </Typography>
                 </div>
                 
             </div>
