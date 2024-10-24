@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CircularProgress, Container, Grid, Typography, MenuItem, Select, FormControl, Box, Modal } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography, MenuItem, Select, FormControl, Box, Modal, Link } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import TopNavigation from '../../components/TopNavigation';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { DataSet } from 'vis-data';
 import { Network } from 'vis-network/standalone';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+
 
 function GraphViewCitation() {
   const [selectedPaper, setSelectedPaper] = useState(null);
@@ -12,10 +14,12 @@ function GraphViewCitation() {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const [citingPapers, setCitingPapers] = useState([]); // State to store citing papers
   const location = useLocation();
+  const navigate = useNavigate(); // Use navigate for switching views
   const [graphPapers, setGraphPapers] = useState({});
   const [viewType, setViewType] = useState(location.state?.selectedFilter || 'ALL');
   const [searchPrompt, setSearchPrompt] = useState('');
   const [currentView, setCurrentView] = useState('Graph View');
+  const [graphViewType, setGraphViewType] = useState('Graph View');
   const visJsRef = useRef(null); 
   const [citations, setCitations] = useState({});
   const [supporting, setSupporting] = useState({});
@@ -48,11 +52,28 @@ function GraphViewCitation() {
       if (location.state?.prompt) {
         setSearchPrompt(location.state.prompt);
       }
+      if (location.state?.graphViewType) {
+        setGraphViewType(location.state.graphViewType);
+      }
       setIsLoading(false);
     };
 
     loadData();
   }, [location.state]);
+
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '60%',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    borderRadius: '1.5rem',
+    p: 4,
+    overflow: 'auto',
+    maxHeight: '60vh',
+  };
 
   const drawGraph = () => {
     if (!graphPapers || !visJsRef.current) return;
@@ -61,11 +82,14 @@ function GraphViewCitation() {
     const edges = new DataSet();
     const addedNodes = new Set();
     const addedEdges = new Set(); // Track added edges
+    const nodesWithIncomingEdges = new Set(); // Track nodes with incoming edges
   
     // Helper function to add a node if it hasn't been added yet
-    const addNode = (paperId, label) => {
+    const addNode = (paperId, label, citationCount = 0) => {
+      // Scale node size based on citation count (min: 10, max: 50)
+      const size = Math.min(50, Math.max(10, 10 + citationCount * 2));
       if (!addedNodes.has(paperId)) {
-        nodes.add({ id: paperId, label: label });
+        nodes.add({ id: paperId, label: label, size: size });
         addedNodes.add(paperId);
       }
     };
@@ -76,7 +100,21 @@ function GraphViewCitation() {
       const firstAuthor = citingAuthors.length > 0 ? citingAuthors[0].name : 'Unknown';
       const publicationDate = citingPaperObj.citingPaper.publicationDate;
       const year = publicationDate ? new Date(publicationDate).getFullYear() : 'Unknown';
-      return `${firstAuthor} (${year})`;
+      return `${firstAuthor} ${year}`;
+    };
+  
+    // Modified function to fetch citation details (including PDF link)
+    const formatCitationDetails = (citingPaperObj) => {
+      const citingAuthors = citingPaperObj.citingPaper.authors || [];
+      const firstAuthor = citingAuthors.length > 0 ? citingAuthors[0].name : 'Unknown';
+      const publicationDate = citingPaperObj.citingPaper.publicationDate;
+      const year = publicationDate ? new Date(publicationDate).getFullYear() : 'Unknown';
+      const pdfLink = citingPaperObj.citingPaper.openAccessPdf?.url || null;
+  
+      return {
+        label: `${firstAuthor} ${year}`,
+        pdfLink: pdfLink,
+      };
     };
   
     // Helper function to add edges between citing and cited papers
@@ -86,7 +124,7 @@ function GraphViewCitation() {
         citingPapers.forEach((citingPaperObj) => {
           const citingPaperId = citingPaperObj.citingPaper.paperId;
           const citingLabel = formatCitingLabel(citingPaperObj);
-          if (!citingPaperId) return; // Skip if citing paper ID is invalid
+          if (!citingPaperId) return; // skip if citing paper ID is invalid
   
           // Add the citing paper node if not already added
           if (!addedNodes.has(citingPaperId)) {
@@ -102,7 +140,10 @@ function GraphViewCitation() {
               from: citingPaperId,
               to: paperId,
             });
-            addedEdges.add(edgeId); // Track this edge as added
+            addedEdges.add(edgeId); 
+  
+            // Mark the cited paper (paperId) as having an incoming edge
+            nodesWithIncomingEdges.add(paperId);
           }
         });
       }
@@ -113,7 +154,8 @@ function GraphViewCitation() {
       // Handle Citations (flat structure)
       Object.keys(citations).forEach((paperId) => {
         const label = formatLabel(paperId);
-        addNode(paperId, label);
+        const citationCount = citations[paperId]?.length || 0;
+        addNode(paperId, label, citationCount);
         addEdges(paperId);
       });
     } else {
@@ -125,7 +167,8 @@ function GraphViewCitation() {
         if (Array.isArray(papers)) {
           papers.forEach((paperId) => {
             const label = formatLabel(paperId);
-            addNode(paperId, label);
+            const citationCount = citations[paperId]?.length || 0;
+            addNode(paperId, label, citationCount);
             addEdges(paperId);
           });
         }
@@ -137,7 +180,6 @@ function GraphViewCitation() {
     const options = {
       nodes: {
         shape: 'dot',
-        scaling: { min: 10, max: 50 },
         font: { size: 12 },
       },
       edges: { arrows: { to: true } },
@@ -145,27 +187,30 @@ function GraphViewCitation() {
     };
   
     const network = new Network(visJsRef.current, data, options);
-
     // Add event listener for node click to show modal
     network.on('click', (params) => {
       if (params.nodes.length > 0) {
         const paperId = params.nodes[0];
-        const paperDetails = graphPapers.find(p => p.paperId === paperId);
-        const citingPapersList = citations[paperId]?.map(citingPaperObj => {
-          const citingPaper = graphPapers.find(p => p.paperId === citingPaperObj.citingPaper.paperId);
-          return citingPaper ? formatCitingLabel(citingPaperObj) : "Unknown";
-        }) || [];
-
-        setSelectedPaperDetails(paperDetails);
-        setCitingPapers(citingPapersList);
-        setIsModalOpen(true);
+  
+        // Check if the clicked node has incoming edges
+        if (nodesWithIncomingEdges.has(paperId)) {
+          const paperDetails = graphPapers.find(p => p.paperId === paperId);
+          const citingPapersList = citations[paperId]?.map(citingPaperObj => {
+            const citingDetails = formatCitationDetails(citingPaperObj);
+            return citingDetails;
+          }) || [];
+  
+          setSelectedPaperDetails(paperDetails);
+          setCitingPapers(citingPapersList);
+          setIsModalOpen(true);
+        }
       }
     });
   };
   
-  // Function to format node labels with first author and year
+  // function to format node labels with first author and year
   const formatLabel = (paperId) => {
-    // Find the paper by ID and return first author + year as the label
+    // find the paper by ID and return first author + year as the label
     const paper = graphPapers.find(p => p.paperId === paperId);
     if (paper) {
       const firstAuthor = paper.authors[0]?.name || 'Unknown';
@@ -197,7 +242,7 @@ function GraphViewCitation() {
         currentView={currentView}
         onViewChange={setCurrentView}
         papers={graphPapers}
-        viewtype={viewType}
+        viewtype={graphViewType}
         prompt={searchPrompt}
       />
       <Container maxWidth="xl">
@@ -241,21 +286,41 @@ function GraphViewCitation() {
         onClose={() => setIsModalOpen(false)}
         aria-labelledby="paper-details-modal"
       >
-        <Box sx={{ padding: 3, backgroundColor: 'white', margin: '5% auto', maxWidth: 600 }}>
-          <Typography variant="h6">
-            {selectedPaperDetails ? `${selectedPaperDetails.authors[0]?.name || 'Unknown'} (${new Date(selectedPaperDetails.publicationDate).getFullYear()})` : 'Paper Details'}
+        <Box sx={modalStyle}>
+          {selectedPaperDetails && (
+            <>
+              <Typography variant="h6" sx={{ fontWeight: 'bold', color:'black'}}>
+                {selectedPaperDetails.authors[0]?.name || 'Unknown'} {new Date(selectedPaperDetails.publicationDate).getFullYear()}
+              </Typography>
+              <Typography variant="body1" sx={{ marginTop: 1 , fontWeight: 'light'}}>
+                {selectedPaperDetails.title || 'No title available'}
+              </Typography>
+              {selectedPaperDetails.openAccessPdf?.url && (
+              <Link href={selectedPaperDetails.openAccessPdf.url} target="_blank" rel="noopener noreferrer">
+              <PictureAsPdfIcon style={{ fontSize: '1.5rem', color: 'red' }} />
+              </Link>
+              )}
+
+            </>
+          )}
+          <Typography variant="subtitle1" component="h2" sx={{ marginTop: 2, fontWeight: 'light' }}>
+          Cited By:
           </Typography>
-          <Typography variant="body1" sx={{ marginTop: 2 }}>
-            {selectedPaperDetails?.title || 'No title available'}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-            Cited By:
-          </Typography>
-          <ul>
-            {citingPapers.map((citingPaper, index) => (
-              <li key={index}>{citingPaper}</li>
-            ))}
-          </ul>
+          <ul style={{ padding: 0, margin: '10px 0', listStyleType: 'none' }}>
+          {citingPapers.map((citingPaper, index) => (
+          <li key={index} style={{ marginBottom: '8px'}}>
+            <span style={{ fontStyle: 'italic', fontWeight: 'light', color: 'darkblue' }}>{citingPaper.label}</span>
+            {citingPaper.pdfLink && (
+              <>
+              &nbsp;
+              <Link href={citingPaper.pdfLink} target="_blank" rel="noopener noreferrer">
+                <PictureAsPdfIcon style={{ fontSize: '1rem', verticalAlign: 'middle', color: 'red' }} />
+              </Link>
+            </>
+          )}
+          </li>
+        ))}
+        </ul>
         </Box>
       </Modal>
     </div>
