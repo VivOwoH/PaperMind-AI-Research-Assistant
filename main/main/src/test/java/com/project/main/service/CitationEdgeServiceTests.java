@@ -1,6 +1,7 @@
 package com.project.main.service;
 
 import com.project.main.entity.CitationEdge;
+import com.project.main.entity.ResearchPaper;
 import com.project.main.repository.CitationEdgeRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -92,5 +93,44 @@ class CitationEdgeServiceTests {
         citationEdgeService.deleteCitationEdgeById(1);
 
         verify(citationEdgeRepo, times(1)).deleteById(1);
+    }
+
+    @Test
+    void testGetCitationEdgesByFirstResearchPaperSuccess() {
+        ResearchPaper researchPaper = new ResearchPaper();
+        CitationEdge edge1 = new CitationEdge();
+        CitationEdge edge2 = new CitationEdge();
+        when(citationEdgeRepo.findByFirstResearchPaper(researchPaper)).thenReturn(Arrays.asList(edge1, edge2));
+
+        List<CitationEdge> edges = citationEdgeService.getCitationEdgesByFirstResearchPaper(researchPaper);
+
+        assertEquals(2, edges.size());
+        verify(citationEdgeRepo, times(1)).findByFirstResearchPaper(researchPaper);
+    }
+
+    @Test
+    void testGetCitationEdgesBySecondResearchPaperSuccess() {
+        ResearchPaper researchPaper = new ResearchPaper();
+        CitationEdge edge1 = new CitationEdge();
+        CitationEdge edge2 = new CitationEdge();
+        when(citationEdgeRepo.findBySecondResearchPaper(researchPaper)).thenReturn(Arrays.asList(edge1, edge2));
+
+        List<CitationEdge> edges = citationEdgeService.getCitationEdgesBySecondResearchPaper(researchPaper);
+
+        assertEquals(2, edges.size());
+        verify(citationEdgeRepo, times(1)).findBySecondResearchPaper(researchPaper);
+    }
+
+    @Test
+    void testGetCitationEdgesByFirstAndSecondResearchPapersSuccess() {
+        ResearchPaper firstResearchPaper = new ResearchPaper();
+        ResearchPaper secondResearchPaper = new ResearchPaper();
+        CitationEdge edge = new CitationEdge();
+        when(citationEdgeRepo.findByFirstResearchPaperAndSecondResearchPaper(firstResearchPaper, secondResearchPaper)).thenReturn(Arrays.asList(edge));
+
+        List<CitationEdge> edges = citationEdgeService.getCitationEdgesByFirstAndSecondResearchPapers(firstResearchPaper, secondResearchPaper);
+
+        assertEquals(1, edges.size());
+        verify(citationEdgeRepo, times(1)).findByFirstResearchPaperAndSecondResearchPaper(firstResearchPaper, secondResearchPaper);
     }
 }
