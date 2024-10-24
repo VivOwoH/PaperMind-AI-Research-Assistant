@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CircularProgress, Container, Grid, Typography, MenuItem, Select, FormControl, Box } from '@mui/material';
+import { CircularProgress, Container, Grid, Typography, MenuItem, Select, FormControl, Box, Modal } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import TopNavigation from '../../components/TopNavigation';
 import { useLocation } from 'react-router-dom';
@@ -8,6 +8,9 @@ import { Network } from 'vis-network/standalone';
 
 function GraphViewCitation() {
   const [selectedPaper, setSelectedPaper] = useState(null);
+  const [selectedPaperDetails, setSelectedPaperDetails] = useState(null); // Store details of clicked paper
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [citingPapers, setCitingPapers] = useState([]); // State to store citing papers
   const location = useLocation();
   const [graphPapers, setGraphPapers] = useState({});
   const [viewType, setViewType] = useState(location.state?.selectedFilter || 'ALL');
@@ -53,90 +56,82 @@ function GraphViewCitation() {
 
   const drawGraph = () => {
     if (!graphPapers || !visJsRef.current) return;
-
+  
     const nodes = new DataSet();
     const edges = new DataSet();
     const addedNodes = new Set();
-
-    let papersToUse;
-
-    // Select the data based on view type
-    if (viewType === 'ALL') {
-      papersToUse = citations;  // Use all papers from Citations
-    } else if (viewType === 'SUPPORTING') {
-      papersToUse = supporting;  // Use supporting papers
-    } else {
-      papersToUse = opposing;    // Use opposing papers
-    }
-
-    // Process each paper in the selected data
-    Object.keys(papersToUse).forEach((category) => {
-      const papers = papersToUse[category];
-
-      if (Array.isArray(papers)) {
-        papers.forEach((paper) => {
-          const paperId = typeof paper === 'string' ? paper : paper?.paperId;
-          
-          // Validate that paperId exists
-          if (!paperId || typeof paperId !== 'string' || paperId.trim() === '') {
-            console.error(`Invalid or missing paperId in category ${category}:`, paperId);
-            return;  // Skip this node if the id is invalid
+    const addedEdges = new Set(); // Track added edges
+  
+    // Helper function to add a node if it hasn't been added yet
+    const addNode = (paperId, label) => {
+      if (!addedNodes.has(paperId)) {
+        nodes.add({ id: paperId, label: label });
+        addedNodes.add(paperId);
+      }
+    };
+  
+    // Helper function to format citing papers
+    const formatCitingLabel = (citingPaperObj) => {
+      const citingAuthors = citingPaperObj.citingPaper.authors || [];
+      const firstAuthor = citingAuthors.length > 0 ? citingAuthors[0].name : 'Unknown';
+      const publicationDate = citingPaperObj.citingPaper.publicationDate;
+      const year = publicationDate ? new Date(publicationDate).getFullYear() : 'Unknown';
+      return `${firstAuthor} (${year})`;
+    };
+  
+    // Helper function to add edges between citing and cited papers
+    const addEdges = (paperId) => {
+      if (citations[paperId]) {
+        const citingPapers = citations[paperId];
+        citingPapers.forEach((citingPaperObj) => {
+          const citingPaperId = citingPaperObj.citingPaper.paperId;
+          const citingLabel = formatCitingLabel(citingPaperObj);
+          if (!citingPaperId) return; // Skip if citing paper ID is invalid
+  
+          // Add the citing paper node if not already added
+          if (!addedNodes.has(citingPaperId)) {
+            addNode(citingPaperId, citingLabel);
           }
-
-          // Add the paper node if it hasn't been added yet
-          if (!addedNodes.has(paperId)) {
-            const label = formatLabel(paperId); // Use formatLabel to create a label
-            if (!label || !paperId) {
-              console.error(`Invalid paperId or label: paperId=${paperId}, label=${label}`);
-              return; // Skip adding invalid nodes
-            }
-
-            nodes.add({
-              id: paperId,
-              label: label,
+  
+          // Create an edge identifier to check for duplicates
+          const edgeId = `${citingPaperId}->${paperId}`;
+  
+          // Add the edge from the citing paper to the cited paper only if it doesn't already exist
+          if (!addedEdges.has(edgeId)) {
+            edges.add({
+              from: citingPaperId,
+              to: paperId,
             });
-            addedNodes.add(paperId);
-          }
-
-          // Add citation edges if they exist
-          if (citations[paperId]) {
-            const citingPapers = citations[paperId];
-
-            citingPapers.forEach((citingPaperObj) => {
-              const citingPaperId = citingPaperObj.citingPaper.paperId;
-
-              // Validate that citingPaperId exists
-              if (!citingPaperId || typeof citingPaperId !== 'string' || citingPaperId.trim() === '') {
-                console.error(`Missing citingPaperId for paperId=${paperId}`);
-                return; // Skip adding invalid citing papers
-              }
-
-              // Add citing paper node if it hasn't been added
-              if (!addedNodes.has(citingPaperId)) {
-                const citingLabel = formatLabel(citingPaperId);
-                if (!citingLabel || !citingPaperId) {
-                  console.error(`Invalid citingPaperId or label: citingPaperId=${citingPaperId}, citingLabel=${citingLabel}`);
-                  return; // Skip adding invalid nodes
-                }
-
-                nodes.add({
-                  id: citingPaperId,
-                  label: citingLabel,
-                });
-                addedNodes.add(citingPaperId);
-              }
-
-              // Add the edge from citing paper to cited paper
-              edges.add({
-                from: citingPaperId,
-                to: paperId,
-              });
-            });
+            addedEdges.add(edgeId); // Track this edge as added
           }
         });
       }
-    });
-
+    };
+  
+    // Process data based on viewType
+    if (viewType === 'ALL') {
+      // Handle Citations (flat structure)
+      Object.keys(citations).forEach((paperId) => {
+        const label = formatLabel(paperId);
+        addNode(paperId, label);
+        addEdges(paperId);
+      });
+    } else {
+      // Handle Supporting or Opposing (nested structure)
+      const dataToUse = viewType === 'SUPPORTING' ? supporting : opposing;
+  
+      Object.keys(dataToUse).forEach((category) => {
+        const papers = dataToUse[category];
+        if (Array.isArray(papers)) {
+          papers.forEach((paperId) => {
+            const label = formatLabel(paperId);
+            addNode(paperId, label);
+            addEdges(paperId);
+          });
+        }
+      });
+    }
+  
     // Use nodes and edges to render the graph
     const data = { nodes, edges };
     const options = {
@@ -148,10 +143,26 @@ function GraphViewCitation() {
       edges: { arrows: { to: true } },
       physics: { barnesHut: { gravitationalConstant: -20000, springLength: 150 } },
     };
+  
+    const network = new Network(visJsRef.current, data, options);
 
-    new Network(visJsRef.current, data, options);
+    // Add event listener for node click to show modal
+    network.on('click', (params) => {
+      if (params.nodes.length > 0) {
+        const paperId = params.nodes[0];
+        const paperDetails = graphPapers.find(p => p.paperId === paperId);
+        const citingPapersList = citations[paperId]?.map(citingPaperObj => {
+          const citingPaper = graphPapers.find(p => p.paperId === citingPaperObj.citingPaper.paperId);
+          return citingPaper ? formatCitingLabel(citingPaperObj) : "Unknown";
+        }) || [];
+
+        setSelectedPaperDetails(paperDetails);
+        setCitingPapers(citingPapersList);
+        setIsModalOpen(true);
+      }
+    });
   };
-
+  
   // Function to format node labels with first author and year
   const formatLabel = (paperId) => {
     // Find the paper by ID and return first author + year as the label
@@ -223,6 +234,30 @@ function GraphViewCitation() {
           </Grid>
         </Grid>
       </Container>
+
+      {/* Modal for paper details */}
+      <Modal
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="paper-details-modal"
+      >
+        <Box sx={{ padding: 3, backgroundColor: 'white', margin: '5% auto', maxWidth: 600 }}>
+          <Typography variant="h6">
+            {selectedPaperDetails ? `${selectedPaperDetails.authors[0]?.name || 'Unknown'} (${new Date(selectedPaperDetails.publicationDate).getFullYear()})` : 'Paper Details'}
+          </Typography>
+          <Typography variant="body1" sx={{ marginTop: 2 }}>
+            {selectedPaperDetails?.title || 'No title available'}
+          </Typography>
+          <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
+            Cited By:
+          </Typography>
+          <ul>
+            {citingPapers.map((citingPaper, index) => (
+              <li key={index}>{citingPaper}</li>
+            ))}
+          </ul>
+        </Box>
+      </Modal>
     </div>
   );
 }
