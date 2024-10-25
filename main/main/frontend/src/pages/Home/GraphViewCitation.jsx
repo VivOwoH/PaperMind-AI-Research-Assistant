@@ -37,6 +37,9 @@ function GraphViewCitation() {
   // Effect to load data from location.state
   useEffect(() => {
     const loadData = () => {
+      if(location.state?.papers){
+        setGraphPapers(location.state.papers);
+      }
       if (location.state?.graphPapers) {
         setGraphPapers(location.state.graphPapers);
       }
@@ -54,6 +57,9 @@ function GraphViewCitation() {
       }
       if (location.state?.graphViewType) {
         setGraphViewType(location.state.graphViewType);
+      }
+      if (location.state?.currentView){
+        setCurrentView(location.state.currentView);
       }
       setIsLoading(false);
     };
@@ -240,10 +246,18 @@ function GraphViewCitation() {
     <div>
       <TopNavigation
         currentView={currentView}
-        onViewChange={setCurrentView}
+        onViewChange={(view) => {
+          setCurrentView(view);
+          if (view === 'List View'){
+              navigate('/list-view', { state: { ...location.state, currentView: 'List View' } });
+          }
+        }}
         papers={graphPapers}
         viewtype={graphViewType}
         prompt={searchPrompt}
+        citations={citations}
+        supporting={supporting}
+        opposing={opposing}
       />
       <Container maxWidth="xl">
         <br />

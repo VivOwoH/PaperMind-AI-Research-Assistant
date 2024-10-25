@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import HomeIcon from '@mui/icons-material/Home';
 
-const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting, opposing, prompt }) => {
+const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting, opposing, prompt, citations }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const navigate = useNavigate();
 
@@ -14,18 +14,22 @@ const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting
     };
 
     const handleMenuClose = (viewOption) => {
-        
         if (viewOption === 'List View') {
+            onViewChange('List View');
             // Navigate to the List View page when "List View" is selected from the dropdown
             if (viewtype === 'CITATION'){
                 console.log(prompt);
-                navigate('/list-view', { state: { papers, prompt } }); // Redirect to ListViewPage with papers
+                navigate('/list-view', { state: { papers, prompt, currentView:'List View', supporting, opposing, citations} }); // Redirect to ListViewPage with papers
             }else if (viewtype === 'OPINION'){ 
-                navigate('/opinion-list-view', { state: { papers, supporting, opposing, prompt } }); 
+                navigate('/opinion-list-view', { state: { papers, supporting, opposing, prompt, currentView:'List View'} }); 
             }
-             
-        } else {
-            onViewChange(viewOption); 
+        } else if (viewOption === 'Graph View') {
+            onViewChange('Graph View');
+            if (viewtype === 'CITATION'){
+                navigate('/papers-graphview', { state: { papers, prompt, currentView:'Graph View', supporting, opposing, citations} }); // Redirect to ListViewPage with papers
+            }else if (viewtype === 'OPINION'){ 
+                navigate('/papers-opinion-graphview', { state: { papers, supporting, opposing, prompt, currentView:'Graph View'} }); 
+            }
         }
         setAnchorEl(null);
     };
@@ -70,8 +74,12 @@ const TopNavigation = ({ currentView, onViewChange, papers, viewtype, supporting
                         },
                     }}
                 >
-                    {/* Dropdown option for List View */}
-                    <MenuItem onClick={() => handleMenuClose('List View')}>List View</MenuItem>
+                    {/* Dropdown option for current View */}
+                    {currentView === 'List View'?(
+                            <MenuItem onClick={() => handleMenuClose('Graph View')}>Graph View</MenuItem>
+                    ) : (
+                            <MenuItem onClick={() => handleMenuClose('List View')}>List View</MenuItem>
+                    )}
                 </Menu>
             </Toolbar>
         </AppBar>

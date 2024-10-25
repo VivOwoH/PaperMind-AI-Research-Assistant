@@ -1,7 +1,8 @@
 # Wed-11-02-Lab-Group-6
-Research Assistant
 
-## How to start the project
+PaperMind - AI powered Research Assistant.
+
+## Quick start
 
 ### Database Prerequisites
 - Ensure you have postgresql installed with the correct database and user credential configuration
