@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgress, Container, Grid, Typography, Paper, Link, IconButton, Collapse, Box, Chip } from '@mui/material';
 import TopNavigation from '../../components/TopNavigation';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PaperDetailOpinion from '../../components/PaperDetailOpinion';
 import axios from 'axios';  // Import axios for making requests
@@ -20,6 +20,8 @@ function ListViewOpinion() {
     const [summaries, setSummaries] = useState({});  // Store the generated summaries
     const [loading, setLoading] = useState({});  // Track loading state per paper
     const [searchPrompt, setSearchPrompt] = useState('');
+    const [currentView, setCurrentView] = useState('List View');
+    const navigate = useNavigate();
 
     // Define a consistent style for paper cards
     const paperCardStyle = {  // Fix: Define paperCardStyle properly
@@ -145,7 +147,14 @@ function ListViewOpinion() {
 
     return (
         <div>
-            <TopNavigation />
+            <TopNavigation 
+            currentView={currentView}
+            onViewChange={(view) => {
+                setCurrentView(view);
+                if (view === 'Graph View'){
+                    navigate('/papers-opinion-graphview', { state: { ...location.state, currentView: 'Graph View' } });
+                }
+            }}/>
             <Container maxWidth="xl">
                 <br />
                 <Typography variant="h5" textAlign="left" style={{ fontWeight: 'lighter', color: 'darkblue' }} gutterBottom>

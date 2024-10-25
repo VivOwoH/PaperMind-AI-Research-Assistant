@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { CircularProgress, Container, Grid, Typography, TextField, MenuItem, Box } from '@mui/material';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import TopNavigation from '../../components/TopNavigation';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 
 function ListViewCitation() {
   const [graphPapers, setGraphPapers] = useState([]); // Store all papers
@@ -11,6 +12,7 @@ function ListViewCitation() {
   const [currentView, setCurrentView] = useState('List View');
   const [isLoading, setIsLoading] = useState(true); // Local loading state
   const [years, setYears] = useState([]); // Store unique publication years
+  const navigate = useNavigate();
 
   // Properly declaring state variables for filters
   const [selectedYear, setSelectedYear] = useState('');
@@ -87,7 +89,15 @@ function ListViewCitation() {
 
   return (
     <div>
-      <TopNavigation currentView={currentView} onViewChange={setCurrentView} />
+      <TopNavigation currentView={currentView} 
+      onViewChange={(view) => {
+        setCurrentView(view);
+        if (view === 'Graph View') {
+            // navigate back to the Graph View and pass the current state
+            navigate('/papers-graphview', { state: { ...location.state, currentView: 'Graph View' } });
+        }
+    }}
+      />
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           {/* Filters on the left with fixed positioning */}
