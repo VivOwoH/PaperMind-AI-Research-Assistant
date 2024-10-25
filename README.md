@@ -26,19 +26,19 @@ PaperMind - AI powered Research Assistant.
 - Ensure you have Node.js installed
 
 #### API keys
-**Google AI Studio API** 
-- Obtain your own API key from https://aistudio.google.com/app/apikey
-- Navigate to application-dev.properties, and add this line ```apiKey={yourKey}```
+- **Google AI Studio API** 
+    - Obtain your own API key from https://aistudio.google.com/app/apikey
+    - Navigate to application-dev.properties, and add this line ```apiKey={yourKey}```
 
-**Google Drive API**
-- Obtain your API key after creating a project in Google Cloud Console (https://console.cloud.google.com/) and setting up with your project details
-    - User type set to External in Google OAuth 2.0 setup 
-    - Choose web application for application type
-    - Example name for OAuth  Client - "React App"
-    - Authorised redirected URLs - `http://localhost:3000`
-- In the root of React Project (inside ```frontend```directory), create a file named ```.env```
-- Add the following 2 lines,
-    ```REACT_APP_CLIENT_ID={yourClientId}``` and ```REACT_APP_API_KEY={yourApiKey}```
+- **Google Drive API**
+    - Obtain your API key after creating a project in Google Cloud Console (https://console.cloud.google.com/) and setting up with your project details
+        - User type set to External in Google OAuth 2.0 setup 
+        - Choose web application for application type
+        - Example name for OAuth  Client - "React App"
+        - Authorised redirected URLs - `http://localhost:3000`
+    - In the root of React Project (inside ```frontend```directory), create a file named ```.env```
+    - Add the following 2 lines,
+        ```REACT_APP_CLIENT_ID={yourClientId}``` and ```REACT_APP_API_KEY={yourApiKey}```
 
 ### Steps to Run the Project
 
