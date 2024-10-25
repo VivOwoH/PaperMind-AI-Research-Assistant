@@ -115,7 +115,9 @@ function GraphViewOpinion() {
       }
 
       const breakLabelByWords = (label, maxWordsPerLine) => {
-        const words = label.split(' ');
+        // replace underscores with spaces
+        const cleanLabel = label.replace(/_/g, ' ');
+        const words = cleanLabel.split(' ');
         let lines = [];
         for (let i = 0; i < words.length; i += maxWordsPerLine) {
           lines.push(words.slice(i, i + maxWordsPerLine).join(' '));
@@ -135,7 +137,7 @@ function GraphViewOpinion() {
           }
         });
       }  
-      
+
       if (viewMode === 'opposing' || viewMode === 'all') {
         Object.keys(opposing).forEach((opinion, index) => {
           // Check if oposing opinion has papers associated with it
