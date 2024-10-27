@@ -289,7 +289,7 @@ function GraphViewOpinion() {
       <Modal open={openModal} onClose={() => setOpenModal(false)} aria-labelledby="modal-title" aria-describedby="modal-description">
         <Box sx={modalStyle}>
           <Typography id="modal-title" variant="h6" component="h2" style={{ fontWeight: 'bold' }}>
-            {selectedOpinion.charAt(0).toUpperCase() + selectedOpinion.slice(1)}
+            {selectedOpinion.replace(/_/g, ' ').charAt(0).toUpperCase() + selectedOpinion.slice(1)}
           </Typography>
           <ul style={{ listStyleType: 'none', paddingLeft: 0 }}>
             {modalContent.map((paper, index) => (
