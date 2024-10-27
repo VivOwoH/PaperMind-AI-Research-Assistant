@@ -127,31 +127,33 @@ function GraphViewCitation() {
     const addEdges = (paperId) => {
       if (citations[paperId]) {
         const citingPapers = citations[paperId];
-        citingPapers.forEach((citingPaperObj) => {
-          const citingPaperId = citingPaperObj.citingPaper.paperId;
-          const citingLabel = formatCitingLabel(citingPaperObj);
-          if (!citingPaperId) return; // skip if citing paper ID is invalid
-  
-          // Add the citing paper node if not already added
-          if (!addedNodes.has(citingPaperId)) {
-            addNode(citingPaperId, citingLabel);
-          }
-  
-          // Create an edge identifier to check for duplicates
-          const edgeId = `${citingPaperId}->${paperId}`;
-  
-          // Add the edge from the citing paper to the cited paper only if it doesn't already exist
-          if (!addedEdges.has(edgeId)) {
-            edges.add({
-              from: citingPaperId,
-              to: paperId,
-            });
-            addedEdges.add(edgeId); 
-  
-            // Mark the cited paper (paperId) as having an incoming edge
-            nodesWithIncomingEdges.add(paperId);
-          }
-        });
+        if (Array.isArray(citingPapers) && citingPapers.length > 0){
+          citingPapers.forEach((citingPaperObj) => {
+            const citingPaperId = citingPaperObj.citingPaper.paperId;
+            const citingLabel = formatCitingLabel(citingPaperObj);
+            if (!citingPaperId) return; // skip if citing paper ID is invalid
+    
+            // Add the citing paper node if not already added
+            if (!addedNodes.has(citingPaperId)) {
+              addNode(citingPaperId, citingLabel);
+            }
+    
+            // Create an edge identifier to check for duplicates
+            const edgeId = `${citingPaperId}->${paperId}`;
+    
+            // Add the edge from the citing paper to the cited paper only if it doesn't already exist
+            if (!addedEdges.has(edgeId)) {
+              edges.add({
+                from: citingPaperId,
+                to: paperId,
+              });
+              addedEdges.add(edgeId); 
+    
+              // Mark the cited paper (paperId) as having an incoming edge
+              nodesWithIncomingEdges.add(paperId);
+            }
+          });
+        }   
       }
     };
   
