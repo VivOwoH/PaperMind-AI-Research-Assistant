@@ -226,7 +226,15 @@ public class APIController {
 
 				JsonNode citingPapers = fetchedCitations.get(firstPaperId);
 				citingPapers.forEach(citingPaperNode -> {
-					String secondPaperId = citingPaperNode.get("citingPaper").get("paperId").asText();
+					JsonNode citingPaper = citingPaperNode.get("citingPaper");
+					if (citingPaper == null || !citingPaper.has("paperId")) {
+						System.out.println("Skipping citingPaperNode due to missing citingPaper or paperId field.");
+						return;
+					}
+
+					String secondPaperId = citingPaper.get("paperId").asText();
+    				System.out.println("Retrieved paperId: " + secondPaperId);
+
 					ResearchPaper secondResearchPaper = researchPaperService.getResearchPaperBySemanticPaperId(secondPaperId);
 
 					// second paper does not exist
