@@ -168,7 +168,7 @@ function ListViewOpinion() {
                             supportingPapersList.map((entry, index) => (
                                 <Paper key={index} sx={paperCardStyle}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Chip label={entry.opinion} color={getChipColor('Supporting')} size="small" sx={{ marginBottom: '10px' }} />
+                                        <Chip label={entry.opinion.replace(/_/g, ' ')} color={getChipColor('Supporting')} size="small" sx={{ marginBottom: '10px' }} />
                                     </div>
 
                                     <Typography variant="h6" style={{ fontWeight: 'bold', color: '#302C29', fontSize: '20px' }}>{entry.paper.title}</Typography>
