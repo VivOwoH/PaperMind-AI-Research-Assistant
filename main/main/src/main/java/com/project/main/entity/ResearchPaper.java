@@ -29,10 +29,10 @@ public class ResearchPaper {
     @Column()
     private String methodologySummary;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String sourceLink;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer citationsCount;
 
     @Column(nullable = true)
