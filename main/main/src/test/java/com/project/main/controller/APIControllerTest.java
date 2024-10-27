@@ -1,5 +1,8 @@
 package com.project.main.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -180,4 +183,126 @@ public class APIControllerTest {
         assertEquals(HttpStatus.OK, formattedResponse.getStatusCode());
         assertEquals(expectedFormattedNode, formattedResponse.getBody());
     }
+
+
+@Test
+public void testNullResponseFromCategorizedResponseFormatting() throws Exception {
+    // Simulate a case where categorizedResponseFormatting returns null
+    when(apiController.categorizedResponseFormatting(anyString())).thenReturn(null);
+
+    UserPrompt userPrompt = new UserPrompt();
+    userPrompt.setSearchPrompt("Test prompt");
+
+    ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+    assertNotNull(response);
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+}
+
+@Test
+public void testNullResponseFromResponseFormatting() throws Exception {
+    // Simulate a case where responseFormatting returns null
+    when(apiController.responseFormatting(anyString())).thenReturn(null);
+
+    UserPrompt userPrompt = new UserPrompt();
+    userPrompt.setSearchPrompt("Test prompt");
+
+    ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+    assertNotNull(response);
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+}
+
+@Test
+public void testNotNullResponseFromResponseFormatting() throws Exception {
+    UserPrompt userPrompt = new UserPrompt();
+    userPrompt.setSearchPrompt("Test prompt");
+
+    // Set up a mock response for responseFormatting
+    ObjectNode responseJson = objectMapper.createObjectNode();
+    responseJson.put("keywords", "test");
+    responseJson.put("sentiment", "neutral");
+    doReturn(ResponseEntity.ok(responseJson)).when(apiController).responseFormatting(anyString());
+
+    ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+    assertNotNull(response);
+    assertNotNull(response.getBody()); // Check that the body is not null
+}
+ 
+
+    @Test
+    public void testNotNullResponseFromCategorizedResponseFormatting() throws Exception {
+        UserPrompt userPrompt = new UserPrompt();
+        userPrompt.setSearchPrompt("Test prompt");
+
+        // Set up a mock response for categorizedResponseFormatting
+        ObjectNode responseJson = objectMapper.createObjectNode();
+        responseJson.put("supporting", "testSupporting");
+        responseJson.put("opposing", "testOpposing");
+        doReturn(ResponseEntity.ok(responseJson)).when(apiController).categorizedResponseFormatting(anyString());
+
+        ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+        assertNotNull(response);
+        assertNotNull(response.getBody()); 
+    }
+
+    @Test
+    public void testMainAPIflowEmptyUserPrompt() throws Exception {
+        UserPrompt userPrompt = new UserPrompt();
+        userPrompt.setSearchPrompt(""); 
+
+        ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testResponseFormattingWithInvalidJson() throws Exception {
+        String invalidJson = "Invalid JSON string";
+
+        ResponseEntity<ObjectNode> response = apiController.responseFormatting(invalidJson);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testCategorizedResponseFormattingWithEmptyInput() throws Exception {
+        String emptyJson = "{}"; 
+
+        ResponseEntity<ObjectNode> response = apiController.categorizedResponseFormatting(emptyJson);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testValidCategorizedResponseFormatting() throws Exception {
+        String validInput = "{ \"supporting\": { \"opinion1\": [\"paper1ID\"] }, \"opposing\": { \"opinion2\": [\"paper2ID\"] } }";
+
+        ObjectNode expectedOutput = objectMapper.createObjectNode();
+        ObjectNode supportingNode = expectedOutput.putObject("supporting");
+        supportingNode.putArray("opinion1").add("paper1ID");
+        ObjectNode opposingNode = expectedOutput.putObject("opposing");
+        opposingNode.putArray("opinion2").add("paper2ID");
+
+        doReturn(ResponseEntity.ok(expectedOutput)).when(apiController).categorizedResponseFormatting(validInput);
+
+        ResponseEntity<ObjectNode> response = apiController.categorizedResponseFormatting(validInput);
+
+        assertNotNull(response);
+    }
+
+    @Test
+    public void testMainAPIflowWithoutTokenService() throws Exception {
+        UserPrompt userPrompt = new UserPrompt();
+        userPrompt.setSearchPrompt("Test without token service");
+
+        ResponseEntity<String> response = apiController.mainAPIflow(userPrompt);
+
+        assertNotNull(response);
+    }
+
+
+
 }
