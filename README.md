@@ -1,6 +1,8 @@
 # Wed-11-02-Lab-Group-6
 
-PaperMind - AI powered Research Assistant.
+**PaperMind - AI powered Research Assistant**
+
+PaperMind provides an easy and accessible way to search for key research topics, ideas or opinions and retrieve a list or network graph visualisation of the related studies, alongside summarised content of the studies. Users will get the option between two ways of connecting the research papers they prompt for: the first is based on citation metrics for connected papers and the second is based upon the supporting and opposing opinions for the input prompt. The output view will provide users a list or graph perspective, for easy and identifiable visual connections.
 
 ## Features
 
@@ -16,14 +18,14 @@ PaperMind - AI powered Research Assistant.
 ### Prerequisites
 
 #### Database (PostgreSQL)
-- Ensure you have postgresql installed with the correct database and user credential configuration
+- Ensure you have postgresql(14.3)installed with the correct database and user credential configuration
 - Ensure the postgresql server is running on your device
 
 #### SpringBoot Application
-- Ensure you have Java installed
+- Ensure you have Java(Java 17) installed
 
 #### React framework
-- Ensure you have Node.js installed
+- Ensure you have Node.js(v20.10.0) installed
 
 #### API keys
 - **Google AI Studio API** 
@@ -53,8 +55,8 @@ PaperMind - AI powered Research Assistant.
 - Execute ```npm start``` to start your React application
 - View the frontend on the browser at ```http://localhost:3000```
 
-#### How to run tests
-- Run the following command to run the tests and build the reports.
+### How to run tests
+- Run the following command from the folder which contains the build.gradle to run the unit tests and build the reports.
 ```./gradlew clean test jacocoTestReport```
 - Find the jacoco test report in the directory build/jacocoHtml
 
