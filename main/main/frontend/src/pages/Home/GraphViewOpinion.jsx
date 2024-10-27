@@ -3,7 +3,7 @@ import { CircularProgress, Container, Grid, Typography, Modal, Box, IconButton, 
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import PaperListOpinion from '../../components/PaperListOpinion';
 import TopNavigation from '../../components/TopNavigation';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Network } from 'vis-network/standalone/umd/vis-network.min.js';
 
 function GraphViewOpinion() {
@@ -21,6 +21,7 @@ function GraphViewOpinion() {
   const [modalContent, setModalContent] = useState([]);
   const [selectedOpinion, setSelectedOpinion] = useState('');
   const [searchPrompt, setSearchPrompt] = useState('');
+  const navigate = useNavigate();
 
   const modalStyle = {
     position: 'absolute',
@@ -62,6 +63,9 @@ function GraphViewOpinion() {
   // Refactored effect for fetching and setting state from location
   useEffect(() => {
     const loadData = () => {
+      if(location.state?.papers){
+        setGraphPapers(location.state.papers);
+      }
       // Only set papers, supporting, opposing if present
       if (location.state?.graphPapers) {
         setGraphPapers(location.state.graphPapers);
@@ -111,7 +115,9 @@ function GraphViewOpinion() {
       }
 
       const breakLabelByWords = (label, maxWordsPerLine) => {
-        const words = label.split(' ');
+        // replace underscores with spaces
+        const cleanLabel = label.replace(/_/g, ' ');
+        const words = cleanLabel.split(' ');
         let lines = [];
         for (let i = 0; i < words.length; i += maxWordsPerLine) {
           lines.push(words.slice(i, i + maxWordsPerLine).join(' '));
@@ -121,21 +127,27 @@ function GraphViewOpinion() {
 
       if (viewMode === 'supporting' || viewMode === 'all') {
         Object.keys(supporting).forEach((opinion, index) => {
-          const opinionId = `supporting-${index}`;
-          const labelWithBreaks = breakLabelByWords(opinion, 3);
-          const nodeColor = colors[index % colors.length];
-          nodes.push({ id: opinionId, label: labelWithBreaks, color: nodeColor, shape: 'dot' });
-          edges.push({ from: 'supporting', to: opinionId });
+          // check if supporting opinion has papers associated with it
+          if (supporting[opinion] && supporting[opinion].length > 0) {
+            const opinionId = `supporting-${index}`;
+            const labelWithBreaks = breakLabelByWords(opinion, 3);
+            const nodeColor = colors[index % colors.length];
+            nodes.push({ id: opinionId, label: labelWithBreaks, color: nodeColor, shape: 'dot' });
+            edges.push({ from: 'supporting', to: opinionId });
+          }
         });
-      }
+      }  
 
       if (viewMode === 'opposing' || viewMode === 'all') {
         Object.keys(opposing).forEach((opinion, index) => {
-          const opinionId = `opposing-${index}`;
-          const labelWithBreaks = breakLabelByWords(opinion, 3);
-          const nodeColor = colors[(index + 3) % colors.length];
-          nodes.push({ id: opinionId, label: labelWithBreaks, color: nodeColor, shape: 'dot' });
-          edges.push({ from: 'opposing', to: opinionId });
+          // Check if oposing opinion has papers associated with it
+          if (opposing[opinion] && opposing[opinion].length > 0) {
+            const opinionId = `opposing-${index}`;
+            const labelWithBreaks = breakLabelByWords(opinion, 3);
+            const nodeColor = colors[(index + 3) % colors.length];
+            nodes.push({ id: opinionId, label: labelWithBreaks, color: nodeColor, shape: 'dot' });
+            edges.push({ from: 'opposing', to: opinionId });
+          }
         });
       }
 
@@ -208,7 +220,19 @@ function GraphViewOpinion() {
 
   return (
     <div>
-      <TopNavigation currentView={currentView} onViewChange={setCurrentView} papers={graphPapers} viewtype={viewType} supporting={supporting} opposing={opposing} prompt={searchPrompt} />
+      <TopNavigation
+      currentView={currentView}
+      onViewChange={(view) => {
+        setCurrentView(view);
+        if (view === 'List View'){
+            navigate('/opinion-list-view', { state: { ...location.state, currentView: 'List View' } });
+        }
+      }}
+      papers={graphPapers} 
+      viewtype={viewType} 
+      supporting={supporting} 
+      opposing={opposing} 
+      prompt={searchPrompt} />
 
       {/* Dropdown for selecting opinions */}
       <Box sx={{ position: 'absolute', top: '6rem', right: '2rem', display: 'flex', alignItems: 'center' }}>
