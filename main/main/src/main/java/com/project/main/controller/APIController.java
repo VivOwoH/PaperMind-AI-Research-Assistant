@@ -349,7 +349,7 @@ public class APIController {
 	}
 
 	public ResponseEntity<ObjectNode> categorizedResponseFormatting(String responseBody) {
-		try {
+		try {         
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode rootNode = mapper.readTree(responseBody);
 	
