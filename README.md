@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Wed-11-02-Lab-Group-6
 
 **PaperMind - AI powered Research Assistant**
@@ -66,3 +67,7 @@ PaperMind provides an easy and accessible way to search for key research topics,
 - Angela Lai        alai7251@uni.sydney.edu.au
 - Vivian Ha         weha7612@uni.sydney.edu.au
 - Amanda Walpitage  awal8482@uni.sydney.edu.au          
+=======
+# PaperMind-AI-Research-Assistant
+Web app based on Spring Boot with external API integration
+>>>>>>> 80124e745ec76538ea400dad222d5320fa7fb6b1
